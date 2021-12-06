@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="index.css"/>
 </head>
 
-<body>
+<body  class="bg-gradient">
 <div id="banner">
 	<div id="smarray">
 		<div id="fb"></div>
@@ -90,7 +90,24 @@
 
 <!-- script section -->
 <script src="vue.js"></script>
-<script src="jquery.js"></script>
+<script src="jquery.js">
+	$(document).ready(function() {
+	  SetBackgroundColors();
+	});
+
+	function SetBackgroundColors() {
+	  $('.bg-gradient').css('background', 'linear-gradient(-45deg,' + GetRandomColor() + ',' + GetRandomColor() + ',' + GetRandomColor() + ',' + GetRandomColor() + ')').css('background-size', '400% 400%');
+	}
+
+	function GetRandomColor() {
+	  var letters = '0123456789ABCDEF';
+	  var color = '#';
+	  for (var i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	  }
+	  return color;
+	}
+</script>
 <script type="text/javascript">
 
 	var user = 'Weitian'

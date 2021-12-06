@@ -3,19 +3,53 @@
 	<head>
 		<meta charset="utf-8">
 		<title>登录/注册</title>
-		<link rel="stylesheet" type="text/css" href="index.css"/>
+		<link rel="stylesheet" type="text/css" href="login.css"/>
 	</head>
-	<body>
+	<body class="bg-gradient">
 		<div id="banner">
-			<div id="smarray">
-				<div id="fb"></div>
-				<div id="tt"></div>
-				<div id="yt"></div>
-				<div id="ig"></div>
-			</div>
 			<div id="logo" onclick="location.href='index.html'"></div>
-			<div id="login" onclick="location.href='login.html'">登录/注册</div>
 		</div>
 		
+		<div class="wrapper">
+			<div class="container">
+				<form class="form">
+					<input type="text" placeholder="手机号">
+					<input type="password" placeholder="密码">
+					<button type="submit" id="login-button">登录</button>
+					<br>
+					<br>
+					<h5>还没账号？<a href="register.html" style="color: #53e3a6;">现在注册</h5>
+				</form>
+			</div>
+		</div>
 	</body>
+	
+	
+<script src="jquery.js">
+	$(document).ready(function() {
+	  SetBackgroundColors();
+	});
+
+	function SetBackgroundColors() {
+	  $('.bg-gradient').css('background', 'linear-gradient(-45deg,' + GetRandomColor() + ',' + GetRandomColor() + ',' + GetRandomColor() + ',' + GetRandomColor() + ')').css('background-size', '400% 400%');
+	}
+
+	function GetRandomColor() {
+	  var letters = '0123456789ABCDEF';
+	  var color = '#';
+	  for (var i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	  }
+	  return color;
+	}
+</script>
+<script type="text/javascript">
+		 $("#login-button").click(function(event){
+				 event.preventDefault();
+			 
+			 $('form').fadeOut(500);
+			 $('.wrapper').addClass('form-success');
+		});
+</script>
+	
 </html>

@@ -1,6 +1,27 @@
 /* remove white space */
 * { margin:0; padding:0; box-sizing:border-box; }
 
+.bg-gradient {
+    background: linear-gradient(-45deg, #47b5fd, #b26eff, #4df3bc);
+    animation: gradient 20s ease infinite;
+	background-size: 300% 300%;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
 #banner{
 	width: 100%;
 	height: 70px;
@@ -12,8 +33,8 @@
 #logo{
 	width: 160px;
 	height: 70px;
-	left: 44%;
-	top: 5%;
+	left: 42.5vw;
+	top: 3vh;
 	position: absolute;
 	display: inline-block;
 	background-image: url(index_pic/shadow.png);
@@ -67,18 +88,26 @@
 #login:hover{
 	font-size: 25px;
 	text-decoration: none;
-	left: 88.5%;
-	top: 37.5%;
+	left: 88.3%;
+	top: 37%;
 }
 .link:hover{
 	font-size: 25px;
 }
 
 body{
-	background-image: url(index_pic/Abstract_City-636100.jpeg);
+	/* background-image: url(index_pic/Abstract_City-636100.jpeg); */
 	background-size: cover;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	height: 100vh;
 }
 
+/* #b26eff */
+/* #4df3bc */
 /* #5ececa */
 /* #FF7E74 */
 /* #FFCD74 */
@@ -292,22 +321,6 @@ body #user-button:hover .u-icons, body #user-button:focus-within .u-icons {
   height: 300% !important;
 }
 
-body {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  height: 100vh;
-  font-family: "Roboto", sans-serif;
-  transition: 0.25s;
-}
-body .credit {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  color: inherit;
-}
 body .options {
   display: flex;
   flex-direction: row;
