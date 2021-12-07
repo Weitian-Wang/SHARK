@@ -5,6 +5,8 @@
 		SHARK - 共享停车
 	</title>
 	<link rel="stylesheet" type="text/css" href="index.css"/>
+	<script src="vue.js"></script>
+	<script src="jquery.js"></script>
 </head>
 
 <body  class="bg-gradient">
@@ -89,40 +91,9 @@
 </html>
 
 <!-- script section -->
-<script src="vue.js"></script>
-<script src="jquery.js">
-	$(document).ready(function() {
-	  SetBackgroundColors();
-	});
-
-	function SetBackgroundColors() {
-	  $('.bg-gradient').css('background', 'linear-gradient(-45deg,' + GetRandomColor() + ',' + GetRandomColor() + ',' + GetRandomColor() + ',' + GetRandomColor() + ')').css('background-size', '400% 400%');
-	}
-
-	function GetRandomColor() {
-	  var letters = '0123456789ABCDEF';
-	  var color = '#';
-	  for (var i = 0; i < 6; i++) {
-		color += letters[Math.floor(Math.random() * 16)];
-	  }
-	  return color;
-	}
-</script>
 <script type="text/javascript">
-
-	var user = 'Weitian'
-	var  banner = new Vue({
-	  el: '#banner',
-	  data: {
-		message: 'Hello, ' + user
-	  }
-	})
-	// document.getElementById("linkbar").addEventListener("mouseover", function(){
-	// 	document.getElementsByClassName("link").style.fontSize = "10px";
-	// })
-	
 	$(".option").click(function(){
-			$(".option").removeClass("active");
-			$(this).addClass("active"); 
+	   $(".option").removeClass("active");
+	   $(this).addClass("active");
 	});
 </script>

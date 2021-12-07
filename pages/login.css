@@ -2,7 +2,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 .bg-gradient {
-    background: linear-gradient(-45deg, #47b5fd, #b26eff, #4df3bc);
+    background: linear-gradient(-45deg, #4df3bc, #b26eff, #47b5fd);
     animation: gradient 20s ease infinite;
 	background-size: 300% 300%;
 }
