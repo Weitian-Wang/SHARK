@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>SHARK - 注册</title>
+		<link rel="stylesheet" type="text/css" href="register.css"/>
+		
+		<script src="../url_config.js"></script>
+		<script src="../vue.js"></script>
+		<script src="../jquery.js"></script>
+		<script src="../axios.js"></script>
+		<script src="../md5.js"></script>
+	</head>
+	
+	<body class="bg-gradient">
+		<div id="banner">
+			<div id="logo" onclick="location.href='../index/index.html'"></div>
+		</div>
+		
+		<div class="wrapper">
+			<div class="container">
+				<form class="form" id="register_form">
+					<input type="text" placeholder="姓名" v-model="name" required>
+					<input type="text" placeholder="手机号" v-model="tel" required minlength="11" maxlength="11" @focusout="tel_check()">
+					<input type="password" placeholder="密码" v-model="password" required>
+					<input type="password" placeholder="确认密码" v-model="confirm_password" required>
+					<button type="submit" id="register-button" @click="register">注册</button>
+					<br><br>
+					<h5>已有账号？<a href="../login/login.html" style="color: #53e3a6;">去登录</h5>
+				</form>
+			</div>
+		</div>
+	</body>
+	
+<script type="text/javascript">
+new Vue({
+	el:"#register_form",
+	data:{
+		name:"",
+		tel:"",
+		password:"",
+		confirm_password:""
+	},
+	methods:{
+		tel_check(){
+			axios.post('/user/tel_check',
+						{
+							'tel': this.tel,
+						},
+						{
+							headers:{
+							'Content-Type': 'application/json;charset=UTF-8',
+							'Accept': 'application/json, text/plain, */*',
+							'Auth': 'TO BE GENERATED AFTER LOGIN'
+							}
+						}
+				)
+			.then(function (response) {
+			  console.log(response.data);
+			})
+			.catch(function (error) {
+			  console.log(error);
+			});
+		},
+		register(){
+			if(this.tel == '' || this.password == '' || this.name == '' || this.confirm_password == ''){
+				return;
+			}
+		},
+	}
+}
+)
+</script>
+</html>

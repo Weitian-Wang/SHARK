@@ -5,14 +5,15 @@
 		<title>SHARK - 登录</title>
 		<link rel="stylesheet" type="text/css" href="login.css"/>
 		
-		<script src="vue.js"></script>
-		<script src="jquery.js"></script>
-		<script src="axios.js"></script>
-		<script src="md5.js"></script>
+		<script src="../url_config.js"></script>
+		<script src="../vue.js"></script>
+		<script src="../jquery.js"></script>
+		<script src="../axios.js"></script>
+		<script src="../md5.js"></script>
 	</head>
 	<body class="bg-gradient">
 		<div id="banner">
-			<div id="logo" onclick="location.href='index.html'"></div>
+			<div id="logo" onclick="location.href='../index/index.html'"></div>
 		</div>
 		
 		<div class="wrapper">
@@ -23,7 +24,7 @@
 					<button type="submit" id="login-button" @click="login">登录</button>
 					<br>
 					<br>
-					<h5>还没账号？<a href="register.html" style="color: #53e3a6;">现在注册</h5>
+					<h5>还没账号？<a href="../register/register.html" style="color: #53e3a6;">现在注册</h5>
 				</form>
 			</div>
 		</div>
@@ -32,7 +33,9 @@
 <!-- script section -->
 <script type="text/javascript">
 // configure Vue
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+// configure baseURL
+axios.defaults.baseURL = BaseURL;
 // create a Vue instance
 new Vue({
 	// assign Vue instance to specific container
@@ -46,14 +49,20 @@ new Vue({
 	},
 	methods:{
 		login(){
-			axios.post('http://127.0.0.1:5000/user/login',
+			if(this.user.tel == '' || this.user.password == ''){
+				return;
+			}
+			axios.post('/user/login',
 						{
-							tel: this.user.tel,
-							password: md5(this.user.password)
+							'tel': this.user.tel,
+							'password': md5(this.user.password)
 						},
 						{
-							'Content-Type': 'application/x-www-form-urlencoded',
-							'Accept': 'application/json'
+							headers:{
+							'Content-Type': 'application/json;charset=UTF-8',
+							'Accept': 'application/json, text/plain, */*',
+							'Auth': 'TO BE GENERATED AFTER LOGIN'
+							}
 						}
 				)
 			.then(function (response) {
@@ -65,6 +74,7 @@ new Vue({
 		}
 	}
 })
+
 </script>
 	
 </html>

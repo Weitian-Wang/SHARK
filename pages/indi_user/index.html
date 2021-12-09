@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>
+		SHARK - 共享停车
+	</title>
+	
+	<link rel="stylesheet" type="text/css" href="index.css"/>
+	<script src="vue.js"></script>
+	<script src="jquery.js"></script>
+</head>
+
+<body  class="bg-gradient">
+<div id="banner">
+	<div id="smarray">
+		<div id="fb"></div>
+		<div id="tt"></div>
+		<div id="yt"></div>
+		<div id="ig"></div>
+	</div>
+	<div id="logo" onclick="location.href='index.html'"></div>
+	<div id="login" onclick="location.href='login.html'">登录/注册</div>
+</div>
+
+<!-- background-color: rgb(96,206,202); -->
+
+<div class="options">
+   <div class="option active" style="--optionBackground:url(./index_pic/owner.jpeg);">
+      <div class="shadow"></div>
+      <div class="label">
+         <div class="icon" id="icon0">
+            <i class="fas fa-walking"></i>
+         </div>
+         <div class="info">
+            <div class="main">车主</div>
+            <div class="sub">快速寻找附近车位</div>
+         </div>
+      </div>
+   </div>
+   <div class="option" style="--optionBackground:url(./index_pic/lock.jpeg);">
+      <div class="shadow"></div>
+      <div class="label">
+         <div class="icon" id="icon1">
+            <i class="fas fa-snowflake"></i>
+         </div>
+         <div class="info">
+            <div class="main">个人车位</div>
+            <div class="sub">闲置时间共享出你的车位</div>
+         </div>
+      </div>
+   </div>
+   <div class="option" style="--optionBackground:url(./index_pic/large_lot.jpeg);">
+      <div class="shadow"></div>
+      <div class="label">
+         <div class="icon" id="icon2">
+            <i class="fas fa-tree"></i>
+         </div>
+         <div class="info">
+            <div class="main">物业车位</div>
+            <div class="sub">提升车位利用率和收益</div>
+         </div>
+      </div>
+   </div>
+   <div class="option" style="--optionBackground:url(./index_pic/coop.png);">
+      <div class="shadow"></div>
+      <div class="label">
+         <div class="icon" id="icon3">
+            <i class="fas fa-tint"></i>
+         </div>
+         <div class="info">
+            <div class="main">工作与合作</div>
+            <div class="sub">招贤纳士 & 软硬件厂商合作</div>
+         </div>
+      </div>
+   </div>
+   <div class="option" style="--optionBackground:url(./index_pic/boutus.jpeg);">
+      <div class="shadow"></div>
+      <div class="label">
+         <div class="icon" id="icon4">
+            <i class="fas fa-tint"></i>
+         </div>
+         <div class="info">
+            <div class="main">关于我们</div>
+            <div class="sub">Shared Parking - 共享停车</div>
+         </div>
+      </div>
+   </div>
+</div>
+
+</body>
+
+</html>
+
+<!-- script section -->
+<script type="text/javascript">
+	$(".option").click(function(){
+	   $(".option").removeClass("active");
+	   $(this).addClass("active");
+	});
+</script>

@@ -2,10 +2,11 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 .bg-gradient {
-    background: linear-gradient(-45deg, #4df3bc, #b26eff, #47b5fd);
+    background: linear-gradient(-45deg, #47b5fd, #b26eff, #4df3bc);
     animation: gradient 20s ease infinite;
 	background-size: 300% 300%;
 }
+
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
@@ -35,7 +36,7 @@
 	top: 3vh;
 	position: absolute;
 	display: inline-block;
-	background-image: url(index_pic/shadow.png);
+	background-image: url(../index_pic/shadow.png);
 	background-position: center;
 }
 
@@ -146,7 +147,7 @@ body :-ms-input-placeholder {
   left: 0;
   width: 100%;
   height: 100%;
-  margin-top: -200px;
+  margin-top: -36.7vh;
   overflow: hidden;
 }
 .wrapper.form-success .container h1 {
@@ -158,12 +159,6 @@ body :-ms-input-placeholder {
   padding: 80px 0;
   height: 400px;
   text-align: center;
-}
-.container h1 {
-  font-size: 40px;
-  transition-duration: 1s;
-  transition-timing-function: ease-in-put;
-  font-weight: 200;
 }
 form {
   padding: 20px 0;

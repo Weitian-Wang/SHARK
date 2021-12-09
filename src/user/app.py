@@ -2,20 +2,12 @@ import json
 from flask_cors import CORS
 from flask import Flask, request, g, jsonify, make_response, Response
 from functools import reduce
-from auth import authenticate_token, generate_token
+from .auth import authenticate_token, generate_token
+from .user_proxy import UserProxy
+from user import user_proxy
 
 app = Flask(__name__)
 CORS(app)
-
-@app.route('/')
-def app_status():
-    return 'app is running'
-
-@app.route('/user/login', methods=['POST'])
-def login():
-    params = get_request_params()
-    return jsonify(params)
-
 
 def get_request_params():
     params = dict()
@@ -30,5 +22,34 @@ def get_request_params():
     combined_params = reduce(lambda d1, d2: dict(d1, **d2),
                                      list(params.values()), {})
     return combined_params
-    
 
+def get_user_proxy():
+    # Allow multiple threads to each have their own instance of user_proxy
+    if not hasattr(g, 'user_proxy'):
+        g.user_proxy = UserProxy()
+    return g.user_proxy
+
+@app.route('/')
+def app_status():
+    return 'SHARK app is running'
+
+@app.route('/user/tel_check', methods=['POST'])
+def tel_check():
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.tel_check(tel=params['tel'])
+    return jsonify(params)
+
+@app.route('/user/register', methods=['POST'])
+def register():
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.register(**params)
+    return jsonify(params)
+
+@app.route('/user/login', methods=['POST'])
+def login():
+    params = get_request_params()
+    return jsonify(params)

@@ -24,7 +24,7 @@ class User(Base):
     name = Column(String, nullable=False)
     password_hash = Column(String, nullable=False)
     # INDIVIDUAL = 1, PROPERTY = 2, ADMIN = 3, MODERATOR = 4, SUPER_ADMIN = 5
-    user_type = Column(Integer(1), nullable=False)
+    user_type = Column(Integer, nullable=False)
     create_date = Column(DateTime, nullable=False, default=get_datetime)
     credits = Column(Float, nullable=False, default=5)
 
@@ -55,7 +55,7 @@ class ParkingSpot(Base):
     # real life id, e.g. A0069
     id = Column(String, nullable=False)
     # INDIVIDUAL = 1, PROPERTY = 2, MIXED = 3
-    spot_type = Column(Integer(1), nullable=False)
+    spot_type = Column(Integer, nullable=False)
     # spot_type = 1, individual owned spot
     owner_tel = Column(String, ForeignKey('user.tel'), nullable=True)
     # spot_type = 2, property management owned spot
@@ -63,7 +63,7 @@ class ParkingSpot(Base):
     
     price_per_min = Column(Float, nullable=False)
     # AVAILABLE = 1, RESERVED = 2, USING = 3, NOT_AVAILABLE = 4
-    status = Column(Integer(1), nullable=False)
+    status = Column(Integer, nullable=False)
     available_start_time = Column(DateTime, nullable=True)
     available_end_time  = Column
 
@@ -73,8 +73,9 @@ class Order(Base):
     custom_tel = Column(String, ForeignKey('user.tel'), nullable=False)
     ps_id = Column(String, ForeignKey('parking_spot.tel'), nullable=False)
     # PLACED = 1, USING_SPOT = 2, COMPLETED = 3, ABNORMAL = 4
-    order_status = Column(Integer(1), nullable=False)
-    payment_status = Column(Integer(1), nullable=False, default=False)
+    order_status = Column(Integer, nullable=False)
+    # UNPAIED = 0, PAID = 1
+    payment_status = Column(Integer, nullable=False, default=False)
     create_date = Column(DateTime, nullable=False, default=get_datetime)
     complete_date = Column(DateTime, nullable=True)
 
