@@ -1,10 +1,11 @@
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Integer, DateTime, Float, ARRAY 
-from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy import Column, String, Integer, DateTime, Float
+from sqlalchemy.dialects.mysql import JSON
 import uuid
+from sqlalchemy.sql.elements import True_
 from sqlalchemy.sql.expression import null
-from sqlalchemy.sql.schema import ForeignKey
+from sqlalchemy.sql.schema import Constraint, ForeignKey
 
 from sqlalchemy.sql.sqltypes import Integer
 
@@ -20,20 +21,34 @@ def get_datetime():
 class User(Base):
     __tablename__ = 'user'
     # tel is the unique identifier of user
-    tel = Column(String, primary_key=True, nullable=False)
-    name = Column(String, nullable=False)
-    password_hash = Column(String, nullable=False)
+    tel = Column(String(11), primary_key=True, nullable=False)
+    name = Column(String(12), nullable=False)
+    # md5 result 128 bit 
+    password_hash = Column(String(32), nullable=False)
     # INDIVIDUAL = 1, PROPERTY = 2, ADMIN = 3, MODERATOR = 4, SUPER_ADMIN = 5
     user_type = Column(Integer, nullable=False)
     create_date = Column(DateTime, nullable=False, default=get_datetime)
     credits = Column(Float, nullable=False, default=5)
 
 class ParkingLot(Base):
-    __tablename__ = 'paking_lot'
-    pl_id = Column(String, primary_key=True, nullable=False, default=get_str_uuid)
-    pl_name = Column(String, nullable=False)
-    manager_tel = Column(String, ForeignKey('user.tel'), nullable=False)
-    spot_id_range = Column(ARRAY(String), nullable=False)
+    __tablename__ = 'parking_lot'
+    # uuid4 string length 36
+    pl_id = Column(String(36), primary_key=True, nullable=False, default=get_str_uuid)
+    pl_name = Column(String(255), nullable=False)
+    manager_tel = Column(String(11), ForeignKey('user.tel'), nullable=False)
+    # e.g.
+    # {
+    #   'A':{
+    #       'start':1,
+    #       'end':420 
+    #   },
+    #   'B':{
+    #       'start':1,
+    #       'end':69 
+    #   },
+    #   etc.
+    # }
+    spot_id_range = Column(JSON, nullable=False)
     no_spots = Column(Integer, nullable=False)
     # {
     #   lat: 40.689247,
@@ -50,16 +65,16 @@ class ParkingLot(Base):
     vertex = Column(JSON, nullable=True)
 
 class ParkingSpot(Base):
-    __tablename__ = 'paking_spot'
-    ps_id = Column(String, primary_key=True, nullable=False, default=get_str_uuid())
+    __tablename__ = 'parking_spot'
+    ps_id = Column(String(36), primary_key=True, nullable=False, default=get_str_uuid())
     # real life id, e.g. A0069
-    id = Column(String, nullable=False)
+    id = Column(String(255), nullable=False)
     # INDIVIDUAL = 1, PROPERTY = 2, MIXED = 3
     spot_type = Column(Integer, nullable=False)
     # spot_type = 1, individual owned spot
-    owner_tel = Column(String, ForeignKey('user.tel'), nullable=True)
+    owner_tel = Column(String(11), ForeignKey('user.tel'), nullable=True)
     # spot_type = 2, property management owned spot
-    pl_id = Column(String, ForeignKey('parking_lot.pl_id'), nullable=True)
+    pl_id = Column(String(36), ForeignKey('parking_lot.pl_id'), nullable=True)
     
     price_per_min = Column(Float, nullable=False)
     # AVAILABLE = 1, RESERVED = 2, USING = 3, NOT_AVAILABLE = 4
@@ -69,9 +84,9 @@ class ParkingSpot(Base):
 
 class Order(Base):
     __tablename__ = 'order'
-    order_id = Column(String, primary_key=True, nullable=False, default=get_str_uuid)
-    custom_tel = Column(String, ForeignKey('user.tel'), nullable=False)
-    ps_id = Column(String, ForeignKey('parking_spot.tel'), nullable=False)
+    order_id = Column(String(36), primary_key=True, nullable=False, default=get_str_uuid)
+    custom_tel = Column(String(11), ForeignKey('user.tel'), nullable=False)
+    ps_id = Column(String(36), nullable=False)
     # PLACED = 1, USING_SPOT = 2, COMPLETED = 3, ABNORMAL = 4
     order_status = Column(Integer, nullable=False)
     # UNPAIED = 0, PAID = 1

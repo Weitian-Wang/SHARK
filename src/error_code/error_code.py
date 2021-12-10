@@ -26,7 +26,22 @@ class ResultSuccess(ErrorCode):
 #     def __init__(self):
 #         super().__init__(error_code=100, message="Param error.")
 
-class TelUsed(ErrorCode):
+class UserExistError(ErrorCode):
     def __init__(self):
-        super().__init__(error_code=100, message="Tel is used.")
+        super().__init__(error_code=100, message="Tel was registered.")
 
+class UserNotExistError(ErrorCode):
+    def __init__(self):
+        super().__init__(error_code=101, message="User does not exist.")
+
+class NetError(ErrorCode):
+    def __init__(self):
+        super().__init__(error_code=102, message="Network error, retry request.")
+
+class TokenError(ErrorCode):
+    def __init__(self):
+        super().__init__(error_code=1000, message="Token invalid.")
+
+class TokenExpiredError(ErrorCode):
+    def __init__(self):
+        super().__init__(error_code=1001, message="Token Expired.")

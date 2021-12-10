@@ -1,5 +1,9 @@
 jquery.js
 vue.js
 js-md5
+
 flask
 flask-cors
+pyjwt
+mysql
+postgresql
