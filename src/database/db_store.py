@@ -32,12 +32,12 @@ class DBStore():
             create_date = current_time
         )
         self._session.add(user)
-        self.commit()
+        return user.tel
 
     def get_user_by_tel(self, tel):
-        user = self._session.query(User).filte(User.tel == tel).first()
+        user = self._session.query(User).filter(User.tel == tel).first()
         return user
-        
+
     def __enter__(self):
         self.connect()
 

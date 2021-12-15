@@ -2,9 +2,10 @@ import json
 from flask_cors import CORS
 from flask import Flask, request, g, jsonify, make_response, Response
 from functools import reduce
+
+from src.error_code.error_code import ResultSuccess
 from .auth import authenticate_token, generate_token
 from .user_proxy import UserProxy
-from user import user_proxy
 
 app = Flask(__name__)
 CORS(app)
@@ -39,7 +40,7 @@ def tel_check():
     user_proxy = get_user_proxy()
     with user_proxy:
         result = user_proxy.tel_check(tel=params['tel'])
-    return jsonify(params)
+    return jsonify(result.to_dict())
 
 @app.route('/user/register', methods=['POST'])
 def register():
@@ -47,9 +48,12 @@ def register():
     user_proxy = get_user_proxy()
     with user_proxy:
         result = user_proxy.register(**params)
-    return jsonify(params)
+    return jsonify(result.to_dict())
 
 @app.route('/user/login', methods=['POST'])
 def login():
     params = get_request_params()
-    return jsonify(params)
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.login()
+    return jsonify(result.to_dict())

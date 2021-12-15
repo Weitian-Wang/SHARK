@@ -21,9 +21,9 @@
 			<div class="container">
 				<form class="form" id="register_form">
 					<input type="text" placeholder="姓名" v-model="name" required>
-					<input type="text" placeholder="手机号" v-model="tel" required minlength="11" maxlength="11" @focusout="tel_check()">
+					<input type="text" placeholder="手机号" v-model="tel" required @focusout="tel_check" id="t">
 					<input type="password" placeholder="密码" v-model="password" required>
-					<input type="password" placeholder="确认密码" v-model="confirm_password" required>
+					<input type="password" placeholder="确认密码" v-model="confirm_password" required @focusout="password_check" id="c">
 					<button type="submit" id="register-button" @click="register">注册</button>
 					<br><br>
 					<h5>已有账号？<a href="../login/login.html" style="color: #53e3a6;">去登录</h5>
@@ -33,6 +33,8 @@
 	</body>
 	
 <script type="text/javascript">
+// configure baseURL
+axios.defaults.baseURL = BaseURL;
 new Vue({
 	el:"#register_form",
 	data:{
@@ -43,6 +45,10 @@ new Vue({
 	},
 	methods:{
 		tel_check(){
+			if(this.tel.length != 11){
+				document.getElementById("t").setCustomValidity("请输入11位手机号");
+				return;
+			}
 			axios.post('/user/tel_check',
 						{
 							'tel': this.tel,
@@ -56,19 +62,58 @@ new Vue({
 						}
 				)
 			.then(function (response) {
-			  console.log(response.data);
+				rst = response.data.data.exist;
+				if(rst==true){
+					document.getElementById("t").setCustomValidity("手机号已经被注册");
+					return;
+				}
+				document.getElementById("t").setCustomValidity('');
 			})
 			.catch(function (error) {
-			  console.log(error);
+				console.log(error);
 			});
+		},
+		password_check(){
+			if(this.password != this.confirm_password){
+				document.getElementById("c").setCustomValidity("确认密码与密码不一致");
+				return;
+			}
+			document.getElementById("c").setCustomValidity('');
 		},
 		register(){
 			if(this.tel == '' || this.password == '' || this.name == '' || this.confirm_password == ''){
 				return;
 			}
-		},
+			if(document.getElementById("t").validity.customError == false){
+				return;
+			}
+			if(document.getElementById("c").validity.customError == false){
+				return;
+			}
+			document.getElementById("c").setCustomValidity('');
+			axios.post('/user/register',
+						{
+							'tel': this.tel,
+							'name': this.name,
+							'password_hash': this.password
+						},
+						{
+							headers:{
+							'Content-Type': 'application/json;charset=UTF-8',
+							'Accept': 'application/json, text/plain, */*',
+							'Auth': 'TO BE GENERATED AFTER LOGIN'
+							}
+						}
+				)
+			.then(function (response) {
+				console.log(response);
+			})
+			.catch(function (error) {
+			  console.log(error);
+			});
+		}
 	}
 }
-)
+);
 </script>
 </html>
