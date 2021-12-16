@@ -457,23 +457,23 @@ body .options .option .label .icon {
   background-color: white;
 }
 #icon0{
-	background-image: url(index_pic/seatbelt.png);
+	background-image: url(../index_pic/seatbelt.png);
 	background-size: cover;
 }
 #icon1{
-	background-image: url(index_pic/parking-area.png);
+	background-image: url(../index_pic/parking-area.png);
 	background-size: cover;
 }
 #icon2{
-	background-image: url(index_pic/property.png);
+	background-image: url(../index_pic/property.png);
 	background-size: cover;
 }
 #icon3{
-	background-image: url(index_pic/handshake.png);
+	background-image: url(../index_pic/handshake.png);
 	background-size: cover;
 }
 #icon4{
-	background-image: url(index_pic/logo.png);
+	background-image: url(../index_pic/logo.png);
 	background-size: cover;
 }
 body .options .option .label .info {

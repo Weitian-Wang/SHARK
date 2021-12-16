@@ -11,30 +11,57 @@
 		<script src="../axios.js"></script>
 		<script src="../md5.js"></script>
 	</head>
-	
+
 	<body class="bg-gradient">
 		<div id="banner">
 			<div id="logo" onclick="location.href='../index/index.html'"></div>
+		</div>
+		
+		<div class="notification-container">
+			<div class="rectangle" id="success" style="display: none;">
+				<div class="notification-text">
+					<span>&nbsp;&nbsp;{{success_message}}</span>
+				</div>
+			</div>
+			<div class="rectangle" id="error" style="display: none;">
+				<div class="notification-text">
+					<span>&nbsp;&nbsp;{{error_message}}</span>
+				</div>
+			</div>
 		</div>
 		
 		<div class="wrapper">
 			<div class="container">
 				<form class="form" id="register_form">
 					<input type="text" placeholder="姓名" v-model="name" required>
-					<input type="text" placeholder="手机号" v-model="tel" required @focusout="tel_check" id="t">
+					<input type="text" placeholder="手机号" v-model="tel" required @focusout="tel_check" id="t" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="11">
 					<input type="password" placeholder="密码" v-model="password" required>
 					<input type="password" placeholder="确认密码" v-model="confirm_password" required @focusout="password_check" id="c">
-					<button type="submit" id="register-button" @click="register">注册</button>
+					<button type="button" id="register-button" @click="register">注册</button>
 					<br><br>
 					<h5>已有账号？<a href="../login/login.html" style="color: #53e3a6;">去登录</h5>
 				</form>
 			</div>
 		</div>
 	</body>
+
 	
 <script type="text/javascript">
+// configure Vue
+Vue.config.productionTip = false;
 // configure baseURL
 axios.defaults.baseURL = BaseURL;
+// pop up notification Vue instance
+var alert = new Vue({
+	el:".notification-container",
+	data:{
+		success_message:"",
+		error_message:"random shit"
+	}
+});
+s = document.getElementById("success");
+e = document.getElementById("error");
+// form Vue instance
 new Vue({
 	el:"#register_form",
 	data:{
@@ -81,21 +108,21 @@ new Vue({
 			document.getElementById("c").setCustomValidity('');
 		},
 		register(){
+			document.getElementById("register_form").reportValidity();
 			if(this.tel == '' || this.password == '' || this.name == '' || this.confirm_password == ''){
 				return;
 			}
-			if(document.getElementById("t").validity.customError == false){
+			if(document.getElementById("t").validity.customError == true){
 				return;
 			}
-			if(document.getElementById("c").validity.customError == false){
+			if(document.getElementById("c").validity.customError == true){
 				return;
 			}
-			document.getElementById("c").setCustomValidity('');
 			axios.post('/user/register',
 						{
 							'tel': this.tel,
 							'name': this.name,
-							'password_hash': this.password
+							'password_hash': md5(this.password)
 						},
 						{
 							headers:{
@@ -106,10 +133,22 @@ new Vue({
 						}
 				)
 			.then(function (response) {
-				console.log(response);
+				if(response.data.success == 0){
+					alert.success_message = response.data.message;
+					s.style.display = 'flex';
+					// setTimeout(function(){window.location.href = "../login/login.html";}, 2500);
+					// setTimeout(function(){s.style.display = 'none';}, 2500);
+				}
+				else{
+					alert.error_message = response.data.message;
+					e.style.display = 'flex';
+					// setTimeout(function(){e.style.display = 'none';}, 2500);
+				}
 			})
 			.catch(function (error) {
-			  console.log(error);
+				alert.error_message = error.message;
+				e.style.display = 'flex';
+				setTimeout(function(){e.style.display = 'none';}, 4000);
 			});
 		}
 	}

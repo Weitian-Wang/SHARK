@@ -26,6 +26,8 @@ class User(Base):
     # md5 result 128 bit 
     password_hash = Column(String(32), nullable=False)
     # INDIVIDUAL = 1, PROPERTY = 2, ADMIN = 3, MODERATOR = 4, SUPER_ADMIN = 5
+    # authority: INDIVIDUAL create themselves, ADMIN creates PROPERTY, SUPER_ADMIN creates ALL
+    # user_type switch not supported
     user_type = Column(Integer, nullable=False)
     create_date = Column(DateTime, nullable=False, default=get_datetime)
     credits = Column(Float, nullable=False, default=5)

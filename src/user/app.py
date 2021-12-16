@@ -2,8 +2,7 @@ import json
 from flask_cors import CORS
 from flask import Flask, request, g, jsonify, make_response, Response
 from functools import reduce
-
-from src.error_code.error_code import ResultSuccess
+from src.error_code import ErrorCode, SystemInternalError
 from .auth import authenticate_token, generate_token
 from .user_proxy import UserProxy
 
@@ -30,6 +29,15 @@ def get_user_proxy():
         g.user_proxy = UserProxy()
     return g.user_proxy
 
+@app.errorhandler(ErrorCode)
+def exception_handle(ex):
+    return jsonify(ex.to_dict())
+
+@app.errorhandler(500)
+def handle_internal_exception(ex):
+    err = SystemInternalError()
+    return jsonify(err.to_dict()), 200
+
 @app.route('/')
 def app_status():
     return 'SHARK app is running'
@@ -55,5 +63,5 @@ def login():
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.login()
+        result = user_proxy.login(tel=params['tel'], password_hash=params['password_hash'])    
     return jsonify(result.to_dict())

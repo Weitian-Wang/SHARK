@@ -1,3 +1,5 @@
+import traceback
+
 class ErrorCode(Exception):
     def __init__(self, success=1, error_code=500, message="System internal error.", data=None):
         super().__init__()
@@ -19,8 +21,8 @@ class ErrorCode(Exception):
         self._result['data'] = self._data
 
 class ResultSuccess(ErrorCode):
-    def __init__(self, data=None):
-        super().__init__(success=0, error_code=0, message="Result is success.", data=data)
+    def __init__(self, data=None, message="SUCCESS"):
+        super().__init__(success=0, error_code=0, message=message, data=data)
 
 # class ParamError(ErrorCode):
 #     def __init__(self):
@@ -37,6 +39,14 @@ class UserNotExistError(ErrorCode):
 class NetError(ErrorCode):
     def __init__(self):
         super().__init__(error_code=102, message="Network error, retry request.")
+
+class PasswordError(ErrorCode):
+    def __init__(self):
+        super().__init__(error_code=103, message="Wrong password.")
+
+class SystemInternalError(ErrorCode):
+    def __init__(self, message="System internal error."):
+        super().__init__(error_code=500, message=message, data=traceback.format_exc())
 
 class TokenError(ErrorCode):
     def __init__(self):

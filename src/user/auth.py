@@ -5,14 +5,13 @@ from functools import wraps
 
 APP_SECRET = "SHARK"
 
-def generate_token(user, user_type, expire_hours=2):
+def generate_token(user, expire_hours=2):
     payload = {
-        'user_id': user.id,
-        'user_type': user_type,
+        'user_tel': user.tel,
         'exp': datetime.utcnow() + timedelta(hours=expire_hours)
     }
     token = jwt.encode(payload, APP_SECRET, algorithm='HS256')
-    return token.decode('utf-8')
+    return token.encode().decode('utf-8')
 
 def decode(token):
     try:
