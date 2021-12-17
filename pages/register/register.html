@@ -18,16 +18,6 @@
 		</div>
 		
 		<div class="notification-container">
-			<div class="rectangle" id="success" style="display: none;">
-				<div class="notification-text">
-					<span>&nbsp;&nbsp;{{success_message}}</span>
-				</div>
-			</div>
-			<div class="rectangle" id="error" style="display: none;">
-				<div class="notification-text">
-					<span>&nbsp;&nbsp;{{error_message}}</span>
-				</div>
-			</div>
 		</div>
 		
 		<div class="wrapper">
@@ -59,8 +49,8 @@ var alert = new Vue({
 		error_message:"random shit"
 	}
 });
-s = document.getElementById("success");
-e = document.getElementById("error");
+// get notification container
+notification = document.getElementsByClassName('notification-container')[0];
 // form Vue instance
 new Vue({
 	el:"#register_form",
@@ -134,21 +124,34 @@ new Vue({
 				)
 			.then(function (response) {
 				if(response.data.success == 0){
-					alert.success_message = response.data.message;
+					notification.innerHTML = '<div class="rectangle" id="success" style="display: none;">'
+												+'<div class="notification-text">'
+													+'<span>&nbsp;&nbsp;'+response.data.message+'</span>'
+												+'</div>'
+											+'</div>';
+					s = document.getElementById("success");
 					s.style.display = 'flex';
-					// setTimeout(function(){window.location.href = "../login/login.html";}, 2500);
-					// setTimeout(function(){s.style.display = 'none';}, 2500);
+					sessionStorage.setItem('tel', response.data.data.tel);
+					setTimeout(function(){window.location.href = '../login/login.html'}, 4000);
 				}
 				else{
-					alert.error_message = response.data.message;
+					notification.innerHTML = '<div class="rectangle" id="error" style="display: none;">'
+												+'<div class="notification-text">'
+													+'<span>&nbsp;&nbsp;'+response.data.message+'</span>'
+												+'</div>'
+											+'</div>';
+					e = document.getElementById("error");
 					e.style.display = 'flex';
-					// setTimeout(function(){e.style.display = 'none';}, 2500);
 				}
 			})
 			.catch(function (error) {
-				alert.error_message = error.message;
+				notification.innerHTML = '<div class="rectangle" id="error" style="display: none;">'
+											+'<div class="notification-text">'
+												+'<span>&nbsp;&nbsp;'+error.message+'</span>'
+											+'</div>'
+										+'</div>';
+				e = document.getElementById("error");
 				e.style.display = 'flex';
-				setTimeout(function(){e.style.display = 'none';}, 4000);
 			});
 		}
 	}

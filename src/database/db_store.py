@@ -8,6 +8,7 @@ from .schema import Base, User, ParkingLot, ParkingSpot, Order
 
 class DBStore():
     def __init__(self):
+        #TODO make this configurable 
         host = os.environ.get('MYSQL_HOST', 'localhost')
         port = os.environ.get('MYSQL_PORT', '3306')
         user = os.environ.get('MYSQL_USER', 'root')

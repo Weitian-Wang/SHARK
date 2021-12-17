@@ -32,8 +32,8 @@
 		<div class="wrapper">
 			<div class="container">
 				<form class="form" id="login_form">
-					<input type="text" placeholder="手机号" v-model="user.tel" required oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="11">
-					<input type="password" placeholder="密码" v-model="user.password" required>
+					<input type="text" placeholder="手机号" v-model="tel" id="t" required oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="11" @focusout="tel_check">
+					<input type="password" placeholder="密码" v-model="password" required>
 					<button type="button" id="login-button" @click="login">登录</button>
 					<br>
 					<br>
@@ -59,29 +59,35 @@ var alert = new Vue({
 	}
 });
 notification = document.getElementsByClassName("notification-container")[0];
-s = document.getElementById("success");
-e = document.getElementById("error");
 // create a Vue instance
 new Vue({
 	// assign Vue instance to specific container
     el: '#login_form',
 	// data for element
 	data:{
-		user:{
-			tel: sessionStorage.getItem('tel'),
-			password: "",
-		}
+		tel: sessionStorage.getItem('tel'),
+		password: ""
 	},
 	methods:{
+		tel_check(){
+			if(this.tel.length != 11){
+				document.getElementById("t").setCustomValidity("输入11位手机号");
+				return;
+			}
+			document.getElementById("t").setCustomValidity("");
+		},
 		login(){
 			document.getElementById("login_form").reportValidity();
-			if(this.user.tel == '' || this.user.password == ''){
+			if(this.tel == '' || this.password == ''){
+				return;
+			}
+			if(document.getElementById("t").validity.customError == true){
 				return;
 			}
 			axios.post('/user/login',
 						{
-							'tel': this.user.tel,
-							'password_hash': md5(this.user.password)
+							'tel': this.tel,
+							'password_hash': md5(this.password)
 						},
 						{
 							headers:{
@@ -93,23 +99,33 @@ new Vue({
 				)
 			.then(function (response) {
 				if(response.data.success == 0){
-					alert.success_message = response.data.message;
+					notification.innerHTML = '<div class="rectangle" id="success" style="display: none;">'
+												+'<div class="notification-text">'
+													+'<span>&nbsp;&nbsp;'+response.data.message+'</span>'
+												+'</div>'
+											+'</div>';
+					s = document.getElementById("success");
 					s.style.display = 'flex';
-					// setTimeout(function(){window.location.href = "../login/login.html";}, 2500);
-					var prev_s = setTimeout(function(){s.style.display = 'none';}, 4500);
 				}
 				else{
-					alert.error_message = response.data.message;
+					notification.innerHTML = '<div class="rectangle" id="error" style="display: none;">'
+												+'<div class="notification-text">'
+													+'<span>&nbsp;&nbsp;'+response.data.message+'</span>'
+												+'</div>'
+											+'</div>';
+					e = document.getElementById("error");
 					e.style.display = 'flex';
-					clearTimeout();
-					setTimeout(function(){e.style.display = 'none';}, 4500);
 				}
 			})
 			.catch(function (error) {
-				alert.error_message = error.message;
+				notification.innerHTML = '<div class="rectangle" id="error" style="display: none;">'
+											+'<div class="notification-text">'
+												+'<span>&nbsp;&nbsp;'+error.message+'</span>'
+											+'</div>'
+										+'</div>';
+				e = document.getElementById("error");
 				e.style.display = 'flex';
-				// setTimeout(function(){e.style.display = 'none';}, 4000);
-			}); //TODO: better notification display
+			});
 		}
 	}
 })
