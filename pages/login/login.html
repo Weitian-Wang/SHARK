@@ -16,18 +16,7 @@
 			<div id="logo" onclick="location.href='../index/index.html'"></div>
 		</div>
 		
-		<div class="notification-container">
-			<div class="rectangle" id="success" style="display: none;">
-				<div class="notification-text">
-					<span>&nbsp;&nbsp;{{success_message}}</span>
-				</div>
-			</div>
-			<div class="rectangle" id="error" style="display: none;">
-				<div class="notification-text">
-					<span>&nbsp;&nbsp;{{error_message}}</span>
-				</div>
-			</div>
-		</div>
+		<div class="notification-container"></div>
 		
 		<div class="wrapper">
 			<div class="container">
@@ -50,15 +39,9 @@ Vue.config.productionTip = false;
 // configure baseURL
 axios.defaults.baseURL = BaseURL;
 
-// pop up notification Vue instance
-var alert = new Vue({
-	el:".notification-container",
-	data:{
-		success_message:"",
-		error_message:""
-	}
-});
+// get notification element
 notification = document.getElementsByClassName("notification-container")[0];
+
 // create a Vue instance
 new Vue({
 	// assign Vue instance to specific container
@@ -128,7 +111,7 @@ new Vue({
 			});
 		}
 	}
-})
+});
 
 </script>
 	

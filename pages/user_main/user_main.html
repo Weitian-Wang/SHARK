@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>SHARK</title>
+		<link rel="stylesheet" type="text/css" href="user_main.css"/>
+		
+		<script src="../url_config.js"></script>
+		<script src="../vue.js"></script>
+		<script src="../jquery.js"></script>
+		<script src="../axios.js"></script>
+		<script src="../md5.js"></script>
+	</head>
+	<body>
+		
+		<div id="heading" class="bg-gradient">
+			<div id="logo" onclick="location.href='../index/index.html'"></div>
+		</div>
+		<div class="container">
+			<div id="sidebar">
+				<div id="serch_area">
+					<input type="text" placeholder="输入地址">
+					<button type="button">搜索</button>
+				</div>
+			</div>
+			<div id='map'></div>
+		</div>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0"></script>
+	</body>
+
+<!-- script section -->
+<script type="text/javascript">
+// configure Vue
+Vue.config.productionTip = false;
+// configure baseURL
+axios.defaults.baseURL = BaseURL;
+
+notification = document.getElementsByClassName("notification-container")[0];
+// google map
+let map;
+function initMap(){
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 8,
+	mapId: "25ac90796cb25b46"
+  });
+}
+initMap();
+
+</script>
+
+</html>

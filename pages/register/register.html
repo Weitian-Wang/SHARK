@@ -17,8 +17,7 @@
 			<div id="logo" onclick="location.href='../index/index.html'"></div>
 		</div>
 		
-		<div class="notification-container">
-		</div>
+		<div class="notification-container"></div>
 		
 		<div class="wrapper">
 			<div class="container">
@@ -41,16 +40,10 @@
 Vue.config.productionTip = false;
 // configure baseURL
 axios.defaults.baseURL = BaseURL;
-// pop up notification Vue instance
-var alert = new Vue({
-	el:".notification-container",
-	data:{
-		success_message:"",
-		error_message:"random shit"
-	}
-});
+
 // get notification container
 notification = document.getElementsByClassName('notification-container')[0];
+
 // form Vue instance
 new Vue({
 	el:"#register_form",
@@ -155,7 +148,6 @@ new Vue({
 			});
 		}
 	}
-}
-);
+});
 </script>
 </html>
