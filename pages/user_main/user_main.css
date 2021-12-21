@@ -20,33 +20,42 @@
     }
 }
 
-#banner{
-	width: 100vw;
-	height: 70px;
-	top: 0px;
-	display: block;
-	position: fixed;
-}
-
 #logo{
-	width: 160px;
+	width: 130px;
 	height: 8vh;
-	position: absolute;
-	left: 44vw;
-	display: inline-block;
+	display: flex;
 	background-image: url(../index_pic/shadow.png);
 	background-position: center;
+	background-size: cover;
 }
 
+body {
+	display: flex;
+	flex-direction: row;
+}
 
-/* for notification alert */
+/* for notification */
+.main_container{
+	display: inline-flex;
+	flex-direction: column;
+	justify-items: center;
+	align-items: center;
+	overflow: hidden;
+	height: 100vh;
+	width: 100vw;
+	font-family: "Roboto", sans-serif;
+}
+
 .notification-container {
 	display: flex;
-	flex-direction: column;
-	height: 100%;
-	padding-top: 15vh;
-	justify-content: flex-start;
+	flex-direction: row;
+	height: 0px;
+	position: relative;
+	z-index: 1000;
+	justify-content: center;
+	top: 0.8vh;
 }
+
 
 #success{
 	display: flex;
@@ -84,6 +93,7 @@
 				expand .35s .25s ease-out forwards,
 				scale-out .2s 4s forwards;
 }
+
 
 .notification-text {
 	display: flex;
@@ -152,8 +162,11 @@
 
 #map {
   height: 92vh;
+  width: inherit;
+  /* TODO swap in production */
+  background-image: url(../index_pic/map.png);
+  background-size: cover;
 }
-
 
 /* copy pasta from SF Food Truck*/
 
@@ -162,43 +175,62 @@
   display: flex;
 }
 
-#map {
-  flex: 4;
+/* nav side bar*/
+.left {
+	display: inline-flex;
+	width: 0vw;
+	height: 100vh;
+	background: #ED5565;
+	overflow-y: scroll;
 }
 
-#sidebar {
-  background: #1a1a1a;
-  border-left: 1px solid #444444;
-  flex: 1;
-  height: 92vh;
-  overflow-y: scroll;
+.right {
+	display: inline-flex;
+	width: 0vw;
+	height: 100vh;
+	background: #ED5565;
+	overflow-y: scroll;
+}
+
+.animation_time {
+	transition: 1s ease;
+}
+
+.expanded {
+	width: 20vw;
+	height: 100vh;
+}
+
+.main_container_retracted {
+	width: 80vw;
 }
 
 #sidebar div#results-area {
   overflow-y: scroll;
 }
 
+div#search{
+  display: flex;
+  height: 8vh;
+  width: 10vh;
+  background-color: #000000;
+}
+
+div#user{
+  display: flex;
+  height: 8vh;
+  width: 10vh;
+}
+
 div#heading {
   margin: 0;
   height: 8vh;
-  width: 100vw;
+  width: inherit;
   text-align: center;
-  display: block;
-}
-
-div#heading h1 {
-  font-size: 25px;
-  text-transform: uppercase;
-  text-shadow: -2px 2px black;
-  margin: 0;
-  color: #fded39;
-}
-
-div#heading p {
-  color: black;
-  font-style: italic;
-  font-size: 12px;
-  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 div#search-area {

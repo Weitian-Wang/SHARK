@@ -13,18 +13,22 @@
 	</head>
 	<body>
 		
-		<div id="heading" class="bg-gradient">
-			<div id="logo" onclick="location.href='../index/index.html'"></div>
+		<div class="left animation_time">
 		</div>
-		<div class="container">
-			<div id="sidebar">
-				<div id="serch_area">
-					<input type="text" placeholder="输入地址">
-					<button type="button">搜索</button>
-				</div>
+		
+		<div class="main_container animation_time">
+			<div id="heading" class="bg-gradient" id="heading">
+				<div id="user" @click="toggle_left"></div>
+				<div id="logo" onclick="location.href='../index/index.html'"></div>
+				<div id="search" @click="toggle_right"></div>
 			</div>
+			<div class="notification-container"></div>
 			<div id='map'></div>
 		</div>
+		
+		<div class="right animation_time">
+		</div>
+		
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0"></script>
 	</body>
 
@@ -38,13 +42,58 @@ axios.defaults.baseURL = BaseURL;
 notification = document.getElementsByClassName("notification-container")[0];
 // google map
 let map;
+var l_status = false;
+var r_status = false;
+new Vue({
+	el: "#heading",
+	data:{
+	},
+	methods:{
+		toggle_left(){
+			if(r_status && !l_status){
+				this.toggle_right();
+			}
+			l_status = !l_status;
+			$('.left').toggleClass('expanded');
+			$('.main_container').toggleClass('main_container_retracted');
+		},
+		toggle_right(){
+			if(l_status && !r_status){
+				this.toggle_left();
+			}
+			r_status = !r_status;
+			$('.right').toggleClass('expanded');
+			$('.main_container').toggleClass('main_container_retracted');
+		}
+	}
+});
+
 function initMap(){
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 8,
-	mapId: "25ac90796cb25b46"
-  });
+	if (navigator.geolocation) {
+		// TODO swap in production
+		// navigator.geolocation.getCurrentPosition(
+		// 	function (position) {  
+		// 		map = new google.maps.Map(document.getElementById("map"), {
+		// 			center: { lat: position.coords.latitude, lng: position.coords.longitude},
+		// 			zoom: 15
+		// 		});
+		// 	}
+		// );
+		notification.innerHTML = '<div class="rectangle" id="success" style="display: flex; position: absolute;">'
+									+'<div class="notification-text">'
+										+'<span>&nbsp;&nbsp;Map loaded.</span>'
+									+'</div>'
+								+'</div>';
+	} 
+	else{
+		notification.innerHTML = '<div class="rectangle" id="error" style="display: flex; position: absolute;">'
+									+'<div class="notification-text">'
+										+'<span>&nbsp;&nbsp;Unable to get location.</span>'
+									+'</div>'
+								+'</div>';
+	}
 }
+
 initMap();
 
 </script>

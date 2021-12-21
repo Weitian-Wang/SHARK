@@ -117,34 +117,28 @@ new Vue({
 				)
 			.then(function (response) {
 				if(response.data.success == 0){
-					notification.innerHTML = '<div class="rectangle" id="success" style="display: none;">'
+					notification.innerHTML = '<div class="rectangle" id="success" style="display: flex;">'
 												+'<div class="notification-text">'
 													+'<span>&nbsp;&nbsp;'+response.data.message+'</span>'
 												+'</div>'
 											+'</div>';
-					s = document.getElementById("success");
-					s.style.display = 'flex';
 					sessionStorage.setItem('tel', response.data.data.tel);
 					setTimeout(function(){window.location.href = '../login/login.html'}, 4000);
 				}
 				else{
-					notification.innerHTML = '<div class="rectangle" id="error" style="display: none;">'
+					notification.innerHTML = '<div class="rectangle" id="error" style="display: flex;">'
 												+'<div class="notification-text">'
 													+'<span>&nbsp;&nbsp;'+response.data.message+'</span>'
 												+'</div>'
 											+'</div>';
-					e = document.getElementById("error");
-					e.style.display = 'flex';
 				}
 			})
 			.catch(function (error) {
-				notification.innerHTML = '<div class="rectangle" id="error" style="display: none;">'
+				notification.innerHTML = '<div class="rectangle" id="error" style="display: flex;">'
 											+'<div class="notification-text">'
 												+'<span>&nbsp;&nbsp;'+error.message+'</span>'
 											+'</div>'
 										+'</div>';
-				e = document.getElementById("error");
-				e.style.display = 'flex';
 			});
 		}
 	}
