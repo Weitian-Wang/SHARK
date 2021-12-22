@@ -103,7 +103,7 @@ Vue.config.productionTip = false;
 axios.defaults.baseURL = BaseURL;
 
 notification = document.getElementsByClassName("notification-container")[0];
-// google map
+
 var l_status = false;
 var r_status = false;
 new Vue({
@@ -130,10 +130,12 @@ new Vue({
 	}
 });
 
+// google map
+var map;
 function initMap(){
 	if (navigator.geolocation) {
 		// TODO swap in production
-		const map = new google.maps.Map(document.getElementById("map"), {
+		map = new google.maps.Map(document.getElementById("map"), {
 		    center: { lat: 0, lng: 0 },
 		    zoom: 13,
 			disableDefaultUI: true
