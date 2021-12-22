@@ -13,7 +13,10 @@
 	</head>
 	<body>
 		
-		<div class="left animation_time">
+		<div class="left animation_time" id="left_menu">
+			<div style="text-align: center; width: inherit;">hello there {{user_name}}!</div>
+			<div></div>
+			<div></div>
 		</div>
 		
 		<div class="main_container animation_time">
@@ -23,13 +26,73 @@
 				<div id="search" @click="toggle_right"></div>
 			</div>
 			<div class="notification-container"></div>
+			<input
+			      id="pac-input"
+			      class="controls"
+			      type="text"
+			      placeholder="搜索地址"
+			    />
 			<div id='map'></div>
 		</div>
-		
-		<div class="right animation_time">
+
+		<div class="right animation_time" id="sidebar">
+			<div id="search-area">
+				<input type="text" type="text" placeholder="搜索车位" required>
+				<button type="button">搜索</button>
+			</div>
+			
+			<div id="results-area">
+				<ul> 
+					<li>
+					  <p class="p-name">公用学院苏州工业园区218号如果地址很长会不会溢出</p>
+								<div class="row">
+									<div class="location_icons"></div>
+									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
+								</div>
+								<div class="row">
+									<div class="status_icons"></div>
+									<div class="content">个人</div>
+								</div>
+								<div class="row">
+									<div class="distance_icons"></div>
+									<div class="content">69 km</div>
+								</div>
+					</li>
+					<li>
+					  <p class="p-name">文萃广场</p>
+								<div class="row">
+									<div class="location_icons"></div>
+									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
+								</div>
+								<div class="row">
+									<div class="status_icons"></div>
+									<div class="content">物业</div>
+								</div>
+								<div class="row">
+									<div class="distance_icons"></div>
+									<div class="content">69 km</div>
+								</div>
+					</li>
+					<li>
+					  <p class="p-name">NUSRI</p>
+								<div class="row">
+									<div class="location_icons"></div>
+									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
+								</div>
+								<div class="row">
+									<div class="status_icons"></div>
+									<div class="content">物业</div>
+								</div>
+								<div class="row">
+									<div class="distance_icons"></div>
+									<div class="content">69 km</div>
+								</div>
+					</li>
+				</ul>
+			</div>
 		</div>
-		
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0"></script>
+		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0"></script> -->
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0&libraries=places"></script>
 	</body>
 
 <!-- script section -->
@@ -41,7 +104,6 @@ axios.defaults.baseURL = BaseURL;
 
 notification = document.getElementsByClassName("notification-container")[0];
 // google map
-let map;
 var l_status = false;
 var r_status = false;
 new Vue({
@@ -71,14 +133,80 @@ new Vue({
 function initMap(){
 	if (navigator.geolocation) {
 		// TODO swap in production
-		// navigator.geolocation.getCurrentPosition(
-		// 	function (position) {  
-		// 		map = new google.maps.Map(document.getElementById("map"), {
-		// 			center: { lat: position.coords.latitude, lng: position.coords.longitude},
-		// 			zoom: 15
-		// 		});
-		// 	}
-		// );
+		const map = new google.maps.Map(document.getElementById("map"), {
+		    center: { lat: 0, lng: 0 },
+		    zoom: 13,
+			disableDefaultUI: true
+		  });
+		
+		navigator.geolocation.getCurrentPosition(
+			function (position) {
+				map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
+			}
+		);
+		
+		// Create the search box and link it to the UI element.
+		const input = document.getElementById("pac-input");
+		const searchBox = new google.maps.places.SearchBox(input);
+		
+		map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+		// Bias the SearchBox results towards current map's viewport.
+		map.addListener("bounds_changed", () => {
+		  searchBox.setBounds(map.getBounds());
+		});
+		
+		let markers = [];
+		
+		// Listen for the event fired when the user selects a prediction and retrieve
+		// more details for that place.
+		searchBox.addListener("places_changed", () => {
+		  const places = searchBox.getPlaces();
+		
+		  if (places.length == 0) {
+		    return;
+		  }
+		
+		  // Clear out the old markers.
+		  markers.forEach((marker) => {
+		    marker.setMap(null);
+		  });
+		  markers = [];
+		
+		  // For each place, get the icon, name and location.
+		  const bounds = new google.maps.LatLngBounds();
+		
+		  places.forEach((place) => {
+		    if (!place.geometry || !place.geometry.location) {
+		      console.log("Returned place contains no geometry");
+		      return;
+		    }
+		
+		    const icon = {
+		      url: place.icon,
+		      size: new google.maps.Size(71, 71),
+		      origin: new google.maps.Point(0, 0),
+		      anchor: new google.maps.Point(17, 34),
+		      scaledSize: new google.maps.Size(25, 25),
+		    };
+		
+		    // Create a marker for each place.
+		    markers.push(
+		      new google.maps.Marker({
+		        map,
+		        icon,
+		        title: place.name,
+		        position: place.geometry.location,
+		      })
+		    );
+		    if (place.geometry.viewport) {
+		      // Only geocodes have viewport.
+		      bounds.union(place.geometry.viewport);
+		    } else {
+		      bounds.extend(place.geometry.location);
+		    }
+		  });
+		  map.fitBounds(bounds);
+		});
 		notification.innerHTML = '<div class="rectangle" id="success" style="display: flex; position: absolute;">'
 									+'<div class="notification-text">'
 										+'<span>&nbsp;&nbsp;Map loaded.</span>'
@@ -94,7 +222,26 @@ function initMap(){
 	}
 }
 
-initMap();
+// TODO initiate map in production
+// initMap();
+
+new Vue({
+	el: "#left_menu",
+	data:{
+		user_name : sessionStorage.getItem('user_name')
+	},
+	methods:{
+		
+	}
+});
+
+new Vue({
+	el: "#sidebar",
+	data:{
+	},
+	methods:{
+	}
+});
 
 </script>
 
