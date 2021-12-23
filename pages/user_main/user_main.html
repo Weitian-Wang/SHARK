@@ -15,29 +15,28 @@
 		
 		<div class="left animation_time" id="left_menu">
 			<div style="text-align: center; width: inherit;">hello there {{user_name}}!</div>
-			<div></div>
-			<div></div>
 		</div>
 		
 		<div class="main_container animation_time">
 			<div id="heading" class="bg-gradient" id="heading">
 				<div id="user" @click="toggle_left"></div>
 				<div id="logo" onclick="location.href='../index/index.html'"></div>
-				<div id="search" @click="toggle_right"></div>
+				<div id="search" class="animation_time" @click="toggle_right"></div>
 			</div>
 			<div class="notification-container"></div>
 			<input
 			      id="pac-input"
 			      class="controls"
 			      type="text"
-			      placeholder="搜索地址"
+			      placeholder="目的地址搜索"
+				  style="visibility: hidden;"
 			    />
 			<div id='map'></div>
 		</div>
 
 		<div class="right animation_time" id="sidebar">
 			<div id="search-area">
-				<input type="text" type="text" placeholder="搜索车位" required>
+				<input type="text" type="text" placeholder="车位名搜索" required>
 				<button type="button">搜索</button>
 			</div>
 			
@@ -88,6 +87,66 @@
 									<div class="content">69 km</div>
 								</div>
 					</li>
+					<li>
+					  <p class="p-name">公用学院苏州工业园区218号如果地址很长会不会溢出</p>
+								<div class="row">
+									<div class="location_icons"></div>
+									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
+								</div>
+								<div class="row">
+									<div class="status_icons"></div>
+									<div class="content">个人</div>
+								</div>
+								<div class="row">
+									<div class="distance_icons"></div>
+									<div class="content">69 km</div>
+								</div>
+					</li>
+					<li>
+					  <p class="p-name">文萃广场</p>
+								<div class="row">
+									<div class="location_icons"></div>
+									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
+								</div>
+								<div class="row">
+									<div class="status_icons"></div>
+									<div class="content">物业</div>
+								</div>
+								<div class="row">
+									<div class="distance_icons"></div>
+									<div class="content">69 km</div>
+								</div>
+					</li>
+					<li>
+					  <p class="p-name">NUSRI</p>
+								<div class="row">
+									<div class="location_icons"></div>
+									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
+								</div>
+								<div class="row">
+									<div class="status_icons"></div>
+									<div class="content">物业</div>
+								</div>
+								<div class="row">
+									<div class="distance_icons"></div>
+									<div class="content">69 km</div>
+								</div>
+					</li>
+					<li>
+					  <p class="p-name">公用学院苏州工业园区218号如果地址很长会不会溢出</p>
+								<div class="row">
+									<div class="location_icons"></div>
+									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
+								</div>
+								<div class="row">
+									<div class="status_icons"></div>
+									<div class="content">个人</div>
+								</div>
+								<div class="row">
+									<div class="distance_icons"></div>
+									<div class="content">69 km</div>
+								</div>
+					</li>		
 				</ul>
 			</div>
 		</div>
@@ -125,12 +184,47 @@ new Vue({
 			}
 			r_status = !r_status;
 			$('.right').toggleClass('expanded');
-			$('.main_container').toggleClass('main_container_retracted');
+			$('#search').toggleClass('icon_to_left');
+			if(r_status){
+				$('#pac-input')[0].style.marginLeft = '30vw';
+				$('.notification-container')[0].style.width = '80vw';
+				$('.notification-container')[0].style.right = '10vw';
+			}
+			else{
+				$('#pac-input')[0].style.marginLeft = '40vw';
+				$('.notification-container')[0].style.width = '0vw';
+				$('.notification-container')[0].style.right = '0vw';
+			}
 		}
 	}
 });
 
 // google map
+// TODO TODO TODO
+
+// // custom icon pic and resize
+// var icon = {
+//     url: "../index_pic/parking.png", // url
+//     scaledSize: new google.maps.Size(46, 46), // scaled size
+//     origin: new google.maps.Point(0,0), // origin
+//     anchor: new google.maps.Point(0, 0) // anchor
+// };
+// // info display when click marker icon
+// var infowindow = new google.maps.InfoWindow({
+//                 content: "Add your popup content here"
+// });
+// // create marker instance on map
+// var marker = new google.maps.Marker({
+// 	// float number, parseFloat(sessionStorage.getItem('lat/lng'))
+//     position: {lat: 120, lng: 120},
+//     map,
+//     icon: icon
+//   });
+// //  add infowindow to marker
+// marker.addListener('click', function() {
+//           infowindow.open(map, marker);
+// });
+
 var map;
 function initMap(){
 	if (navigator.geolocation) {
@@ -161,6 +255,7 @@ function initMap(){
 		
 		// Listen for the event fired when the user selects a prediction and retrieve
 		// more details for that place.
+		// !!search and refocus event!!
 		searchBox.addListener("places_changed", () => {
 		  const places = searchBox.getPlaces();
 		
@@ -200,6 +295,11 @@ function initMap(){
 		        position: place.geometry.location,
 		      })
 		    );
+			
+			// get lat and lng for searched location
+			sessionStorage.setItem('lat', place.geometry.location.lat());
+			sessionStorage.setItem('lng', place.geometry.location.lng());
+			
 		    if (place.geometry.viewport) {
 		      // Only geocodes have viewport.
 		      bounds.union(place.geometry.viewport);
@@ -211,7 +311,7 @@ function initMap(){
 		});
 		notification.innerHTML = '<div class="rectangle" id="success" style="display: flex; position: absolute;">'
 									+'<div class="notification-text">'
-										+'<span>&nbsp;&nbsp;Map loaded.</span>'
+										+'<span>&nbsp;&nbsp;Map load success.</span>'
 									+'</div>'
 								+'</div>';
 	} 
@@ -224,8 +324,10 @@ function initMap(){
 	}
 }
 
+
+
 // TODO initiate map in production
-// initMap();
+initMap();
 
 new Vue({
 	el: "#left_menu",
