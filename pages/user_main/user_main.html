@@ -238,13 +238,12 @@ new Vue({
 //  temp info invoker
 var active_li;
 function info(self){
+	if(active_li == self){
+		close_panel();
+		return;
+	}
 	if(active_li != null){
 		close_panel();
-	}
-	if(self==active_li){
-		close_panel();
-		active_li = null;
-		return;
 	}
 	// change content dynamically with returned list
 	$('.info_container')[0].innerHTML = "<div class='info_panel'>"
