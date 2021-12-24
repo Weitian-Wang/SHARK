@@ -31,7 +31,10 @@
 			      placeholder="目的地址搜索"
 				  style="visibility: hidden;"
 			    />
-			<div id='map'></div>
+				
+			<div class='info_container'></div>
+			
+			<div id="map"></div>
 		</div>
 
 		<div class="right animation_time" id="sidebar">
@@ -42,7 +45,8 @@
 			
 			<div id="results-area">
 				<ul> 
-					<li>
+				<!-- TODO get uuid and basic info from backend -->
+					<li id='4eb85e7c-81a5-4b74-9c42-b0c09c07a12c' onclick="info(this)">
 					  <p class="p-name">公用学院苏州工业园区218号如果地址很长会不会溢出</p>
 								<div class="row">
 									<div class="location_icons"></div>
@@ -54,10 +58,10 @@
 								</div>
 								<div class="row">
 									<div class="distance_icons"></div>
-									<div class="content">69 km</div>
+									<div class="content">69 KM</div>
 								</div>
 					</li>
-					<li>
+					<li onclick="info(this)">
 					  <p class="p-name">文萃广场</p>
 								<div class="row">
 									<div class="location_icons"></div>
@@ -72,7 +76,7 @@
 									<div class="content">69 km</div>
 								</div>
 					</li>
-					<li>
+					<li onclick="info(this)">
 					  <p class="p-name">NUSRI</p>
 								<div class="row">
 									<div class="location_icons"></div>
@@ -87,7 +91,7 @@
 									<div class="content">69 km</div>
 								</div>
 					</li>
-					<li>
+					<li onclick="info(this)">
 					  <p class="p-name">公用学院苏州工业园区218号如果地址很长会不会溢出</p>
 								<div class="row">
 									<div class="location_icons"></div>
@@ -102,7 +106,7 @@
 									<div class="content">69 km</div>
 								</div>
 					</li>
-					<li>
+					<li onclick="info(this)">
 					  <p class="p-name">文萃广场</p>
 								<div class="row">
 									<div class="location_icons"></div>
@@ -117,7 +121,7 @@
 									<div class="content">69 km</div>
 								</div>
 					</li>
-					<li>
+					<li onclick="info(this)">
 					  <p class="p-name">NUSRI</p>
 								<div class="row">
 									<div class="location_icons"></div>
@@ -132,7 +136,7 @@
 									<div class="content">69 km</div>
 								</div>
 					</li>
-					<li>
+					<li onclick="info(this)">
 					  <p class="p-name">公用学院苏州工业园区218号如果地址很长会不会溢出</p>
 								<div class="row">
 									<div class="location_icons"></div>
@@ -146,7 +150,9 @@
 									<div class="distance_icons"></div>
 									<div class="content">69 km</div>
 								</div>
-					</li>		
+					</li>
+					<li style="opacity: 0;">
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -160,9 +166,9 @@
 Vue.config.productionTip = false;
 // configure baseURL
 axios.defaults.baseURL = BaseURL;
-
+// get notification section
 notification = document.getElementsByClassName("notification-container")[0];
-
+// left right sidebar logic
 var l_status = false;
 var r_status = false;
 new Vue({
@@ -189,11 +195,15 @@ new Vue({
 				$('#pac-input')[0].style.marginLeft = '30vw';
 				$('.notification-container')[0].style.width = '80vw';
 				$('.notification-container')[0].style.right = '10vw';
+				$('.info_container')[0].style.width = '80vw';
+				$('.info_container')[0].style.right = '10vw';
 			}
 			else{
 				$('#pac-input')[0].style.marginLeft = '40vw';
 				$('.notification-container')[0].style.width = '0vw';
 				$('.notification-container')[0].style.right = '0vw';
+				$('.info_container')[0].style.width = '0vw';
+				$('.info_container')[0].style.right = '0vw';
 			}
 		}
 	}
@@ -224,6 +234,35 @@ new Vue({
 // marker.addListener('click', function() {
 //           infowindow.open(map, marker);
 // });
+
+//  temp info invoker
+var active_li;
+function info(self){
+	if(active_li != null){
+		close_panel();
+	}
+	if(self==active_li){
+		close_panel();
+		active_li = null;
+		return;
+	}
+	// change content dynamically with returned list
+	$('.info_container')[0].innerHTML = "<div class='info_panel'>"
+											+"<button type='button' class='close_panel' onclick='close_panel()'>X</button>"
+											+"<h3>"+self.innerText+"</h3>"
+											+"<h4>拥有者:物业<h4>"
+										+"</div>";
+	active_li = self;
+	self.style.boxShadow = "0 4px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%)";
+	self.style.background = "rgba(200,200,200, 0.9)";
+}
+// close information panel
+function close_panel(){
+	$('.info_container')[0].innerHTML = '';
+	active_li.style.boxShadow = "";
+	active_li.style.background = "";
+	active_li = null;
+}
 
 var map;
 function initMap(){
@@ -327,7 +366,7 @@ function initMap(){
 
 
 // TODO initiate map in production
-initMap();
+// initMap();
 
 new Vue({
 	el: "#left_menu",

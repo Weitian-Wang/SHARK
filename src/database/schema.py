@@ -54,7 +54,7 @@ class ParkingLot(Base):
     no_spots = Column(Integer, nullable=False)
     # {
     #   lat: 40.689247,
-    #   lon: -74.044502
+    #   lng: -74.044502
     # }
     coordinate = Column(JSON, nullable=False)
     # {

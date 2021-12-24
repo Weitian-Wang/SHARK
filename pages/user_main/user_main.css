@@ -2,24 +2,11 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 .bg-gradient {
-    background: linear-gradient(-45deg, #4df3bc, #b26eff, #47b5fd);
-    animation: gradient 60s ease infinite;
-	background-size: 300% 300%;
+   background: linear-gradient(-45deg, #72d0ed , #2285fe, #49e0ed);
+	background-size: 200%;
+	background-position: center;
 }
 
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
 
 #logo{
 	width: 130px;
@@ -202,8 +189,6 @@ body {
 	/* prevent wrap after retract */
 	overflow-x: hidden;
 	white-space:nowrap;
-	/* TODO */
-	/* background: linear-gradient(90deg, #222222, #777777); */
 	position: absolute;
 	right: 0;
 	top:0;
@@ -230,7 +215,7 @@ div#user{
   background-size: 36%;
   background-repeat: no-repeat;
   background-position: center;
-  transition: ease .1s;
+  transition: ease .4s;
 }
 
 div#user:hover{
@@ -304,26 +289,26 @@ div#search-area input {
   font-weight: 600;
   border: none;
   outline: none;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 div#search-area button {
   font-size: 14px;
-  background: #FC6E51;
+  background: #fdda1b;
   font-weight: 600;
   height: 5vh;
   width: 6vh;
   display: inline-block;
   outline: none;
   border: none;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-  transition: 0.6s;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transition: 0.4s;
 }
 
 div#search-area button:hover{
-  background: #ED5565;
+  background: #fea12f;
 }
 
 #sidebar div#results-area {
@@ -332,7 +317,8 @@ div#search-area button:hover{
   height: inherit;
   overflow-x: hidden;
   white-space: nowrap;
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(22px);
 }
 
 div#results-area ul {
@@ -341,8 +327,8 @@ div#results-area ul {
 }
 
 div#results-area ul li {
-  border-radius: 0px;
-  background: papayawhip;
+  border-radius: 5px;
+  background: rgba(249 250 251 / 80%);
   box-shadow: 0 2px 4px rgb(0 0 0 / 30%), 0 -1px 0 rgb(0 0 0 / 2%);
   padding: 5px 5px;
   margin-left: 0.5vw;
@@ -350,13 +336,13 @@ div#results-area ul li {
   margin-bottom: 2.5vh;
   width: 18.4vw;
   cursor: pointer;
-  color: #626262;
+  color: #222222;
+  transition: ease 0.6s;
 }
 
 div#results-area ul li:hover {
-	border-bottom: none;
-	border-top: none;
-    /* padding: 4px 4px; */
+	box-shadow: 0 4px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%);
+	background: rgba(200,200,200, 0.9);
 }
 
 div#results-area ul li p {
@@ -366,12 +352,10 @@ div#results-area ul li p {
 
 div#results-area ul li p.p-name {
 	padding-left: 2px;
-  font-family: Roboto;
+  font: 400 15px Roboto, Arial, sans-serif;
   color: #000000;
   text-transform: uppercase;
   margin: 0;
-  font-weight: 600;
-  font-size: 16px;
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
@@ -386,6 +370,7 @@ div#results-area ul li div.row {
 }
 
 div#results-area ul li div.row div.content {
+  font: 14px Roboto, Arial, sans-serif;;
   margin-left: 2px;
   margin-bottom: 5px;
   /* ...text overflow */
@@ -521,3 +506,30 @@ div#results-area ul li div.row div.content {
 #target {
   width: 345px;
 }
+
+/* info detail display */
+.info_container {
+	display: flex;
+	flex-direction: row;
+	height: 0px;
+	position: relative;
+	z-index: 1000;
+	justify-content: center;
+	transition: 0.4s ease;
+}
+
+.info_panel {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height : 75vh;
+	width: 40vw;
+	top: 10vh;
+	border-radius: 5px;
+	position: absolute;
+	background: rgba(250 250 250 / 30%);
+	box-shadow: 0 2px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+}
+
