@@ -58,9 +58,9 @@ class ParkingLot(Base):
     # }
     coordinate = Column(JSON, nullable=False)
     # {
-    #   1:{lat: 40.689247, lon: -74.044502},
-    #   2:{lat: 40.689247, lon: -74.044502},
-    #   3:{lat: 40.689247, lon: -74.044502},
+    #   1:{lat: 40.689247, lng: -74.044502},
+    #   2:{lat: 40.689247, lng: -74.044502},
+    #   3:{lat: 40.689247, lng: -74.044502},
     #   etc
     # }
     #  used to draw outline of the parking lot on map

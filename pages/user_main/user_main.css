@@ -2,8 +2,8 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 .bg-gradient {
-   background: linear-gradient(-45deg, #72d0ed , #2285fe, #49e0ed);
-	background-size: 200%;
+   background: linear-gradient(90deg, #3cebee, #298fff, #d160ee);
+	background-size: 150%;
 	background-position: center;
 }
 
@@ -42,7 +42,7 @@ body {
 	z-index: 1000;
 	justify-content: center;
 	top: 0.8vh;
-	transition: 0.4s ease;
+	transition: .4s ease;
 }
 
 
@@ -215,7 +215,7 @@ div#user{
   background-size: 36%;
   background-repeat: no-repeat;
   background-position: center;
-  transition: ease .4s;
+  transition: .4s ease;
 }
 
 div#user:hover{
@@ -295,7 +295,9 @@ div#search-area input {
 
 div#search-area button {
   font-size: 14px;
-  background: #fdda1b;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: white;
   font-weight: 600;
   height: 5vh;
   width: 6vh;
@@ -304,11 +306,17 @@ div#search-area button {
   border: none;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+  background-image: linear-gradient(#62a6ed, #4b78d6); 
+  border: 0.1em solid #3e65b3;
   transition: 0.4s;
 }
 
 div#search-area button:hover{
-  background: #fea12f;
+   background-image: linear-gradient(rgb(26,175,238), rgb(4,132,217)); 
+}
+
+div#search-area button:active{
+   background-image: linear-gradient(rgb(3,155,218), rgb(3,110,197)); 
 }
 
 #sidebar div#results-area {
@@ -337,7 +345,7 @@ div#results-area ul li {
   width: 18.4vw;
   cursor: pointer;
   color: #222222;
-  transition: ease 0.6s;
+  transition: 0.6s ease;
 }
 
 div#results-area ul li:hover {
@@ -362,7 +370,7 @@ div#results-area ul li p.p-name {
   text-overflow: ellipsis;
 }
 div#results-area ul li div.row {
-  font-family: Monospace;
+  font-family: "Lucida Grande";
   display: flex;
   flex-direction: row;
   align-content: center;
@@ -370,7 +378,7 @@ div#results-area ul li div.row {
 }
 
 div#results-area ul li div.row div.content {
-  font: 14px Roboto, Arial, sans-serif;;
+  font: 14px Roboto, Arial, sans-serif;
   margin-left: 2px;
   margin-bottom: 5px;
   /* ...text overflow */
@@ -492,7 +500,7 @@ div#results-area ul li div.row div.content {
   outline: none;
   border-radius: 2px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
-  transition: ease 0.4s;
+  transition:  0.4s ease; 
 }
 
 #title {
@@ -522,6 +530,7 @@ div#results-area ul li div.row div.content {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	height : 75vh;
 	width: 40vw;
 	top: 10vh;
@@ -531,5 +540,74 @@ div#results-area ul li div.row div.content {
 	box-shadow: 0 2px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%);
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
+	transition: 0.4s ease;
 }
 
+#loc_name{
+	font-size: 1.5em;
+	width: 37vw;
+	/* ...text overflow */
+	text-align: center;
+	white-space: nowrap;
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+
+#loc_name::-webkit-scrollbar {
+  display: none;
+}
+
+#address{
+	font-size: 1.2em;
+	width: 35vw;
+	/* ...text overflow */
+	text-align: center;
+	white-space: nowrap;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	
+}
+
+#address::-webkit-scrollbar {
+  display: none;
+}
+
+.close_panel{
+	top: 0vh;
+	right: 0vw;
+	position: fixed;
+	margin-top: 0.35em;
+	margin-right: 0.35em;
+	width: 15px;
+	 height: 15px;
+	 background-color: #ED5565;
+	 border-radius: 50%;
+	 border: none;
+	 flex-shrink: 0;
+}
+
+/* button in info panel */
+.button {
+  font-size: 12px;
+  font-family: "Lucida Grande";
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: white;
+  display: inline-block;
+  padding: 0.4em 1em;
+  margin-top: 13px;
+  border: 0.1em solid #3e65b3;
+  border-radius: 0.38em;
+  background-image: linear-gradient(#62a6ed, #4b78d6); 
+}
+.button:hover {
+  background-image: linear-gradient(rgb(26,175,238), rgb(4,132,217)); 
+}
+.button:active {
+  background-image: linear-gradient(rgb(3,155,218), rgb(3,110,197)); 
+}
+
+#time {
+	display: flex;
+}
