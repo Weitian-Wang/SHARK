@@ -1,3 +1,7 @@
-1. Animation not smooth when first open right sidebar
+# TODO
+
+1. Time selector laggy, improve complexity!!!
+
 2. Dynamic loading of sidebar items
-3. Time scheduler
+
+   
