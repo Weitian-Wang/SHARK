@@ -37,9 +37,9 @@
 				
 			<div class='info_container animation_time'>
 				<div class='info_panel animation_time' style="display: none;">
-					<button type='button' class='close_panel' onclick='close_panel()'></button>"
-					<h2 id='loc_name'>公共学院停车场</h2>"
-					<h3 id='address'>林泉街69号</h3>"
+					<button type='button' class='close_panel' onclick='close_panel()'></button>
+					<h2 id='loc_name'>公共学院停车场</h2>
+					<h3 id='address'>林泉街69号</h3>
 					<div class='calendar'>
 						<h2 class='time'>
 							<input type='number' min='0' max='23' class='hour_start_h hour' oninput='h_check(this)' onchange='set_time()'>:<input type='number' min='0' max='59' class='hour_start_m hour' oninput='m_check(this)' onchange='set_time()'>
@@ -392,7 +392,7 @@ function error(error_message){
 }
 
 // TODO initiate map in production
-initMap();
+// initMap();
 
 new Vue({
 	el: "#left_menu",
@@ -547,6 +547,7 @@ var new_appointment_time_start = d.getHours()+":"+d.getMinutes();
     }
   }
   
+  // TODO TODO needs further improvement
   function set_time(){
 	  date_validity = true;
 	  date_valid_color();
