@@ -588,8 +588,7 @@ div#results-area ul li div.row div.content {
 
 /* button in info panel */
 .button {
-  font-size: 12px;
-  font-family: "Lucida Grande";
+  font: 500 12px Roboto, Arial, sans-serif;
   text-decoration: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
