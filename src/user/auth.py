@@ -29,7 +29,7 @@ def authenticate_token(user_types=[]):
     def decorator(f):
         @wraps(f)
         def wrapped(*args, **kwargs):
-            #check request msg
+            
             body = request.get_data()
             if len(body) != request.content_length and request.content_length is not None:
                 raise NetError()

@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Integer, DateTime, Float
+from sqlalchemy import Column, String, Integer, DateTime, Float, false
 from sqlalchemy.dialects.mysql import JSON
 import uuid
 from sqlalchemy.sql.elements import True_
@@ -49,23 +49,16 @@ class ParkingLot(Base):
     #       'end':69 
     #   },
     #   etc.
-    # } need a parse function??
+    # } need a parse function?? 
+    # TODO generate subordinate parking spots
     spot_id_range = Column(JSON, nullable=False)
     no_spots = Column(Integer, nullable=False)
     # {
-    #   lat: 40.689247,
-    #   lng: -74.044502
+    #   'lat': 40.689247,
+    #   'lng': -74.044502
     # }
     coordinate = Column(JSON, nullable=False)
-    # {
-    #   1:{lat: 40.689247, lng: -74.044502},
-    #   2:{lat: 40.689247, lng: -74.044502},
-    #   3:{lat: 40.689247, lng: -74.044502},
-    #   etc
-    # }
-    #  used to draw outline of the parking lot on map
     price_per_min = Column(Float, nullable=False)
-    vertex = Column(JSON, nullable=True)
 
 class ParkingSpot(Base):
     __tablename__ = 'parking_spot'
@@ -80,15 +73,17 @@ class ParkingSpot(Base):
     # spot_type = 2, property management owned spot
     pl_id = Column(String(36), ForeignKey('parking_lot.pl_id'), nullable=True)
     price_per_min = Column(Float, nullable=False)
-    # AVAILABLE = 1, RESERVED = 2, USING = 3, NOT_AVAILABLE = 4
-    status = Column(Integer, nullable=False)
+    # NOT_AVAILABLE = 0, AVAILABLE = 1, RESERVED = 2, USING = 3
+    # TODO!!! status stored or calculated on flight???
+    status = Column(Integer, nullable=True)
     # {
     #   lat: 40.689247,
     #   lng: -74.044502
     # }
     coordinate = Column(JSON, nullable=False)
-    available_start_time = Column(DateTime, nullable=True)
-    available_end_time  = Column
+    # TODO!!! appointments = [['DDMMYYY','DDMMYYY'], ['DDMMYYY','DDMMYYY']]
+    # problematic
+    appointments = Column(JSON, nullable=False)
 
 class Order(Base):
     __tablename__ = 'order'

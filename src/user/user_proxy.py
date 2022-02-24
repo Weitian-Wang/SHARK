@@ -14,6 +14,7 @@ class UserProxy():
         self._database = DBStore()
         self._expire_time = '7200'
 
+    # login & register related
     def tel_check(self, tel):
         user =  self._database.get_user_by_tel(tel=tel)
         if user is None:
@@ -42,7 +43,13 @@ class UserProxy():
             }
             return ResultSuccess(data, "登录成功")
 
-    # "with user_proxy" triggers __enter__
+    # parking lot/spot search
+    # TODO just a prototype, need fuzzy search support, lot & spot support
+    def search_pname(self, p_name):
+        p_list = self._database.get_p_by_name(p_name)
+        return ResultSuccess({'list':p_list}, message="找到{}个结果".format(len(p_list)))
+
+    # "with user_proxy" triggers __enter__ function
     def __enter__(self):
         self.connect()
 

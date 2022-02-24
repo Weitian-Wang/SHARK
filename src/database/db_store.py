@@ -39,6 +39,14 @@ class DBStore():
         user = self._session.query(User).filter(User.tel == tel).first()
         return user
     
+    #  TODO parking lot support
+    def get_p_by_name(self, p_name):
+        sql = "SELECT * FROM parking_spot WHERE name LIKE '%{}%'".format(p_name)
+        rst = self._session.execute(sql)
+        # turn CursorResult object (query result) into list of dictionary
+        p_dict_list = [dict(item) for item in rst]
+        return p_dict_list
+
     def __enter__(self):
         self.connect()
 

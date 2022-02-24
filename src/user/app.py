@@ -70,6 +70,7 @@ def login():
         result = user_proxy.login(tel=params['tel'], password_hash=params['password_hash'])    
     return jsonify(result.to_dict())
 
+# TODO remove auth test from front end
 @app.route('/user/auth_test', methods=['POST'])
 @authenticate_token([UserType.INDIVIDUAL])
 def auth_check(auth):
@@ -78,3 +79,12 @@ def auth_check(auth):
     with user_proxy:
         result = ResultSuccess()
     return jsonify(result.to_dict())
+
+@app.route('/user/search_pname', methods=['GET'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.MODERATOR, UserType.ADMIN, UserType.SUPER_ADMIN])
+def search_pname(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.search_pname(params['p_name'])
+        return jsonify(result.to_dict())

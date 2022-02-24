@@ -69,116 +69,11 @@
 		<div class="right animation_time" id="sidebar">
 			<div id="search-area">
 				<input id='p_name' type="text" type="text" placeholder="车位名搜索" v-model="p_name" required>
-				<button type="button" @click="auth">搜索</button>
+				<button type="button" @click="search_by_pname">搜索</button>
 			</div>
 			
 			<div id="results-area">
-				<ul> 
-				<!-- TODO get uuid and basic info from backend -->
-					<li id='4eb85e7c-81a5-4b74-9c42-b0c09c07a12c' onclick="info(this)">
-					  <p class="p-name">公用学院苏州工业园区218号如果地址很长会不会溢出</p>
-								<div class="row">
-									<div class="location_icons"></div>
-									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
-								</div>
-								<div class="row">
-									<div class="status_icons"></div>
-									<div class="content">个人</div>
-								</div>
-								<div class="row">
-									<div class="distance_icons"></div>
-									<div class="content">69 KM</div>
-								</div>
-					</li>
-					<li onclick="info(this)">
-					  <p class="p-name">文萃广场</p>
-								<div class="row">
-									<div class="location_icons"></div>
-									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
-								</div>
-								<div class="row">
-									<div class="status_icons"></div>
-									<div class="content">物业</div>
-								</div>
-								<div class="row">
-									<div class="distance_icons"></div>
-									<div class="content">69 km</div>
-								</div>
-					</li>
-					<li onclick="info(this)">
-					  <p class="p-name">NUSRI</p>
-								<div class="row">
-									<div class="location_icons"></div>
-									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
-								</div>
-								<div class="row">
-									<div class="status_icons"></div>
-									<div class="content">物业</div>
-								</div>
-								<div class="row">
-									<div class="distance_icons"></div>
-									<div class="content">69 km</div>
-								</div>
-					</li>
-					<li onclick="info(this)">
-					  <p class="p-name">公用学院苏州工业园区218号如果地址很长会不会溢出</p>
-								<div class="row">
-									<div class="location_icons"></div>
-									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
-								</div>
-								<div class="row">
-									<div class="status_icons"></div>
-									<div class="content">个人</div>
-								</div>
-								<div class="row">
-									<div class="distance_icons"></div>
-									<div class="content">69 km</div>
-								</div>
-					</li>
-					<li onclick="info(this)">
-					  <p class="p-name">文萃广场</p>
-								<div class="row">
-									<div class="location_icons"></div>
-									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
-								</div>
-								<div class="row">
-									<div class="status_icons"></div>
-									<div class="content">物业</div>
-								</div>
-								<div class="row">
-									<div class="distance_icons"></div>
-									<div class="content">69 km</div>
-								</div>
-					</li>
-					<li onclick="info(this)">
-					  <p class="p-name">NUSRI</p>
-								<div class="row">
-									<div class="location_icons"></div>
-									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
-								</div>
-								<div class="row">
-									<div class="status_icons"></div>
-									<div class="content">物业</div>
-								</div>
-								<div class="row">
-									<div class="distance_icons"></div>
-									<div class="content">69 km</div>
-								</div>
-					</li>
-					<li onclick="info(this)">
-					  <p class="p-name">公用学院苏州工业园区218号如果地址很长会不会溢出</p>
-								<div class="row">
-									<div class="location_icons"></div>
-									<div class="content">苏州工业园区218号如果地址很长会不会溢出</div>
-								</div>
-								<div class="row">
-									<div class="status_icons"></div>
-									<div class="content">个人</div>
-								</div>
-								<div class="row">
-									<div class="distance_icons"></div>
-									<div class="content">69 km</div>
-								</div>
+				<ul id="p_list">
 					</li>
 					<li style="opacity: 0;">
 					</li>
@@ -271,6 +166,7 @@ function getCookie(name){
 // });
 
 //  temp info invoker
+//  global variable that indicates which panel is activated
 var active_li;
 function info(self){
 	if(active_li == self){
@@ -420,6 +316,7 @@ new Vue({
 	}
 });
 
+var owner = ['个人','物业'];
 // right sidebar logic
 new Vue({
 	el: "#sidebar",
@@ -427,14 +324,11 @@ new Vue({
 		p_name:""
 	},
 	methods:{
-		auth(){
-			if(getCookie('token')==undefined){
-				console.log('bypassed login');
-				return;
-			}
-			axios.post('/user/auth_test',
-						{
-						},
+		search_by_pname(){
+			active_li = null;
+			close_panel();
+			$('#p_list').empty();
+			axios.get('/user/search_pname?p_name='+this.p_name,
 						{
 							headers:{
 							'Content-Type': 'application/json;charset=UTF-8',
@@ -442,16 +336,35 @@ new Vue({
 							'Auth': getCookie('token')
 							}
 						}
-				)
+			)
 			.then(function (response) {
-				// token expired, check before 
 				if(response.data.error_code!=0){
 					error(response.data.message);
-					setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+					if(response.data.error_code==1000 || response.data.error_code==1001){
+						setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+					}
 					return;
 				}
-				else{
-					success('Token有效');
+				success(response.data.message);
+				let list = response.data.data.list;
+				for(var i=0; i<list.length; i++){
+					let li = document.createElement('li');
+					li.setAttribute("onclick", "info(this)");
+					li.setAttribute("id", list[i].ps_id);
+					li.innerHTML = "<p class='p-name'>"+list[i].name+"</p>"
+								+"<div class='row'>"
+									+"<div class='location_icons'></div>"
+									+"<div class='content'>"+list[i].name+"</div>"
+								+"</div>"
+								+"<div class='row'>"
+									+"<div class='status_icons'></div>"
+									+"<div class='content'>"+owner[list[i].spot_type - 1]+"</div>"
+								+"</div>"
+								+"<div class='row'>"
+									+"<div class='distance_icons'></div>"
+									+"<div class='content'>69 km</div>"
+								+"</div>";
+					$('#p_list').append(li);
 				}
 			})
 			.catch(function (error) {
