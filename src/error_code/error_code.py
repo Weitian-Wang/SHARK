@@ -30,28 +30,40 @@ class ResultSuccess(ErrorCode):
 
 class UserExistError(ErrorCode):
     def __init__(self):
-        super().__init__(error_code=100, message="Tel was registered.")
+        # super().__init__(error_code=100, message="Tel was registered")
+        super().__init__(error_code=100, message="手机号已被注册")
+
 
 class UserNotExistError(ErrorCode):
     def __init__(self):
-        super().__init__(error_code=101, message="User does not exist.")
+        # super().__init__(error_code=101, message="User does not exist")
+        super().__init__(error_code=101, message="用户不存在")
+
 
 class NetError(ErrorCode):
     def __init__(self):
-        super().__init__(error_code=102, message="Network error, retry request.")
+        # super().__init__(error_code=102, message="Network error, retry request.")
+        super().__init__(error_code=102, message="网络异常")
+
 
 class PasswordError(ErrorCode):
     def __init__(self):
-        super().__init__(error_code=103, message="Wrong password.")
+        # super().__init__(error_code=103, message="Wrong password.")
+        super().__init__(error_code=103, message="密码错误")
+
 
 class SystemInternalError(ErrorCode):
     def __init__(self, message="System internal error."):
         super().__init__(error_code=500, message=message, data=traceback.format_exc())
 
+
 class TokenError(ErrorCode):
     def __init__(self):
-        super().__init__(error_code=1000, message="Token invalid.")
+        # super().__init__(error_code=1000, message="Token invalid.")
+        super().__init__(error_code=1000, message="Token无效")
+
 
 class TokenExpiredError(ErrorCode):
     def __init__(self):
-        super().__init__(error_code=1001, message="Token Expired.")
+        # super().__init__(error_code=1001, message="Token Expired.")
+        super().__init__(error_code=1001, message="登录过期")

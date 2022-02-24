@@ -26,7 +26,7 @@ class UserProxy():
             raise UserExistError
         user = self._database.create_user(tel=tel, name=name, password_hash=password_hash, user_type=user_type)
         result = {'tel':user.tel}
-        return ResultSuccess(result, "Register successful, go login.")
+        return ResultSuccess(result, "已注册,去登录")
 
     def login(self, tel, password_hash):
         user = self._database.get_user_by_tel(tel=tel)
@@ -35,12 +35,12 @@ class UserProxy():
         if user.password_hash != password_hash:
             raise PasswordError()
         else:
-            token = generate_token(user)
+            token = generate_token(user, user.user_type)
             data = {
                 'name':user.name,
                 'token':token
             }
-            return ResultSuccess(data, "Login successful.")
+            return ResultSuccess(data, "登录成功")
 
     # "with user_proxy" triggers __enter__
     def __enter__(self):

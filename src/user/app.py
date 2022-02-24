@@ -2,9 +2,13 @@ import json
 from flask_cors import CORS
 from flask import Flask, request, g, jsonify, make_response, Response
 from functools import reduce
+
+from pytest import param
 from src.error_code import ErrorCode, SystemInternalError
+from src.error_code.error_code import ResultSuccess
 from .auth import authenticate_token, generate_token
 from .user_proxy import UserProxy
+from .constant import UserType
 
 app = Flask(__name__)
 CORS(app)
@@ -64,4 +68,13 @@ def login():
     user_proxy = get_user_proxy()
     with user_proxy:
         result = user_proxy.login(tel=params['tel'], password_hash=params['password_hash'])    
+    return jsonify(result.to_dict())
+
+@app.route('/user/auth_test', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL])
+def auth_check(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = ResultSuccess()
     return jsonify(result.to_dict())

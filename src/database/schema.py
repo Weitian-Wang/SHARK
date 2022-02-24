@@ -49,7 +49,7 @@ class ParkingLot(Base):
     #       'end':69 
     #   },
     #   etc.
-    # }
+    # } need a parse function??
     spot_id_range = Column(JSON, nullable=False)
     no_spots = Column(Integer, nullable=False)
     # {
@@ -64,23 +64,29 @@ class ParkingLot(Base):
     #   etc
     # }
     #  used to draw outline of the parking lot on map
+    price_per_min = Column(Float, nullable=False)
     vertex = Column(JSON, nullable=True)
 
 class ParkingSpot(Base):
     __tablename__ = 'parking_spot'
     ps_id = Column(String(36), primary_key=True, nullable=False, default=get_str_uuid())
-    # real life id, e.g. A0069
-    id = Column(String(255), nullable=False)
-    # INDIVIDUAL = 1, PROPERTY = 2, MIXED = 3
+    # real life id, e.g. A0069 if property owned
+    # or spot name if individual owned
+    name = Column(String(255), nullable=False)
+    # INDIVIDUAL = 1, PROPERTY = 2
     spot_type = Column(Integer, nullable=False)
     # spot_type = 1, individual owned spot
     owner_tel = Column(String(11), ForeignKey('user.tel'), nullable=True)
     # spot_type = 2, property management owned spot
     pl_id = Column(String(36), ForeignKey('parking_lot.pl_id'), nullable=True)
-    
     price_per_min = Column(Float, nullable=False)
     # AVAILABLE = 1, RESERVED = 2, USING = 3, NOT_AVAILABLE = 4
     status = Column(Integer, nullable=False)
+    # {
+    #   lat: 40.689247,
+    #   lng: -74.044502
+    # }
+    coordinate = Column(JSON, nullable=False)
     available_start_time = Column(DateTime, nullable=True)
     available_end_time  = Column
 
@@ -89,7 +95,7 @@ class Order(Base):
     order_id = Column(String(36), primary_key=True, nullable=False, default=get_str_uuid)
     custom_tel = Column(String(11), ForeignKey('user.tel'), nullable=False)
     ps_id = Column(String(36), nullable=False)
-    # PLACED = 1, USING_SPOT = 2, COMPLETED = 3, ABNORMAL = 4
+    # PLACED = 1, DENIED(by OWNER) = 0, USING_SPOT = 2, COMPLETED = 3, ABNORMAL = 4
     order_status = Column(Integer, nullable=False)
     # UNPAIED = 0, PAID = 1
     payment_status = Column(Integer, nullable=False, default=False)

@@ -12,14 +12,17 @@
 		<script src="../axios.js"></script>
 		<script src="../md5.js"></script>
 	</head>
-	<body>
+	<body onload="set_token_cookie()">
 		
 		<div class="left animation_time" id="left_menu">
-			<div style="text-align: center; width: inherit;">hello there {{user_name}}!</div>
+			<div>已登录为{{user_name}}</div>
+			<div>我的预定</div>
+			<div>车位管理</div>
+			<div>账户设置</div>
 		</div>
 		
 		<div class="main_container animation_time">
-			<div id="heading" class="bg-gradient" id="heading">
+			<div id="heading" class="bg-gradient">
 				<div id="user" @click="toggle_left"></div>
 				<div id="logo" onclick="location.href='../index/index.html'"></div>
 				<div id="search" class="animation_time" @click="toggle_right"></div>
@@ -37,14 +40,15 @@
 				
 			<div class='info_container animation_time'>
 				<div class='info_panel animation_time' style="display: none;">
+					<!-- dynamic content -->
 					<button type='button' class='close_panel' onclick='close_panel()'></button>
 					<h2 id='loc_name'>公共学院停车场</h2>
 					<h3 id='address'>林泉街69号</h3>
 					<div class='calendar'>
 						<h2 class='time'>
-							<input type='number' min='0' max='23' class='hour_start_h hour' oninput='h_check(this)' onchange='set_time()'>:<input type='number' min='0' max='59' class='hour_start_m hour' oninput='m_check(this)' onchange='set_time()'>
+							<input type='number' min='0' max='23' class='hour_start_h hour' oninput='h_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">:<input type='number' min='0' max='59' class='hour_start_m hour' oninput='m_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
 							 -
-							<input type='number' min='0' max='23' class='hour_end_h hour'   oninput='h_check(this)' onchange='set_time()'>:<input type='number' min='0' max='59' class='hour_end_m hour'   oninput='m_check(this)' onchange='set_time()'>
+							<input type='number' min='0' max='23' class='hour_end_h hour'   oninput='h_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">:<input type='number' min='0' max='59' class='hour_end_m hour'   oninput='m_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
 						</h2>
 						<div style='display: flex; width: 25vw; align-items: center;'>
 							<input class='date_select start_date' type='date' onchange='set_time()'>
@@ -55,6 +59,7 @@
 						</div>
 						<button class='button'>预定</button>
 					</div>
+					<!-- dynamic content -->
 				</div>
 			</div>
 			
@@ -63,8 +68,8 @@
 
 		<div class="right animation_time" id="sidebar">
 			<div id="search-area">
-				<input type="text" type="text" placeholder="车位名搜索" required>
-				<button type="button">搜索</button>
+				<input id='p_name' type="text" type="text" placeholder="车位名搜索" v-model="p_name" required>
+				<button type="button" @click="auth">搜索</button>
 			</div>
 			
 			<div id="results-area">
@@ -195,6 +200,8 @@ notification = document.getElementsByClassName("notification-container")[0];
 // left right sidebar logic
 var l_status = false;
 var r_status = false;
+
+// left & right navigation bar logic
 new Vue({
 	el: "#heading",
 	data:{
@@ -228,6 +235,14 @@ new Vue({
 		}
 	}
 });
+
+// cookie extracter - get value by name
+function getCookie(name){
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 
 // google map
 // TODO TODO TODO
@@ -394,24 +409,57 @@ function error(error_message){
 // TODO initiate map in production
 // initMap();
 
+// left menu logic
 new Vue({
 	el: "#left_menu",
 	data:{
-		user_name : sessionStorage.getItem('user_name')
+		user_name : sessionStorage.getItem('name')
 	},
 	methods:{
 		
 	}
 });
 
+// right sidebar logic
 new Vue({
 	el: "#sidebar",
 	data:{
+		p_name:""
 	},
 	methods:{
+		auth(){
+			if(getCookie('token')==undefined){
+				console.log('bypassed login');
+				return;
+			}
+			axios.post('/user/auth_test',
+						{
+						},
+						{
+							headers:{
+							'Content-Type': 'application/json;charset=UTF-8',
+							'Accept': 'application/json, text/plain, */*',
+							'Auth': getCookie('token')
+							}
+						}
+				)
+			.then(function (response) {
+				// token expired, check before 
+				if(response.data.error_code!=0){
+					error(response.data.message);
+					setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+					return;
+				}
+				else{
+					success('Token有效');
+				}
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		}
 	}
 });
-
 
 // time scheduler
 
@@ -434,7 +482,7 @@ var curent_time_position;
 var date_validity = true;
   
 var d = new Date();
-var new_appointment_time_start = d.getHours()+":"+d.getMinutes();
+var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
 
   var transformed_appointments = [];
   
@@ -530,7 +578,6 @@ var new_appointment_time_start = d.getHours()+":"+d.getMinutes();
 	  // render caused by mouse select
 	  if(!force){
 		var curentHour = Math.floor((curent_time_position+2) / 30);
-		if(curentHour == 0) curentHour = 0;
 		var minutesDeg = (curent_time_position+2) % 30;
 		var curentMinute = minutesDeg * 2;
 		if(curentHour>=24) curentHour -= 24;
@@ -542,7 +589,6 @@ var new_appointment_time_start = d.getHours()+":"+d.getMinutes();
 		var end_time_minute = ((end_time_position+2) % 30)*2;
 		eh.value = pad(end_time_hour,2,'0');
 		em.value = pad(end_time_minute, 2, '0');
-		set_time();
 	  }
     }
   }
@@ -551,27 +597,44 @@ var new_appointment_time_start = d.getHours()+":"+d.getMinutes();
   function set_time(){
 	  date_validity = true;
 	  date_valid_color();
+	  sh.value = pad(sh.value, 2, '0');
+	  sm.value = pad(sm.value, 2, '0');
+	  eh.value = pad(eh.value, 2, '0');
+	  em.value = pad(em.value, 2, '0');
 	  var start_hour = parseInt(sh.value); 
 	  var start_minute = parseInt(sm.value);
 	  var end_hour = parseInt(eh.value);
 	  var end_minute = parseInt(em.value);
-	  
+	  // multiple days
 	  if(sd.value > ed.value){
 		  date_invalid_color();
 		  date_validity = false;
+		  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
+		  $("div.clock").on('mousedown touchstart', function(e) {
+		    is_moving_appointment = false;
+		  });  
 		  return;
 	  }
-	  
+	  // same day
 	  if(sd.value == ed.value){
 		  if(start_hour > end_hour){
 			  date_invalid_color();
 			  date_validity = false;
+			  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
+			  $("div.clock").on('mousedown touchstart', function(e) {
+			    is_moving_appointment = false;
+			  });
 			  return;
 		  }
+		  // same hour
 		  if(start_hour == end_hour){
 			  if(start_minute >= end_minute){
 				  date_invalid_color();
 				  date_validity = false;
+				  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
+				  $("div.clock").on('mousedown touchstart', function(e) {
+				    is_moving_appointment = false;
+				  });
 				  return;
 			  }
 		  }
@@ -581,15 +644,21 @@ var new_appointment_time_start = d.getHours()+":"+d.getMinutes();
 			  date_invalid_color();
 			  date_validity = false;
 			  new_appointment_duration = 0;
+			  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
+			  $("div.clock").on('mousedown touchstart', function(e) {
+			    is_moving_appointment = false;
+			  });
+			  return;
 		  }
 		  else{
 			  curent_time_position = timetodeg(start_hour+":"+start_minute);
 			  new_appointment_duration = (end_hour-start_hour)*60 + end_minute-start_minute;
 		  }
+		  
 		  renderSelectedTimeBlock(true);
 		  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = '';
 		  $("div.clock").on('mousedown touchstart', function(e) {
-		    is_moving_appointment = true;
+			  is_moving_appointment = true;
 		  });
 	  }
 	  else{
@@ -653,38 +722,28 @@ var new_appointment_time_start = d.getHours()+":"+d.getMinutes();
   }
 
 function h_check(self){
-	self.value = Math.abs(self.value);
-	if(self.value.length < 2){
-		self.value = pad(self.value, 2, '0');
-		return;
-	}
-	if(self.value.length >= 3){
-		self.value = self.value[0]+self.value[1];
-		return;
-	}
-	if(self.value > 23){
-		self.value = 23;
-		return;
-	}
+	if(self.value < 0) self.value = Math.abs(self.value);
+	if(self.value.length >= 3) self.value = self.value[0]+self.value[1];
+	if(self.value > 23) self.value = 23;
 }
 
 function m_check(self){
-	self.value = Math.abs(self.value);
-	if(self.value.length < 2){
-		self.value = pad(self.value, 2, '0');
-		return;
-	}
-	if(self.value.length >= 3){
-		self.value = self.value[0]+self.value[1];
-		return;
-	}
-	if(self.value > 59 || self.value.length >= 3){
-		self.value = 59;
-		return;
-	}
+	if(self.value < 0) self.value = Math.abs(self.value);
+	if(self.value.length >= 3) self.value = self.value[0]+self.value[1];
+	if(self.value > 59 || self.value.length >= 3) self.value = 59;
 }
 // init scheduler
 init();
+
+function set_token_cookie(){
+	// access main page with no token
+	if(sessionStorage.getItem('token')==null || sessionStorage.getItem('token').length==0){
+		error('请登录后访问');
+		setTimeout(function(){window.location.href = '../login/login.html'}, 3000);
+		return;
+	}
+	document.cookie = "token="+sessionStorage.getItem('token');
+}
 
 </script>
 

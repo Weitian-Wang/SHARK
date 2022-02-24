@@ -67,6 +67,9 @@ new Vue({
 			if(document.getElementById("t").validity.customError == true){
 				return;
 			}
+			if(this.tel!=null){
+				sessionStorage.setItem('tel', this.tel);
+			}
 			axios.post('/user/login',
 						{
 							'tel': this.tel,
@@ -87,6 +90,9 @@ new Vue({
 													+'<span>&nbsp;&nbsp;'+response.data.message+'</span>'
 												+'</div>'
 											+'</div>';
+					// store token in cookie
+					sessionStorage.setItem('name', response.data.data.name);
+					sessionStorage.setItem('token', response.data.data.token);
 					setTimeout(function(){window.location.href = '../user_main/user_main.html'}, 2000);
 				}
 				else{

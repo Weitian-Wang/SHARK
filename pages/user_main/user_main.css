@@ -168,7 +168,10 @@ body {
 
 /* nav side bar*/
 .left {
+	font: 400 25px Roboto, Arial, sans-serif;
 	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
 	width: 0vw;
 	height: 100vh;
 	background-size: cover;
