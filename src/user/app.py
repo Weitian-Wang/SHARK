@@ -86,5 +86,5 @@ def search_pname(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.search_pname(params['p_name'])
+        result = user_proxy.search_pname(params['p_name'], float(params['lat']), float(params['lng']))
         return jsonify(result.to_dict())

@@ -328,47 +328,58 @@ new Vue({
 			active_li = null;
 			close_panel();
 			$('#p_list').empty();
-			axios.get('/user/search_pname?p_name='+this.p_name,
-						{
-							headers:{
-							'Content-Type': 'application/json;charset=UTF-8',
-							'Accept': 'application/json, text/plain, */*',
-							'Auth': getCookie('token')
-							}
-						}
-			)
-			.then(function (response) {
-				if(response.data.error_code!=0){
-					error(response.data.message);
-					if(response.data.error_code==1000 || response.data.error_code==1001){
-						setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
-					}
-					return;
-				}
-				success(response.data.message);
-				let list = response.data.data.list;
-				for(var i=0; i<list.length; i++){
-					let li = document.createElement('li');
-					li.setAttribute("onclick", "info(this)");
-					li.setAttribute("id", list[i].ps_id);
-					li.innerHTML = "<p class='p-name'>"+list[i].name+"</p>"
-								+"<div class='row'>"
-									+"<div class='location_icons'></div>"
-									+"<div class='content'>"+list[i].name+"</div>"
-								+"</div>"
-								+"<div class='row'>"
-									+"<div class='status_icons'></div>"
-									+"<div class='content'>"+owner[list[i].spot_type - 1]+"</div>"
-								+"</div>"
-								+"<div class='row'>"
-									+"<div class='distance_icons'></div>"
-									+"<div class='content'>69 km</div>"
-								+"</div>";
-					$('#p_list').append(li);
-				}
+			let p_name=this.p_name, lat, lng;
+			// wait for location acquisition
+			var coord_promise = new Promise(function(resolve, reject) {
+			    navigator.geolocation.getCurrentPosition(function(pos){
+			        lat = pos.coords.latitude
+			        lng = pos.coords.longitude
+			        resolve({lat,lng});
+			    }) 
 			})
-			.catch(function (error) {
-				console.log(error);
+			coord_promise.then(function(value){
+				axios.get(`/user/search_pname?p_name=${p_name}&lat=${value.lat}&lng=${value.lng}`,
+							{
+								headers:{
+								'Content-Type': 'application/json;charset=UTF-8',
+								'Accept': 'application/json, text/plain, */*',
+								'Auth': getCookie('token')
+								}
+							}
+				)
+				.then(function (response) {
+					if(response.data.error_code!=0){
+						error(response.data.message);
+						if(response.data.error_code==1000 || response.data.error_code==1001){
+							setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+						}
+						return;
+					}
+					success(response.data.message);
+					let list = response.data.data.list;
+					for(var i=0; i<list.length; i++){
+						let li = document.createElement('li');
+						li.setAttribute("onclick", "info(this)");
+						li.setAttribute("id", list[i].p_id);
+						li.innerHTML = "<p class='p-name'>"+list[i].name+"</p>"
+									+"<div class='row'>"
+										+"<div class='price_icons'></div>"
+										+"<div class='content'>"+list[i].price_per_min+"元/分钟</div>"
+									+"</div>"
+									+"<div class='row'>"
+										+"<div class='status_icons'></div>"
+										+"<div class='content'>"+owner[list[i].type - 1]+"</div>"
+									+"</div>"
+									+"<div class='row'>"
+										+"<div class='distance_icons'></div>"
+										+"<div class='content'>"+(list[i].distance>=1?Math.round(list[i].distance)+"km":Math.round(list[i].distance*1000)+"m")+"</div>"
+									+"</div>";
+						$('#p_list').append(li);
+					}
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
 			});
 		}
 	}

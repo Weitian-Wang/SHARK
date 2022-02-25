@@ -36,7 +36,7 @@ class ParkingLot(Base):
     __tablename__ = 'parking_lot'
     # uuid4 string length 36
     pl_id = Column(String(36), primary_key=True, nullable=False, default=get_str_uuid)
-    pl_name = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False)
     manager_tel = Column(String(11), ForeignKey('user.tel'), nullable=False)
     # e.g.
     # {

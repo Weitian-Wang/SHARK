@@ -1,7 +1,10 @@
 import os
 import time
+import json
+from math import sin, cos, sqrt, atan2, radians
 
 from flask.json import jsonify
+from numpy import sort
 from sqlalchemy.sql.expression import true
 from sqlalchemy.sql.functions import user
 from src.database import DBStore
@@ -45,9 +48,30 @@ class UserProxy():
 
     # parking lot/spot search
     # TODO just a prototype, need fuzzy search support, lot & spot support
-    def search_pname(self, p_name):
+    def search_pname(self, p_name, lat=0, lng=0):
         p_list = self._database.get_p_by_name(p_name)
-        return ResultSuccess({'list':p_list}, message="找到{}个结果".format(len(p_list)))
+        rst_list = []
+        for it in p_list:
+            coord = json.loads(it['coordinate'])
+            distance = self.distance_cal(lat, lng, coord['lat'], coord['lng'])
+            rst_list.append({'p_id':it['ps_id'], 'name':it['name'], 'type':it['spot_type'], 'price_per_min':it['price_per_min'], 'distance':distance})
+        rst_list = sorted(rst_list, key=lambda d: d['distance'])
+        return ResultSuccess({'list':rst_list}, message="找到{}个结果".format(len(rst_list)))
+
+    def distance_cal(self, lat1, lng1, lat2, lng2):
+        lat1 = radians(lat1)
+        lng1 = radians(lng1)
+        lat2 = radians(lat2)
+        lng2 = radians(lng2)
+        
+        dlng = lng2 - lng1
+        dlat = lat2 - lat1
+
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlng / 2)**2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        # distance in km
+        return 6373.0 * c
+
 
     # "with user_proxy" triggers __enter__ function
     def __enter__(self):

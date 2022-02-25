@@ -390,10 +390,10 @@ div#results-area ul li div.row div.content {
   text-overflow: ellipsis;
 }
 
-.location_icons {
+.price_icons {
   flex-shrink: 0;
   width: 19px;
-  background-image: url(../index_pic/loc.png);
+  background-image: url(../index_pic/price.png);
   background-repeat: no-repeat;
   background-size: contain;
 }
