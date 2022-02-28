@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy import create_engine, func, distinct
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.functions import current_time
+from sympy import Q
 from src.error_code.error_code import *
 from .schema import Base, User, ParkingLot, ParkingSpot, Order
 
@@ -41,10 +42,17 @@ class DBStore():
     
     #  TODO parking lot support
     def get_p_by_name(self, p_name):
-        sql = "SELECT * FROM parking_spot WHERE name LIKE '%{}%'".format(p_name)
-        rst = self._session.execute(sql)
+        # for searching parking spots
+        spot_sql = "SELECT ps_id AS p_id, name, spot_type AS type, price_per_min, coordinate FROM parking_spot WHERE name LIKE '%{}%' AND spot_type=1".format(p_name)
+        rst = self._session.execute(spot_sql)
         # turn CursorResult object (query result) into list of dictionary
         p_dict_list = [dict(item) for item in rst]
+        # for searching parking lots
+        lot_sql = "SELECT pl_id AS p_id, name, 2 AS type, price_per_min, coordinate FROM parking_lot WHERE name LIKE '%{}%'".format(p_name)
+        rst = self._session.execute(lot_sql)
+        # merge spots & lots results
+        p_dict_list.extend([dict(item) for item in rst])
+
         return p_dict_list
 
     def __enter__(self):
