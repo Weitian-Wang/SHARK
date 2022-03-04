@@ -24,9 +24,6 @@ class ResultSuccess(ErrorCode):
     def __init__(self, data=None, message="SUCCESS"):
         super().__init__(success=0, error_code=0, message=message, data=data)
 
-# class ParamError(ErrorCode):
-#     def __init__(self):
-#         super().__init__(error_code=100, message="Param error.")
 
 class UserExistError(ErrorCode):
     def __init__(self):
@@ -50,6 +47,12 @@ class PasswordError(ErrorCode):
     def __init__(self):
         # super().__init__(error_code=103, message="Wrong password.")
         super().__init__(error_code=103, message="密码错误")
+
+
+class ParamError(ErrorCode):
+    def __init__(self):
+        # super().__init__(error_code=104, message="Param error.")
+        super().__init__(error_code=104, message="参数错误")
 
 
 class SystemInternalError(ErrorCode):

@@ -83,7 +83,7 @@ class ParkingSpot(Base):
     coordinate = Column(JSON, nullable=False)
     # TODO!!! appointments = [['DDMMYYY','DDMMYYY'], ['DDMMYYY','DDMMYYY']]
     # problematic
-    appointments = Column(JSON, nullable=False)
+    appointments = Column(JSON, nullable=False, default={})
 
 class Order(Base):
     __tablename__ = 'order'

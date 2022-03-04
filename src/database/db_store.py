@@ -52,8 +52,11 @@ class DBStore():
         rst = self._session.execute(lot_sql)
         # merge spots & lots results
         p_dict_list.extend([dict(item) for item in rst])
-
         return p_dict_list
+
+    def get_appointments_by_id(self, id):
+        rst = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == id).first()
+        return rst.appointments
 
     def __enter__(self):
         self.connect()

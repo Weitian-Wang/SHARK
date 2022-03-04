@@ -2,6 +2,7 @@ import os
 import time
 import json
 from math import sin, cos, sqrt, atan2, radians
+from datetime import datetime
 
 from flask.json import jsonify
 from numpy import sort
@@ -10,6 +11,7 @@ from sqlalchemy.sql.functions import user
 from src.database import DBStore
 from src.error_code import *
 from src.user.auth import generate_token
+from src.user.constant import SpotType
 
 # for threading and logic handling
 class UserProxy():
@@ -46,8 +48,7 @@ class UserProxy():
             }
             return ResultSuccess(data, "登录成功")
 
-    # parking lot/spot search
-    # TODO just a prototype, need fuzzy search support, lot & spot support
+    # TODO fuzzy search
     def search_pname(self, p_name, lat=0, lng=0):
         p_list = self._database.get_p_by_name(p_name)
         for it in p_list:
@@ -56,6 +57,18 @@ class UserProxy():
         p_list = sorted(p_list, key=lambda d: d['distance'])
         return ResultSuccess({'list':p_list}, message="找到{}个结果".format(len(p_list)))
 
+    def get_appointments_by_id_type(self, id, type, date=str(datetime.today().date())):
+        if type == SpotType.INDIVIDUAL:
+            appointments = self._database.get_appointments_by_id(id=id)
+            data = {'appointment_list': appointments.get(date, [])}
+            return ResultSuccess(data)
+            
+        elif type == SpotType.PROPERTY:
+            pass
+        else:
+            raise ParamError()
+
+    # utility
     def distance_cal(self, lat1, lng1, lat2, lng2):
         lat1 = radians(lat1)
         lng1 = radians(lng1)
@@ -69,7 +82,6 @@ class UserProxy():
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
         # distance in km
         return 6373.0 * c
-
 
     # "with user_proxy" triggers __enter__ function
     def __enter__(self):

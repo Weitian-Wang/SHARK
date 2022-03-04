@@ -88,3 +88,14 @@ def search_pname(auth):
     with user_proxy:
         result = user_proxy.search_pname(params['p_name'], float(params['lat']), float(params['lng']))
         return jsonify(result.to_dict())
+
+@app.route('/user/get_appointments', methods=['GET'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.MODERATOR, UserType.ADMIN, UserType.SUPER_ADMIN])
+def get_appointments_by_id_and_type(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        # today as default date, otherwise use date as passed in params 
+        result = user_proxy.get_appointments_by_id_type(params['id'], int(params['type']))
+        # result = user_proxy.get_appointments_by_id_type(params['id'], int(params['type']), params['date'] if params['date'] and len(params['date']) else None)
+        return jsonify(result.to_dict())

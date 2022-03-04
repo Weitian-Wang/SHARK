@@ -15,10 +15,11 @@
 	<body onload="set_token_cookie()">
 		
 		<div class="left animation_time" id="left_menu">
-			<div>已登录为{{user_name}}</div>
-			<div>我的预定</div>
-			<div>车位管理</div>
-			<div>账户设置</div>
+			<div class="welcome">Welcome, {{user_name}}!</div>
+			<div class="row animation_time"><div class="icon" style="background-image: url(../index_pic/reservation.png);"></div><div id="reservation" class="menu_item">我的预定</div></div>
+			<div class="row animation_time"><div class="icon" style="background-image: url(../index_pic/my_spot.png);"></div><div id="my_spot" class="menu_item">车位管理</div></div>
+			<div class="row animation_time"><div class="icon" style="background-image: url(../index_pic/setting.png);"></div><div id="setting" class="menu_item">账户设置</div></div>
+			<div id="copy_right">SHARK Shared Parking - FYP by Weitian-Wang @GitHub</div>
 		</div>
 		
 		<div class="main_container animation_time">
@@ -38,12 +39,13 @@
 				  style="visibility: hidden;"
 			    />
 				
-			<div class='info_container animation_time'>
-				<div class='info_panel animation_time' style="display: none;">
+			<div class='info_container'>
+				<div class='info_panel' style="display: none;">
 					<!-- dynamic content -->
+					<!-- load once with page to boost performance, further change made to appointments-->
 					<button type='button' class='close_panel' onclick='close_panel()'></button>
-					<h2 id='loc_name'>公共学院停车场</h2>
-					<h3 id='address'>林泉街69号</h3>
+					<h2 id='loc_name'>Place Holder</h2>
+					<h3 id='type'>个人/物业</h3>
 					<div class='calendar'>
 						<h2 class='time'>
 							<input type='number' min='0' max='23' class='hour_start_h hour' oninput='h_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">:<input type='number' min='0' max='59' class='hour_start_m hour' oninput='m_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
@@ -176,7 +178,9 @@ function info(self){
 	if(active_li != null){
 		close_panel();
 	}
-	// TODO TODO change content dynamically with returned list
+	// TODO improve performance, change change only content, not clock
+	$('.info_panel #loc_name')[0].innerText = $(`#${self.getAttribute('id')} .p-name`)[0].innerText;
+	$('.info_panel #type')[0].innerText	= owner[self.getAttribute('class') - 1];
 	$('.info_panel')[0].style.display = 'flex';
 	var today = new Date().toISOString().split('T')[0];
 	document.getElementsByClassName("start_date")[0].setAttribute('min', today);
@@ -184,6 +188,31 @@ function info(self){
 	active_li = self;
 	self.style.boxShadow = "0 4px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%)";
 	self.style.background = "rgba(200,200,200, 0.9)";
+	appointments = [[]];
+	setCurentTime();
+	axios.get(`/user/get_appointments?id=${self.id}&type=${self.getAttribute('class')}`,
+				{
+					headers:{
+					'Content-Type': 'application/json;charset=UTF-8',
+					'Accept': 'application/json, text/plain, */*',
+					'Auth': getCookie('token')
+					}
+				}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		appointments = appointments.concat(response.data.data.appointment_list);
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+	showAppointments();
 }
 // close information panel
 function close_panel(){
@@ -362,6 +391,7 @@ new Vue({
 						let li = document.createElement('li');
 						li.setAttribute("onclick", "info(this)");
 						li.setAttribute("id", list[i].p_id);
+						li.setAttribute("class", list[i].type);
 						li.innerHTML = "<p class='p-name'>"+list[i].name+"</p>"
 									+"<div class='row'>"
 										+"<div class='price_icons'></div>"
@@ -377,6 +407,10 @@ new Vue({
 									+"</div>";
 						$('#p_list').append(li);
 					}
+					// append empty li as list padding
+					let li = document.createElement('li');
+					li.setAttribute("style","visibility: hidden;");
+					$('#p_list').append(li);
 				})
 				.catch(function (error) {
 					console.log(error);
@@ -390,9 +424,10 @@ new Vue({
 
 var appointments = [
 // array item 0 reserved for all time before current time
-	[],
-	['21:00', '23:30']
+	[]
 ];
+var transformed_appointments = [];
+
 var new_appointment_duration = 60;
 
 var sh;
@@ -408,8 +443,6 @@ var date_validity = true;
   
 var d = new Date();
 var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
-
-  var transformed_appointments = [];
   
   function durationtodeg(duration) {
     return Math.floor(duration/2);
@@ -434,6 +467,8 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
   }
   
   function showAppointments() {
+	// clear transformed_appointments
+	transformed_appointments = [];
     for(i in appointments) {
       var transformed_appointment = transformAppointment(appointments[i]);
         transformed_appointments.push(transformed_appointment);
@@ -613,7 +648,6 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
   }
   
   function init(){
-	  
 	  sh = $("h2.time > input.hour_start_h")[0];
 	  sm = $("h2.time > input.hour_start_m")[0];
 	  eh = $("h2.time > input.hour_end_h")[0];
@@ -644,7 +678,10 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
 	    $(window).on('mouseup touchend', function() {
 	      is_moving_appointment = false;
 	    })
-  }
+}
+
+// init scheduler upon load page, only init once
+init();
 
 function h_check(self){
 	if(self.value < 0) self.value = Math.abs(self.value);
@@ -657,8 +694,6 @@ function m_check(self){
 	if(self.value.length >= 3) self.value = self.value[0]+self.value[1];
 	if(self.value > 59 || self.value.length >= 3) self.value = 59;
 }
-// init scheduler
-init();
 
 function set_token_cookie(){
 	// access main page with no token
