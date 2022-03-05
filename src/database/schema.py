@@ -81,8 +81,7 @@ class ParkingSpot(Base):
     #   lng: -74.044502
     # }
     coordinate = Column(JSON, nullable=False)
-    # TODO!!! appointments = [['DDMMYYY','DDMMYYY'], ['DDMMYYY','DDMMYYY']]
-    # problematic
+    # appointments = {'2022-02-25':[['00:00','12:00'], ['20:30','21:00']], '2022-05-04':[['06:00','12:00'], ['22:30','23:00']]}
     appointments = Column(JSON, nullable=False, default={})
 
 class Order(Base):

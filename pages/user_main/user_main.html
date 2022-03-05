@@ -48,13 +48,13 @@
 					<h3 id='type'>个人/物业</h3>
 					<div class='calendar'>
 						<h2 class='time'>
-							<input type='number' min='0' max='23' class='hour_start_h hour' oninput='h_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">:<input type='number' min='0' max='59' class='hour_start_m hour' oninput='m_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+							<input type='number' min='0' max='23' class='hour_start_h hour' oninput='h_check(this)' onchange='set_time(this)' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">:<input type='number' min='0' max='59' class='hour_start_m hour' oninput='m_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
 							 -
-							<input type='number' min='0' max='23' class='hour_end_h hour'   oninput='h_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">:<input type='number' min='0' max='59' class='hour_end_m hour'   oninput='m_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+							<input type='number' min='0' max='23' class='hour_end_h hour'   oninput='h_check(this)' onchange='set_time(this)' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">:<input type='number' min='0' max='59' class='hour_end_m hour'   oninput='m_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
 						</h2>
 						<div style='display: flex; width: 25vw; align-items: center;'>
-							<input class='date_select start_date' type='date' onchange='set_time()'>
-							<input class='date_select end_date' type='date' onchange='set_time()'>
+							<input class='date_select start_date' type='date' onchange='set_time(this)'>
+							<input class='date_select end_date' type='date' onchange='set_time(this)'>
 						</div>
 						<div class='clock'>
 							<div class='hour-24 tick'><span class='hour midnight'></span></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-1 tick'><span class='hour'>1</span></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-2 tick'><span class='hour'>2</span></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-3 tick'><span class='hour'>3</span></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-4 tick'><span class='hour'>4</span></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-5 tick'><span class='hour'>5</span></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-6 tick'><span class='hour'>6</span></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-7 tick'><span class='hour'>7</span></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-8 tick'><span class='hour'>8</span></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-9 tick'><span class='hour'>9</span></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-10 tick'><span class='hour'>10</span></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-11 tick'><span class='hour'>11</span></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-12 tick'><span class='hour noon'></span></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-13 tick'><span class='hour'>13</span></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-14 tick'><span class='hour'>14</span></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-15 tick'><span class='hour'>15</span></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-16 tick'><span class='hour'>16</span></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-17 tick'><span class='hour'>17</span></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-18 tick'><span class='hour'>18</span></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-19 tick'><span class='hour'>19</span></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-20 tick'><span class='hour'>20</span></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-21 tick'><span class='hour'>21</span></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-22 tick'><span class='hour'>22</span></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-23 tick'><span class='hour'>23</span></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='center'></div>
@@ -178,41 +178,16 @@ function info(self){
 	if(active_li != null){
 		close_panel();
 	}
-	// TODO improve performance, change change only content, not clock
 	$('.info_panel #loc_name')[0].innerText = $(`#${self.getAttribute('id')} .p-name`)[0].innerText;
 	$('.info_panel #type')[0].innerText	= owner[self.getAttribute('class') - 1];
 	$('.info_panel')[0].style.display = 'flex';
 	var today = new Date().toISOString().split('T')[0];
-	document.getElementsByClassName("start_date")[0].setAttribute('min', today);
-	document.getElementsByClassName("end_date")[0].setAttribute('min', today);
+	sd.setAttribute('min', today);
+	ed.setAttribute('min', today);
 	active_li = self;
 	self.style.boxShadow = "0 4px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%)";
 	self.style.background = "rgba(200,200,200, 0.9)";
-	appointments = [[]];
-	setCurentTime();
-	axios.get(`/user/get_appointments?id=${self.id}&type=${self.getAttribute('class')}`,
-				{
-					headers:{
-					'Content-Type': 'application/json;charset=UTF-8',
-					'Accept': 'application/json, text/plain, */*',
-					'Auth': getCookie('token')
-					}
-				}
-	)
-	.then(function (response) {
-		if(response.data.error_code!=0){
-			error(response.data.message);
-			if(response.data.error_code==1000 || response.data.error_code==1001){
-				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
-			}
-			return;
-		}
-		appointments = appointments.concat(response.data.data.appointment_list);
-	})
-	.catch(function (error) {
-		console.log(error);
-	});
-	showAppointments();
+	get_appointments_by_date();
 }
 // close information panel
 function close_panel(){
@@ -222,6 +197,40 @@ function close_panel(){
 		active_li.style.background = "";
 	}
 	active_li = null;
+}
+
+function get_appointments_by_date(){
+		appointments = [[]];
+		if(sd.value == getDate()){
+			setCurentTime();
+		}
+		else{
+			appointments[0] = ['00:00','00:00'];
+		}
+		axios.get(`/user/get_appointments?id=${active_li.id}&type=${active_li.getAttribute('class')}&date=${sd.value==ed.value?sd.value:null}`,
+					{
+						headers:{
+						'Content-Type': 'application/json;charset=UTF-8',
+						'Accept': 'application/json, text/plain, */*',
+						'Auth': getCookie('token')
+						}
+					}
+		)
+		.then(function (response) {
+			if(response.data.error_code!=0){
+				error(response.data.message);
+				if(response.data.error_code==1000 || response.data.error_code==1001){
+					setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+				}
+				return;
+			}
+			appointments = appointments.concat(response.data.data.appointment_list);
+			// show newly acquired appointments in .then, to prevent asynchronous!
+			showAppointments();
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
 }
 
 var map;
@@ -492,7 +501,6 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
       }
       $(selector).removeClass('free');
       $(selector).addClass('taken');
-      
     }
   }
   
@@ -500,7 +508,7 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
     var d = new Date();
     var curent_hour = d.getHours();
     var curent_minute = d.getMinutes();
-	appointments[0] = ['00:00', curent_hour+':'+curent_minute]
+	appointments[0] = ['00:00', curent_hour+':'+curent_minute];
   }
   
 
@@ -554,7 +562,7 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
   }
   
   // TODO TODO needs further improvement
-  function set_time(){
+  function set_time(self){
 	  date_validity = true;
 	  date_valid_color();
 	  sh.value = pad(sh.value, 2, '0');
@@ -565,7 +573,6 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
 	  var start_minute = parseInt(sm.value);
 	  var end_hour = parseInt(eh.value);
 	  var end_minute = parseInt(em.value);
-	  // multiple days
 	  if(sd.value > ed.value){
 		  date_invalid_color();
 		  date_validity = false;
@@ -620,6 +627,10 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
 		  $("div.clock").on('mousedown touchstart', function(e) {
 			  is_moving_appointment = true;
 		  });
+		  // get appointments by date if set_time triggered by date change
+		  if(self==sd || self==ed){
+		  	get_appointments_by_date();	
+		  }
 	  }
 	  else{
 		  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
@@ -654,14 +665,16 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
 	  em = $("h2.time > input.hour_end_m")[0];
 	  sd = $(".start_date")[0];
 	  ed = $(".end_date")[0];
+	  sd.value = getDate();
+	  ed.value = getDate();
 	  $centerElement = $("div.center:eq(0)");
 	  is_moving_appointment = false;
 	  curent_time_position = timetodeg(new_appointment_time_start);
 	  
 		setCurentTime();
 		showAppointments();
-	    setInterval(setCurentTime, 10000);
-		setInterval(showAppointments, 10000);
+	    setInterval(setCurentTime, 60000);
+		setInterval(showAppointments, 60000);
 		is_moving_appointment = true;
 	    renderSelectedTimeBlock();
 	    is_moving_appointment = false;
@@ -693,6 +706,19 @@ function m_check(self){
 	if(self.value < 0) self.value = Math.abs(self.value);
 	if(self.value.length >= 3) self.value = self.value[0]+self.value[1];
 	if(self.value > 59 || self.value.length >= 3) self.value = 59;
+}
+
+function getDate() {
+    var month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 
 function set_token_cookie(){

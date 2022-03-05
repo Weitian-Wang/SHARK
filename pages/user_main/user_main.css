@@ -220,7 +220,6 @@ body {
 }
 .left .row:hover {
    font-weight: 400;
-   background-color: ;#3e3d3d;
    border-right: #296dba 6px solid;
    border-left: #296dba 6px solid;
    box-shadow: 0 2px 4px 3px rgb(0 0 0 / 40%);

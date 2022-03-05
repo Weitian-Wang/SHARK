@@ -54,6 +54,8 @@ class DBStore():
         p_dict_list.extend([dict(item) for item in rst])
         return p_dict_list
 
+    # TODO TODO problem: asynchronous write and read DB, query result from one access connection might be outdated
+    # solution: use self.commit() after INSERT, UPDATE and DELETE?
     def get_appointments_by_id(self, id):
         rst = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == id).first()
         return rst.appointments
