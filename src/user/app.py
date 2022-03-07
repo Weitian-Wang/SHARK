@@ -98,3 +98,12 @@ def get_appointments_by_id_and_type(auth):
         # use date passed in params 
         result = user_proxy.get_appointments_by_id_type(params['id'], int(params['type']), params['date'] if params['date'] and len(params['date']) else None)
         return jsonify(result.to_dict())
+
+@app.route('/user/check_period_validity', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.MODERATOR, UserType.ADMIN, UserType.SUPER_ADMIN])
+def check_period_validity(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.check_period(params['id'], int(params['type']), params['start_time'], params['end_time'])
+        return jsonify(result.to_dict())

@@ -54,6 +54,10 @@ class ParamError(ErrorCode):
         # super().__init__(error_code=104, message="Param error.")
         super().__init__(error_code=104, message="参数错误")
 
+class InvalidPeriod(ErrorCode):
+    def __init__(self):
+        # super().__init__(error_code=105, message="Spot unavailable durning period.")
+        super().__init__(error_code=105, message="期间车位没空")
 
 class SystemInternalError(ErrorCode):
     def __init__(self, message="System internal error."):

@@ -59,6 +59,11 @@ class DBStore():
     def get_appointments_by_id(self, id):
         rst = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == id).first()
         return rst.appointments
+    
+    def get_subspots_by_pl_id(self, pl_id):
+        spots = self._session.query(ParkingSpot).filter(ParkingSpot.pl_id == pl_id).all()
+        return spots
+        # TODO
 
     def __enter__(self):
         self.connect()

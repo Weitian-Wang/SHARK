@@ -34,6 +34,7 @@ body {
 	height: 100vh;
 	width: 100vw;
 	font-family: "Source Sans Pro", sans-serif;
+	box-shadow: 0 -3px 5px 3px rgb(0 0 0 / 40%);
 }
 
 .notification-container {
@@ -184,7 +185,6 @@ body {
 	/* TODO */
 	background-color: #e6e4df;
 	background: rgb(249 250 251);
-	box-shadow: -3px 0 5px 2px  rgba(0,0,0,.4) inset;
 }
 
 .left .welcome{
@@ -192,13 +192,12 @@ body {
 	font-weight: 500;
 	height: 8vh;
 	width: 20vw;
-	color: white;
+	color: #0057b7;
 	line-height: 8vh;
 	font-size: 20px;
 	text-align: center;
 	vertical-align: middle;
-	background: #556274;
-	box-shadow: -6px 0px 5px -3px  rgba(0,0,0,.4) inset;
+	background: #b7d5ff;
 }
 
 .left .row{
@@ -220,8 +219,8 @@ body {
 }
 .left .row:hover {
    font-weight: 400;
-   border-right: #296dba 6px solid;
-   border-left: #296dba 6px solid;
+   border-right: #0057b7 6px solid;
+   border-left: #0057b7 6px solid;
    box-shadow: 0 2px 4px 3px rgb(0 0 0 / 40%);
 }
 /* menu options from left navigation bar */
