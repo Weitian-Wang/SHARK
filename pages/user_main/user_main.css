@@ -86,6 +86,24 @@ body {
 				scale-out .2s 4s forwards;
 }
 
+#alert{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	positon: relative;
+	width: 50px;
+	height: 50px;
+	background: #FFBD44;
+	transform: scale(0);
+	border-radius: 50%;
+	color: black;
+	opacity: 0;
+	overflow: hidden;
+	/*  animation:myAnim 1s linear 1s infinite alternate both running; */
+	animation:  scale-in .3s ease-out forwards,
+				expand .35s .25s ease-out forwards,
+				scale-out .2s 4s forwards;
+}
 
 .notification-text {
 	display: flex;

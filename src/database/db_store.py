@@ -63,7 +63,6 @@ class DBStore():
     def get_subspots_by_pl_id(self, pl_id):
         spots = self._session.query(ParkingSpot).filter(ParkingSpot.pl_id == pl_id).all()
         return spots
-        # TODO
 
     def __enter__(self):
         self.connect()
