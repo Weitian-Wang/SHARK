@@ -2,19 +2,14 @@ class UserType(object):
     INDIVIDUAL = 1
     PROPERTY = 2
     ADMIN = 3
-    MODERATOR = 4
-    SUPER_ADMIN = 5
 
 class SpotType(object):
     INDIVIDUAL = 1
     PROPERTY = 2
-    MIXED = 3
 
 class SpotStatus(object):
+    NOT_AVAILABLE = 0
     AVAILABLE = 1
-    RESERVED = 2
-    USING = 3
-    NOT_AVAILABLE = 4
 
 class OrderStatus(object):
     PLACED = 1

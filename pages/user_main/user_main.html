@@ -237,7 +237,7 @@ function get_appointments_by_date(){
 
 function check_and_reserve(){
 	if(`${sd.value} ${sh.value}:${sm.value}` >= `${ed.value} ${eh.value}:${em.value}`){
-		error("开始时间因该早于结束时间");
+		error("开始时间应该早于结束时间");
 		return;
 	}
 	axios.post('/user/check_period_validity',

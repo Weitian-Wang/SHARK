@@ -59,8 +59,14 @@ class InvalidPeriod(ErrorCode):
         # super().__init__(error_code=105, message="Spot unavailable durning period.")
         super().__init__(error_code=105, message="期间车位没空")
 
+class WaitingSync(ErrorCode):
+    def __init__(self):
+        # super().__init__(error_code=106, message="Critical resource is being accessed by another user.")
+        super().__init__(error_code=106, message="资源正在被占用")
+
 class SystemInternalError(ErrorCode):
-    def __init__(self, message="System internal error."):
+    # def __init__(self, message="System internal error."):
+    def __init__(self, message="系统内部错误"):
         super().__init__(error_code=500, message=message, data=traceback.format_exc())
 
 

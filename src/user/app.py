@@ -70,8 +70,27 @@ def login():
         result = user_proxy.login(tel=params['tel'], password_hash=params['password_hash'])    
     return jsonify(result.to_dict())
 
+@app.route('/user/switch_role', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
+def switch_role_to_property(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.switch_role(auth, params['user_tel'], int(params['target_role']))    
+    return jsonify(result.to_dict())
+
+# operation of admin, change user's role
+@app.route('/user/switch_role', methods=['POST'])
+@authenticate_token([UserType.ADMIN])
+def switch_role(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.switch_role(auth, params['user_tel'], int(params['target_user_type']))    
+    return jsonify(result.to_dict())
+
 @app.route('/user/search_pname', methods=['GET'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.MODERATOR, UserType.ADMIN, UserType.SUPER_ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def search_pname(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
@@ -80,7 +99,7 @@ def search_pname(auth):
         return jsonify(result.to_dict())
 
 @app.route('/user/get_appointments', methods=['GET'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.MODERATOR, UserType.ADMIN, UserType.SUPER_ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def get_appointments_by_id_and_type(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
@@ -90,10 +109,19 @@ def get_appointments_by_id_and_type(auth):
         return jsonify(result.to_dict())
 
 @app.route('/user/check_period_validity', methods=['POST'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.MODERATOR, UserType.ADMIN, UserType.SUPER_ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def check_period_validity(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
         result = user_proxy.check_period(params['id'], int(params['type']), params['start_time'], params['end_time'])
+        return jsonify(result.to_dict())
+
+@app.route('/user/reserve', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
+def reserve_spot(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.reserve_spot(params['ps_id'], params['start_time'], params['end_time'])
         return jsonify(result.to_dict())
