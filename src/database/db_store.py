@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.functions import current_time
 from src.error_code.error_code import *
+from src.user.constant import OrderStatus, PaymentStatus
 from .schema import Base, User, ParkingLot, ParkingSpot, Order
 
 class DBStore():
@@ -47,15 +48,8 @@ class DBStore():
             self.rollback()
 
     def get_spot_by_id(self, ps_id):
-        spot = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).first()
+        spot = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).one()
         return spot
-
-    def get_spot_by_id_LOCK_ROW(self, ps_id):
-        # IMPORTANT update sqlalchemy buffer, re-fetch data from database
-        self.commit()
-        # with_for_update locks the row with corresponding ps_id, releases lock upon session commit
-        rst = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).with_for_update().one()
-        return rst
 
     # supports parking lots and spots
     def get_p_by_name(self, p_name):
@@ -74,98 +68,57 @@ class DBStore():
     def get_appointments_by_id(self, id):
         rst = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == id).first()
         return rst.appointments
-    
-    def reserve_spot(self, ps_id, start_time, end_time):
-        # parse and check time
-        st = datetime.strptime(start_time, '%Y-%m-%d %H:%M')
-        et = datetime.strptime(end_time, '%Y-%m-%d %H:%M')
-        if st>=et:
-            raise ParamError()
-
-        # get appointments of the spot, lock row when fetch ParkingSpot
-         # IMPORTANT update sqlalchemy buffer, re-fetch data from database
-        self.commit()
-        # with_for_update locks the row with corresponding ps_id, releases lock upon session commit
-        spot = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).with_for_update().one()
-        appointments = spot.appointments
-
-        # CASE 1, period spans single day
-        if st.date() == et.date():
-            date_str = str(st.date())
-            appointments_of_that_date = appointments.get(date_str, [])
-            try:
-                if appointments_of_that_date == []:
-                    appointments[start_time.split(' ')[0]] = [[start_time.split(' ')[1], end_time.split(' ')[1]]]
-                    spot.appointments = appointments
-                    # release row lock of the spot
-                    self.commit()
-                    return ResultSuccess(message="预约成功")
-                else:
-                    insert_location = self.check_and_insert_period_in_specific_date(ps_id, appointments_of_that_date=appointments_of_that_date, period_start_time=st, period_end_time=et)
-                    appointments[start_time.split(' ')[0]].insert(insert_location, [start_time.split(' ')[1], end_time.split(' ')[1]])
-                    spot.appointments = appointments
-                    self.commit()
-                    return ResultSuccess(message="预约成功")
-            except InvalidPeriod:
-                return InvalidPeriod()
-
-        # CASE 2, period spans multiple days, any appointments in between will render period unavailable
-        # 2.1 check days inbetween
-        it = st.date()+timedelta(days=1)
-        while it < et.date():
-            if appointments.get(str(it)) != None:
-                raise InvalidPeriod()
-            it = it+timedelta(days=1)
-        # 2.2 check both start_date and end_date of the period for availability
-        start_date_appointments = appointments.get(str(st.date()), [])
-        end_date_appointments = appointments.get(str(et.date()), [])
-        end_of_start_date = datetime.strptime(f'{str(st.date() + timedelta(days=1))} 00:00', '%Y-%m-%d %H:%M')
-        start_of_end_date = datetime.strptime(f'{str(et.date())} 00:00', '%Y-%m-%d %H:%M')
-        try:
-            insert_location_s = self.check_and_insert_period_in_specific_date(ps_id, appointments_of_that_date=start_date_appointments, period_start_time=st, period_end_time=end_of_start_date)
-        except InvalidPeriod:
-            InvalidPeriod()
-        try:
-            insert_location_e = self.check_and_insert_period_in_specific_date(ps_id, appointments_of_that_date=end_date_appointments, period_start_time=start_of_end_date, period_end_time=et)
-        except InvalidPeriod:
-            InvalidPeriod()
-        # after confirm valid
-        # 2.3 insert in dates in between
-        it = st.date()+timedelta(days=1)
-        while it < et.date():
-            if appointments.get(str(it), []) == []:
-                appointments[str(it)] = [['00:00', '23:59']]
-            else:
-                raise InvalidPeriod()
-            it = it+timedelta(days=1)
-        # 2.4 insert in start date
-        if start_date_appointments == []:
-            appointments[start_time.split(' ')[0]] = [[start_time.split(' ')[1], '23:59']]
-        else:
-            appointments[start_time.split(' ')[0]].insert(insert_location_s, [start_time.split(' ')[1], '23:59'])
-        # 2.5 insert in end date
-        if end_date_appointments == []:
-            appointments[start_time.split(' ')[0]] = [['00:00', end_time.split(' ')[1]]]
-        else:
-            appointments[start_time.split(' ')[0]].insert(insert_location_e, ['00:00', end_time.split(' ')[1]])
-        # 2.6 update spot and commit, release the lock
-        spot.appointments = appointments
-        self.commit()
-        # TODO insert record into Order table
-        return ResultSuccess(message="预约成功")
 
     def get_subspots_by_pl_id(self, pl_id):
         spots = self._session.query(ParkingSpot).filter(ParkingSpot.pl_id == pl_id).all()
         return spots
 
-    def insert_appointment(self, ps_id, new_appointment):
-        spot = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id==ps_id).one()
-        spot.appointments = new_appointment
+    def spot_update_flag_lock(self, ps_id):
+        # refresh sql buffer
+        self._session.commit()
+        # query with exclusive row level lock
+        spot = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).with_for_update().one()
+        if spot.flag == 1:
+            # release lock
+            self._session.commit()
+            raise WaitingSync()
+        else:
+            spot.flag = 1
+            self._session.commit()
+
+    def spot_update_flag_unlock(self, ps_id):
+        self._session.commit()
+        spot = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).with_for_update().one()
+        spot.flag = 0
+        self._session.commit()
+
+    def place_order(self, order_id, user_tel, ps_id, start_time, end_time):
+        current_time = datetime.utcnow()
+        order = Order(
+            order_id = order_id,
+            ps_id = ps_id,
+            custom_tel = user_tel,
+            order_status = OrderStatus.PLACED,
+            payment_status = PaymentStatus.UNPAID,
+            # utc as creat time
+            utc_create_time = current_time,
+            # local time as start/end_time, corresponds with appointments
+            assigned_start_time = start_time,
+            assigned_end_time = end_time
+        )
+        self._session.add(order)
+
+    def update_appointments(self, ps_id, new_appointments):
+        self.commit()
+        self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).update({"appointments": new_appointments})
         self.commit()
 
     def withdraw_appointment(self, ps_id, start_time, end_time):
-        pass
-
+        self.spot_update_flag_lock(ps_id)
+        # TODO extract appointments
+        pass 
+    
+    
     def __enter__(self):
         self.connect()
 

@@ -2,6 +2,7 @@ import os
 from tempfile import TemporaryFile
 import time
 import json
+import uuid
 from math import sin, cos, sqrt, atan2, radians
 from datetime import datetime, timedelta
 
@@ -177,16 +178,14 @@ class UserProxy():
             if datetime.strptime(f'{date_str} {appointment[1]}', '%Y-%m-%d %H:%M')<=period_start_time:
                 continue
             # appointment start time later than period end time, skip subsequent appointments
-            if datetime.strptime(f'{date_str} {appointment[0]}', '%Y-%m-%d %H:%M')>=period_end_time:
+            elif datetime.strptime(f'{date_str} {appointment[0]}', '%Y-%m-%d %H:%M')>=period_end_time:
                 break
-            # appointment start time inbetween period OR appointment end time inbetween period
-            if (datetime.strptime(f'{date_str} {appointment[0]}', '%Y-%m-%d %H:%M')>period_start_time and datetime.strptime(f'{date_str} {appointment[0]}', '%Y-%m-%d %H:%M')<period_end_time) or (datetime.strptime(f'{date_str} {appointment[1]}', '%Y-%m-%d %H:%M')>period_start_time and datetime.strptime(f'{date_str} {appointment[1]}', '%Y-%m-%d %H:%M')<period_end_time):
+            # all other cases
+            else:
                 raise InvalidPeriod()
         return ResultSuccess(data={'avail_ps_id':ps_id}, message="该时段可预约")
-    
 
-
-    def check_and_insert_period_in_specific_date(self, ps_id, appointments_of_that_date, period_start_time, period_end_time):
+    def check_and_insert_period_in_specific_date(self, appointments_of_that_date, period_start_time, period_end_time):
         insert_location = 0
         date_str = str(period_start_time.date())
         for appointment in appointments_of_that_date:
@@ -196,89 +195,95 @@ class UserProxy():
                 insert_location += 1
                 continue
             # appointment start time later than period end time, skip subsequent appointments
-            if datetime.strptime(f'{date_str} {appointment[0]}', '%Y-%m-%d %H:%M')>=period_end_time:
+            elif datetime.strptime(f'{date_str} {appointment[0]}', '%Y-%m-%d %H:%M')>=period_end_time:
                 break
             # appointment start time inbetween period OR appointment end time inbetween period
-            if (datetime.strptime(f'{date_str} {appointment[0]}', '%Y-%m-%d %H:%M')>period_start_time and datetime.strptime(f'{date_str} {appointment[0]}', '%Y-%m-%d %H:%M')<period_end_time) or (datetime.strptime(f'{date_str} {appointment[1]}', '%Y-%m-%d %H:%M')>period_start_time and datetime.strptime(f'{date_str} {appointment[1]}', '%Y-%m-%d %H:%M')<period_end_time):
+            else:
                 raise InvalidPeriod()
         return insert_location
 
-    # modified & synchronous, check_period + insert period in sort list appointments
-    # TOTAL FUCKING SHITHOLE OF CODES
-    def reserve_spot(self, ps_id, start_time, end_time):
+    def reserve_spot(self, user_tel, ps_id, start_time, end_time):
+        # ENTER
+        self._database.spot_update_flag_lock(ps_id)
+
+        # CRITICAL SECTION
         # parse and check time
         st = datetime.strptime(start_time, '%Y-%m-%d %H:%M')
         et = datetime.strptime(end_time, '%Y-%m-%d %H:%M')
         if st>=et:
+            self._database.spot_update_flag_unlock(ps_id)
             raise ParamError()
 
-        # get appointments of the spot, lock row when fetch ParkingSpot
-        spot = self._database.get_spot_by_id_LOCK_ROW(ps_id)
+        # make sure fetched data is up-to-date
+        spot = self._database.get_spot_by_id(ps_id)
         appointments = spot.appointments
 
         # CASE 1, period spans single day
         if st.date() == et.date():
             date_str = str(st.date())
             appointments_of_that_date = appointments.get(date_str, [])
-            try:
-                if appointments_of_that_date == []:
-                    appointments[start_time.split(' ')[0]] = [[start_time.split(' ')[1], end_time.split(' ')[1]]]
-                    spot.appointments = appointments
-                    # release row lock of the spot
-                    self._database.commit()
-                    return ResultSuccess(message="预约成功")
-                else:
-                    insert_location = self.check_and_insert_period_in_specific_date(ps_id, appointments_of_that_date=appointments_of_that_date, period_start_time=st, period_end_time=et)
-                    appointments[start_time.split(' ')[0]].insert(insert_location, [start_time.split(' ')[1], end_time.split(' ')[1]])
-                    spot.appointments = appointments
-                    self._database.insert_appointment(ps_id, appointments)
-                    return ResultSuccess(message="预约成功")
-            except InvalidPeriod:
-                return InvalidPeriod()
+            if appointments_of_that_date == []:
+                appointments[start_time.split(' ')[0]] = [[start_time.split(' ')[1], end_time.split(' ')[1]]]
+                self._database.update_appointments(ps_id, new_appointments = appointments)
+            else:
+                try:
+                    insert_location = self.check_and_insert_period_in_specific_date(appointments_of_that_date=appointments_of_that_date, period_start_time=st, period_end_time=et)
+                except InvalidPeriod:
+                    self._database.spot_update_flag_unlock(ps_id)
+                    return InvalidPeriod()
+                appointments[start_time.split(' ')[0]].insert(insert_location, [start_time.split(' ')[1], end_time.split(' ')[1]])
+                self._database.update_appointments(ps_id, new_appointments = appointments)
 
         # CASE 2, period spans multiple days, any appointments in between will render period unavailable
-        # 2.1 check days inbetween
-        it = st.date()+timedelta(days=1)
-        while it < et.date():
-            if appointments.get(str(it)) != None:
+        else:
+            # 2.1 check days inbetween
+            it = st.date()+timedelta(days=1)
+            while it < et.date():
+                if appointments.get(str(it)) != None:
+                    self._database.spot_update_flag_unlock(ps_id)
+                    raise InvalidPeriod()
+                it = it+timedelta(days=1)
+            # 2.2 check both start_date and end_date of the period for availability
+            start_date_appointments = appointments.get(str(st.date()), [])
+            end_date_appointments = appointments.get(str(et.date()), [])
+            end_of_start_date = datetime.strptime(f'{str(st.date() + timedelta(days=1))} 00:00', '%Y-%m-%d %H:%M')
+            start_of_end_date = datetime.strptime(f'{str(et.date())} 00:00', '%Y-%m-%d %H:%M')
+            try:
+                insert_location_s = self.check_and_insert_period_in_specific_date(appointments_of_that_date=start_date_appointments, period_start_time=st, period_end_time=end_of_start_date)
+            except InvalidPeriod:
+                self._database.spot_update_flag_unlock(ps_id)
                 raise InvalidPeriod()
-            it = it+timedelta(days=1)
-        # 2.2 check both start_date and end_date of the period for availability
-        start_date_appointments = appointments.get(str(st.date()), [])
-        end_date_appointments = appointments.get(str(et.date()), [])
-        end_of_start_date = datetime.strptime(f'{str(st.date() + timedelta(days=1))} 00:00', '%Y-%m-%d %H:%M')
-        start_of_end_date = datetime.strptime(f'{str(et.date())} 00:00', '%Y-%m-%d %H:%M')
-        try:
-            insert_location_s = self.check_and_insert_period_in_specific_date(ps_id, appointments_of_that_date=start_date_appointments, period_start_time=st, period_end_time=end_of_start_date)
-        except InvalidPeriod:
-            InvalidPeriod()
-        try:
-            insert_location_e = self.check_and_insert_period_in_specific_date(ps_id, appointments_of_that_date=end_date_appointments, period_start_time=start_of_end_date, period_end_time=et)
-        except InvalidPeriod:
-            InvalidPeriod()
-        # after confirm valid
-        # 2.3 insert in dates in between
-        it = st.date()+timedelta(days=1)
-        while it < et.date():
-            if appointments.get(str(it), []) == []:
-                appointments[str(it)] = [['00:00', '23:59']]
+            try:
+                insert_location_e = self.check_and_insert_period_in_specific_date(appointments_of_that_date=end_date_appointments, period_start_time=start_of_end_date, period_end_time=et)
+            except InvalidPeriod:
+                self._database.spot_update_flag_unlock(ps_id)
+                raise InvalidPeriod()
+            # after confirm valid
+            # 2.3 insert in dates in between
+            it = st.date()+timedelta(days=1)
+            while it < et.date():
+                if appointments.get(str(it), []) == []:
+                    appointments[str(it)] = [['00:00', '23:59']]
+                else:
+                    self._database.spot_update_flag_unlock(ps_id)
+                    raise InvalidPeriod()
+                it = it+timedelta(days=1)
+            # 2.4 insert in start date
+            if start_date_appointments == []:
+                appointments[start_time.split(' ')[0]] = [[start_time.split(' ')[1], '23:59']]
             else:
-                raise InvalidPeriod()
-            it = it+timedelta(days=1)
-        # 2.4 insert in start date
-        if start_date_appointments == []:
-            appointments[start_time.split(' ')[0]] = [[start_time.split(' ')[1], '23:59']]
-        else:
-            appointments[start_time.split(' ')[0]].insert(insert_location_s, [start_time.split(' ')[1], '23:59'])
-        # 2.5 insert in end date
-        if end_date_appointments == []:
-            appointments[start_time.split(' ')[0]] = [['00:00', end_time.split(' ')[1]]]
-        else:
-            appointments[start_time.split(' ')[0]].insert(insert_location_e, ['00:00', end_time.split(' ')[1]])
-        # 2.6 update spot and commit, release the lock
-        spot.appointments = appointments
-        self._database.commit()
-        # TODO insert record into Order table
+                appointments[start_time.split(' ')[0]].insert(insert_location_s, [start_time.split(' ')[1], '23:59'])
+            # 2.5 insert in end date
+            if end_date_appointments == []:
+                appointments[end_time.split(' ')[0]] = [['00:00', end_time.split(' ')[1]]]
+            else:
+                appointments[end_time.split(' ')[0]].insert(insert_location_e, ['00:00', end_time.split(' ')[1]])
+            # 2.6 update spot and commit
+            self._database.update_appointments(ps_id, appointments)
+        
+        order_id = str(uuid.uuid4())
+        self._database.place_order(order_id, user_tel, ps_id, datetime.strptime(start_time, '%Y-%m-%d %H:%M'), datetime.strptime(end_time, '%Y-%m-%d %H:%M'))
+        self._database.spot_update_flag_unlock(ps_id)
         return ResultSuccess(message="预约成功")
         
     # utility functions

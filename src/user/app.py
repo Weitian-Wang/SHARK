@@ -123,5 +123,5 @@ def reserve_spot(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.reserve_spot(params['ps_id'], params['start_time'], params['end_time'])
+        result = user_proxy.reserve_spot(auth['user_tel'], params['ps_id'], params['start_time'], params['end_time'])
         return jsonify(result.to_dict())

@@ -8,6 +8,7 @@ from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.schema import Constraint, ForeignKey
 
 from sqlalchemy.sql.sqltypes import Integer
+from tables import Col
 
 Base = declarative_base()
 
@@ -83,22 +84,24 @@ class ParkingSpot(Base):
     coordinate = Column(JSON, nullable=False)
     # appointments = {'2022-02-25':[['00:00','12:00'], ['20:30','21:00']], '2022-05-04':[['06:00','12:00'], ['22:30','23:00']]}
     appointments = Column(JSON, nullable=False, default={})
+    # flag for row level mutually exclusive update
+    flag = Column(Integer, nullable=False, default=0)
 
 class Order(Base):
     __tablename__ = 'order'
     order_id = Column(String(36), primary_key=True, nullable=False, default=get_str_uuid)
     custom_tel = Column(String(11), ForeignKey('user.tel'), nullable=False)
     ps_id = Column(String(36), nullable=False)
-    # PLACED = 1, DENIED(by OWNER) = 0, USING_SPOT = 2, COMPLETED = 3, ABNORMAL = 4
+    # DENIED = 0, PLACED = 1, USING_SPOT = 2, COMPLETED = 3, CANCELED = 4, ABNORMAL = 5
     order_status = Column(Integer, nullable=False)
     # UNPAIED = 0, PAID = 1
     payment_status = Column(Integer, nullable=False, default=False)
-    create_date = Column(DateTime, nullable=False, default=get_datetime)
-    complete_date = Column(DateTime, nullable=True)
+    utc_create_time = Column(DateTime, nullable=False, default=get_datetime)
+    utc_complete_time = Column(DateTime, nullable=True)
 
-    assigned_start_date = Column(DateTime, nullable=False)
-    assigned_leave_date = Column(DateTime, nullable=False)
+    assigned_start_time = Column(DateTime, nullable=False)
+    assigned_end_time = Column(DateTime, nullable=False)
 
-    actual_start_date = Column(DateTime, nullable=True)
-    actual_leave_date = Column(DateTime, nullable=True)
+    actual_start_time = Column(DateTime, nullable=True)
+    actual_end_time = Column(DateTime, nullable=True)
 

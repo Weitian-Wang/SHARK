@@ -688,6 +688,45 @@ div#results-area ul li div.row div.content {
   background-image: linear-gradient(rgb(3,155,218), rgb(3,110,197)); 
 }
 
+#reserve_button {
+  font: 500 12px Roboto, Arial, sans-serif;
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: white;
+  display: inline-block;
+  padding: 0.4em 1em;
+  margin-top: 13px;
+  border: 0.1em solid #138429;
+  border-radius: 0.38em;
+  background-image: linear-gradient(#1cd43f, #19c03a); 
+}
+#reserve_button:hover {
+	background-image: linear-gradient(#28dd20 ,#16ac37); 
+}
+#reserve_button:active {
+  background-image: linear-gradient(#1aca44 ,#12902d);
+}
+
+#cancel_button {
+  font: 500 12px Roboto, Arial, sans-serif;
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: white;
+  display: inline-block;
+  padding: 0.4em 1em;
+  margin-top: 13px;
+  border: 0.1em solid #9e181e;
+  border-radius: 0.38em;; 
+  background-image: linear-gradient(#fc2139, #c41f2b);
+}
+#cancel_button:hover { 
+	background-image: linear-gradient(#fc4852, #c43d4b)
+}
+#cancel_button:active {
+	background-image: linear-gradient(#cb3448, #9d151f);
+}
 #time {
 	display: flex;
 }
