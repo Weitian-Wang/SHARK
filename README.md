@@ -1,7 +1,8 @@
 # TODO
 
-1. Time selector laggy, improve complexity!!!
-
-2. Dynamic loading of sidebar items
+1. parking spot/lot management
+2. order management
+3. user management
+4. map related changes
 
    

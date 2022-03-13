@@ -203,6 +203,9 @@ class UserProxy():
         return insert_location
 
     def reserve_spot(self, user_tel, ps_id, start_time, end_time):
+        # +8 China Standard Time
+        if datetime.strptime(start_time, '%Y-%m-%d %H:%M') < datetime.utcnow() + timedelta(hours=8):
+            raise ParamError()
         # ENTER
         self._database.spot_update_flag_lock(ps_id)
 

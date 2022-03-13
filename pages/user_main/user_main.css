@@ -667,6 +667,11 @@ div#results-area ul li div.row div.content {
 	 flex-shrink: 0;
 }
 
+#button_holder{
+	display: flex;
+	width: 10vw;
+	justify-content: space-around;
+}
 /* button in info panel */
 .button {
   font: 500 12px Roboto, Arial, sans-serif;

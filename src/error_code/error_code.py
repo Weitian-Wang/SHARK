@@ -62,7 +62,7 @@ class InvalidPeriod(ErrorCode):
 class WaitingSync(ErrorCode):
     def __init__(self):
         # super().__init__(error_code=106, message="Critical resource is being accessed by another user.")
-        super().__init__(error_code=106, message="资源正在被占用")
+        super().__init__(error_code=106, message="等待资源同步")
 
 class SystemInternalError(ErrorCode):
     # def __init__(self, message="System internal error."):
@@ -73,7 +73,7 @@ class SystemInternalError(ErrorCode):
 class TokenError(ErrorCode):
     def __init__(self):
         # super().__init__(error_code=1000, message="Token invalid.")
-        super().__init__(error_code=1000, message="Token无效")
+        super().__init__(error_code=1000, message="登录无效")
 
 
 class TokenExpiredError(ErrorCode):
