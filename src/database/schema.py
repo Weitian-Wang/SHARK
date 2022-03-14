@@ -105,3 +105,4 @@ class Order(Base):
     actual_start_time = Column(DateTime, nullable=True)
     actual_end_time = Column(DateTime, nullable=True)
 
+    flag = Column(Integer, nullable=False, default=0)

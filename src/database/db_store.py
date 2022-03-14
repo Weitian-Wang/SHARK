@@ -92,6 +92,42 @@ class DBStore():
         spot.flag = 0
         self._session.commit()
 
+
+    def order_update_flag_lock(self, order_id):
+        # refresh sql buffer
+        self._session.commit()
+        # query with exclusive row level lock
+        order = self._session.query(Order).filter(Order.order_id == order_id).with_for_update().one()
+        if order.flag == 1:
+            # release lock
+            self._session.commit()
+            raise WaitingSync()
+        else:
+            order.flag = 1
+            self._session.commit()
+
+    def order_update_flag_unlock(self, order_id):
+        self._session.commit()
+        order = self._session.query(Order).filter(Order.order_id == order_id).with_for_update().one()
+        order.flag = 0
+        self._session.commit()
+
+    def get_order_by_id(self, order_id):
+        return self._session.query(Order).filter(Order.order_id == order_id).first()
+
+    # acceptable updates: PLACED->USING_SPOT, PLACED->CANCELED, PLACED->DENIED, USING_SPOT->COMPLETED
+    def update_order_status(self, order_id, new_status):
+        if new_status not in [OrderStatus.PLACED, OrderStatus.USING_SPOT, OrderStatus.CANCELED, OrderStatus.DENIED, OrderStatus.ABNORMAL, OrderStatus.COMPLETED]:
+            raise ParamError()
+        self.order_update_flag_lock(order_id)
+        order = self.get_order_by_id(order_id)
+        if (order.order_status == OrderStatus.PLACED and new_status not in [OrderStatus.USING_SPOT, OrderStatus.CANCELED, OrderStatus.DENIED]) or (order.order_status == OrderStatus.USING_SPOT and new_status != OrderStatus.COMPLETED):
+            self.order_update_flag_unlock(order_id)
+            raise ParamError()
+        self._session.query(Order).filter(Order.order_id == order_id).update({"order_status": new_status})
+        self.order_update_flag_unlock(order_id)
+        self._session.commit()
+
     def place_order(self, order_id, user_tel, ps_id, start_time, end_time):
         current_time = datetime.utcnow()
         order = Order(
@@ -107,6 +143,7 @@ class DBStore():
             assigned_end_time = end_time
         )
         self._session.add(order)
+        return order
 
     def update_appointments(self, ps_id, new_appointments):
         self.commit()
@@ -114,9 +151,7 @@ class DBStore():
         self.commit()
 
     def withdraw_appointment(self, ps_id, start_time, end_time):
-        self.spot_update_flag_lock(ps_id)
-        # TODO extract appointments
-        pass 
+        pass
     
     
     def __enter__(self):
@@ -136,7 +171,6 @@ class DBStore():
 
     def commit(self):
         try:
-            print("!!!COMMIT INVOKED!!!")
             self._session.commit()
         except Exception as ex:
             raise ex

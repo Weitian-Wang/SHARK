@@ -3,8 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>SHARK</title>
-		<link rel="stylesheet" type="text/css" href="user_main.css"/>
-		<link rel="stylesheet" type="text/css" href="time.css"/>
+		<link rel="stylesheet" type="text/css" href="property_main.css"/>
 		
 		<script src="../url_config.js"></script>
 		<script src="../vue.js"></script>
@@ -16,7 +15,6 @@
 		
 		<div class="left animation_time" id="left_menu">
 			<div class="welcome">Welcome, {{user_name}}!</div>
-			<div class="row animation_time"><div class="icon" style="background-image: url(../index_pic/reservation.png);"></div><div id="reservation" class="menu_item">我的预定</div></div>
 			<div class="row animation_time"><div class="icon" style="background-image: url(../index_pic/my_spot.png);"></div><div id="my_spot" class="menu_item">车位管理</div></div>
 			<div class="row animation_time"><div class="icon" style="background-image: url(../index_pic/setting.png);"></div><div id="setting" class="menu_item">账户设置</div></div>
 			<div id="copy_right">SHARK Shared Parking - FYP by Weitian-Wang @GitHub</div>
@@ -26,7 +24,7 @@
 			<div id="heading" class="bg-gradient">
 				<div id="user" @click="toggle_left"></div>
 				<div id="logo" onclick="location.href='../index/index.html'"></div>
-				<div id="search" class="animation_time" @click="toggle_right"></div>
+				<div style="width: 5vw;"></div>
 			</div>
 			<div class="notification-container animation_time"></div>
 			
@@ -70,20 +68,6 @@
 			<div id="map"></div>
 		</div>
 
-		<div class="right animation_time" id="sidebar">
-			<div id="search-area">
-				<input id='p_name' type="text" type="text" placeholder="车位名搜索" v-model="p_name" required>
-				<button type="button" @click="search_by_pname">搜索</button>
-			</div>
-			
-			<div id="results-area">
-				<ul id="p_list">
-					</li>
-					<li style="opacity: 0;">
-					</li>
-				</ul>
-			</div>
-		</div>
 		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0"></script> -->
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0&libraries=places"></script>
 	</body>
@@ -96,9 +80,8 @@ Vue.config.productionTip = false;
 axios.defaults.baseURL = BaseURL;
 // get notification section
 notification = document.getElementsByClassName("notification-container")[0];
-// left right sidebar logic
+// left sidebar logic
 var l_status = false;
-var r_status = false;
 
 // left & right navigation bar logic
 new Vue({
@@ -107,30 +90,9 @@ new Vue({
 	},
 	methods:{
 		toggle_left(){
-			if(r_status && !l_status){
-				this.toggle_right();
-			}
 			l_status = !l_status;
 			$('.left').toggleClass('expanded');
 			$('.main_container').toggleClass('main_container_retracted');
-		},
-		toggle_right(){
-			if(l_status){
-				this.toggle_left();
-			}
-			r_status = !r_status;
-			$('#search').toggleClass('icon_to_left');
-			$('.right').toggleClass('expanded');
-			if(r_status){
-				$('#pac-input')[0].style.marginLeft = '30vw';
-				$('.notification-container')[0].style.marginRight = '20vw';
-				$('.info_container')[0].style.marginRight = '20vw';
-			}
-			else{
-				$('#pac-input')[0].style.marginLeft = '40vw';
-				$('.notification-container')[0].style.marginRight = '';
-				$('.info_container')[0].style.marginRight = '';
-			}	
 		}
 	}
 });
@@ -172,28 +134,8 @@ function getCookie(name){
 
 //  info_panel invoker
 //  global variable that indicates which panel is activated
-var active_li;
-function info(self){
-	if(active_li == self){
-		close_panel();
-		return;
-	}
-	if(active_li != null){
-		close_panel();
-	}
-	if(self.getAttribute('class') == 2) my_alert("停车场时间表以查询为准");
-	$('.info_panel #loc_name')[0].innerText = $(`#${self.getAttribute('id')} .p-name`)[0].innerText;
-	$('.info_panel #type')[0].innerText	= owner[self.getAttribute('class') - 1];
-	$('.info_panel')[0].style.display = 'flex';
-	var today = new Date().toISOString().split('T')[0];
-	sd.setAttribute('min', today);
-	ed.setAttribute('min', today);
-	active_li = self;
-	self.style.boxShadow = "0 4px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%)";
-	self.style.background = "rgba(200,200,200, 0.9)";
-	get_appointments_by_date();
-}
 // close information panel
+
 function close_panel(){
 	$('.info_panel')[0].style.display = 'none';
 	if(active_li){
@@ -264,7 +206,7 @@ function check_period(){
 		error("开始时间应该早于结束时间");
 		return;
 	}
-	if(`${sd.value} ${sh.value}:${sm.value}` <= formatDate(new Date())){
+	if(`${sd.value} ${sh.value}:${sm.value}` < formatDate(new Date())){
 		error("已经错过开始时间");
 		return;
 	}
@@ -319,7 +261,7 @@ function reserve(){
 		show_check_button();
 		return;
 	}
-	if(`${sd.value} ${sh.value}:${sm.value}` <= formatDate(new Date())){
+	if(`${sd.value} ${sh.value}:${sm.value}` < formatDate(new Date())){
 		error("已经错过开始时间");
 		show_check_button();
 		return;
@@ -494,80 +436,6 @@ new Vue({
 	}
 });
 
-var owner = ['个人','物业'];
-// right sidebar logic
-new Vue({
-	el: "#sidebar",
-	data:{
-		p_name:""
-	},
-	methods:{
-		search_by_pname(){
-			success("正在定位");
-			active_li = null;
-			close_panel();
-			$('#p_list').empty();
-			let p_name=this.p_name, lat, lng;
-			// wait for location acquisition
-			var coord_promise = new Promise(function(resolve, reject) {
-			    navigator.geolocation.getCurrentPosition(function(pos){
-			        lat = pos.coords.latitude
-			        lng = pos.coords.longitude
-			        resolve({lat,lng});
-			    }) 
-			})
-			coord_promise.then(function(value){
-				axios.get(`/user/search_pname?p_name=${p_name}&lat=${value.lat}&lng=${value.lng}`,
-							{
-								headers:{
-								'Content-Type': 'application/json;charset=UTF-8',
-								'Accept': 'application/json, text/plain, */*',
-								'Auth': getCookie('token')
-								}
-							}
-				)
-				.then(function (response) {
-					if(response.data.error_code!=0){
-						error(response.data.message);
-						if(response.data.error_code==1000 || response.data.error_code==1001){
-							setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
-						}
-						return;
-					}
-					success(response.data.message);
-					let list = response.data.data.list;
-					for(var i=0; i<list.length; i++){
-						let li = document.createElement('li');
-						li.setAttribute("onclick", "info(this)");
-						li.setAttribute("id", list[i].p_id);
-						li.setAttribute("class", list[i].type);
-						li.innerHTML = "<p class='p-name'>"+list[i].name+"</p>"
-									+"<div class='row'>"
-										+"<div class='price_icons'></div>"
-										+"<div class='content'>"+list[i].price_per_min+"元/分钟</div>"
-									+"</div>"
-									+"<div class='row'>"
-										+"<div class='status_icons'></div>"
-										+"<div class='content'>"+owner[list[i].type - 1]+"</div>"
-									+"</div>"
-									+"<div class='row'>"
-										+"<div class='distance_icons'></div>"
-										+"<div class='content'>"+(list[i].distance>=1?Math.round(list[i].distance)+"km":Math.round(list[i].distance*1000)+"m")+"</div>"
-									+"</div>";
-						$('#p_list').append(li);
-					}
-					// append empty li as list padding
-					let li = document.createElement('li');
-					li.setAttribute("style","visibility: hidden;");
-					$('#p_list').append(li);
-				})
-				.catch(function (error) {
-					console.log(error);
-				});
-			});
-		}
-	}
-});
 
 // time scheduler
 

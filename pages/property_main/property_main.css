@@ -170,7 +170,7 @@ body {
 
 /* map display */
 
-#map {
+#main {
   height: 92vh;
   width: 100vw;
   /* width: inherit; */
@@ -208,9 +208,9 @@ body {
 .left .welcome{
 	font-family: "Source Sans Pro", sans-serif;
 	font-weight: 500;
-	color: white;
 	height: 8vh;
 	width: 20vw;
+	color: white;
 	line-height: 8vh;
 	font-size: 20px;
 	text-align: center;

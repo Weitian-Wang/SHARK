@@ -24,6 +24,10 @@ class ResultSuccess(ErrorCode):
     def __init__(self, data=None, message="SUCCESS"):
         super().__init__(success=0, error_code=0, message=message, data=data)
 
+class GeneralError(ErrorCode):
+    def __init__(self, message):
+        # super().__init__(error_code=1, message="customizable")
+        super().__init__(error_code=1, message=message)
 
 class UserExistError(ErrorCode):
     def __init__(self):
@@ -63,6 +67,11 @@ class WaitingSync(ErrorCode):
     def __init__(self):
         # super().__init__(error_code=106, message="Critical resource is being accessed by another user.")
         super().__init__(error_code=106, message="等待资源同步")
+
+class UnauthorizedOperation(ErrorCode):
+    def __init__(self):
+        # super().__init__(error_code=107, message="Operation unauthorized")
+        super().__init__(error_code=107, message="无权进行此操作")
 
 class SystemInternalError(ErrorCode):
     # def __init__(self, message="System internal error."):

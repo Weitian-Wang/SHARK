@@ -13,13 +13,16 @@ from sqlalchemy.sql.functions import user
 from src.database import DBStore
 from src.error_code import *
 from src.user.auth import generate_token
-from src.user.constant import SpotType, UserType
+from src.user.constant import OrderStatus, SpotType, UserType
+from apscheduler.schedulers.background import BackgroundScheduler
 
 # for threading and logic handling
 class UserProxy():
     def __init__(self):
         self._database = DBStore()
         self._expire_time = '7200'
+        # trigger action at certain time
+        self._scheduler = BackgroundScheduler()
 
     # login & register related
     def tel_check(self, tel):
@@ -204,9 +207,9 @@ class UserProxy():
 
     def reserve_spot(self, user_tel, ps_id, start_time, end_time):
         # +8 China Standard Time
-        if datetime.strptime(start_time, '%Y-%m-%d %H:%M') < datetime.utcnow() + timedelta(hours=8):
+        if datetime.strptime(start_time, '%Y-%m-%d %H:%M') <= datetime.utcnow() + timedelta(hours=8):
             raise ParamError()
-        # ENTER
+        # ENTER check flag and lock
         self._database.spot_update_flag_lock(ps_id)
 
         # CRITICAL SECTION
@@ -285,10 +288,89 @@ class UserProxy():
             self._database.update_appointments(ps_id, appointments)
         
         order_id = str(uuid.uuid4())
-        self._database.place_order(order_id, user_tel, ps_id, datetime.strptime(start_time, '%Y-%m-%d %H:%M'), datetime.strptime(end_time, '%Y-%m-%d %H:%M'))
+        order = self._database.place_order(order_id, user_tel, ps_id, datetime.strptime(start_time, '%Y-%m-%d %H:%M'), datetime.strptime(end_time, '%Y-%m-%d %H:%M'))
         self._database.spot_update_flag_unlock(ps_id)
-        return ResultSuccess(message="预约成功")
-        
+        return order
+    
+    def cancel_order(self, user_tel, order_id):
+        order = self._database.get_order_by_id(order_id)
+        if not order:
+            raise ParamError()
+        if order.custom_tel != user_tel:
+            raise UnauthorizedOperation()
+        # use dictionary as switch clause
+        # DENIED = 0, PLACED = 1, USING_SPOT = 2, COMPLETED = 3, CANCELED = 4, ABNORMAL = 5
+        reason = {0:'订单已经被拒绝', 1:'预定成功', 2:'已经开始使用,无法取消', 3:'订单已完成,无法取消', 4:'已经取消', 5:'订单异常,无法取消'}
+        if order.order_status != 1:
+            raise GeneralError(message=reason[order.order_status])
+        # update appointment of order's parking spot
+        # entering critical section, check flag and lock
+        self._database.spot_update_flag_lock(ps_id=order.ps_id)
+        spot = self._database.get_spot_by_id(ps_id=order.ps_id)
+        appointments = spot.appointments
+        start_time = order.assigned_start_time
+        end_time = order.assigned_end_time
+        if start_time.date() == end_time.date():
+            date_str = str(start_time.date())
+            try:
+                appointments[date_str].remove([datetime.strftime(start_time, '%H:%M'), datetime.strftime(end_time, '%H:%M')])
+            except:
+                pass
+
+        else: 
+            it = start_time.date() + timedelta(days = 1)
+            if it < end_time.date():
+                appointments.pop(str(it))
+                it += timedelta(days = 1)
+            try:
+                appointments[str(start_time.date())].remove([datetime.strftime(start_time, '%H:%M'),"23:59"])
+            except:
+                pass
+            try:
+                appointments[str(end_time.date())].remove(['00:00', datetime.strftime(end_time, '%H:%M')])
+            except:
+                pass
+        self._database.update_appointments(ps_id=order.ps_id, new_appointments=appointments)
+        # release lock
+        self._database.spot_update_flag_unlock(ps_id = order.ps_id)
+        self._database.update_order_status(order_id, OrderStatus.CANCELED)
+        return ResultSuccess(message="订单取消成功")
+
+    def deny_order(self, custom_tel, order_id):
+        order = self._database.get_order_by_id(order_id)
+        if not order or order.custom_tel != custom_tel:
+            raise ParamError()
+        # use dictionary as switch clause
+        # DENIED = 0, PLACED = 1, USING_SPOT = 2, COMPLETED = 3, CANCELED = 4, ABNORMAL = 5
+        reason = {0:'订单已经拒绝', 1:'预定成功', 2:'已经开始使用,无法拒绝', 3:'订单已完成,无法拒绝', 4:'已经取消,无法拒绝', 5:'订单异常,无法拒绝'}
+        if order.order_status != 1:
+            raise GeneralError(message=reason[order.order_status])
+        # update appointment of order's parking spot
+        # entering critical section, check flag and lock
+        self._database.spot_update_flag_lock(ps_id = order.ps_id)
+        spot = self._database.get_spot_by_id(ps_id=order.ps_id)
+        appointments = spot.appointments
+        start_time = order.assigned_start_time
+        end_time = order.assigned_end_time
+        if start_time.date() == end_time.date():
+            date_str = str(start_time.date())
+            appointments[date_str].remove([datetime.strftime(start_time, '%H:%M'), datetime.strftime(end_time, '%H:%M')])
+        else: 
+            it = start_time.date() + timedelta(days = 1)
+            if it < end_time.date():
+                appointments.pop(str(it))
+                it += timedelta(days = 1)
+            appointments[str(start_time.date())].remove([datetime.strftime(start_time, '%H:%M'),"23:59"])
+            appointments[str(end_time.date())].remove(['00:00', datetime.strftime(end_time, '%H:%M')])
+        self._database.update_appointments(ps_id=order.ps_id, new_appointments=appointments)
+        # release lock
+        self._database.spot_update_flag_unlock(ps_id = order.ps_id)
+        self._database.update_order_status(order_id, OrderStatus.DENIED)
+        return ResultSuccess(message="成功拒绝订单")
+
+    def update_order_status_as_using(self, order_id):
+        self._database.update_order_status(order_id, OrderStatus.USING_SPOT)
+
     # utility functions
     def distance_cal(self, lat1, lng1, lat2, lng2):
         lat1 = radians(lat1)
