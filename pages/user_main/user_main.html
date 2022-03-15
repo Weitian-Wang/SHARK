@@ -16,9 +16,10 @@
 		
 		<div class="left animation_time" id="left_menu">
 			<div class="welcome">Welcome, {{user_name}}!</div>
-			<div class="row animation_time"><div class="icon" style="background-image: url(../index_pic/reservation.png);"></div><div id="reservation" class="menu_item">我的预定</div></div>
-			<div class="row animation_time"><div class="icon" style="background-image: url(../index_pic/my_spot.png);"></div><div id="my_spot" class="menu_item">车位管理</div></div>
-			<div class="row animation_time"><div class="icon" style="background-image: url(../index_pic/setting.png);"></div><div id="setting" class="menu_item">账户设置</div></div>
+			<div id="p_search" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/p_search.png);"></div><div class="menu_item">搜索车位</div></div>
+			<div id="reservation" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/reservation.png);"></div><div class="menu_item">我的预定</div></div>
+			<div id="spot_management" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/my_spot.png);"></div><div class="menu_item">车位管理</div></div>
+			<div id="account_setting" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/setting.png);"></div><div class="menu_item">账户设置</div></div>
 			<div id="copy_right">SHARK Shared Parking - FYP by Weitian-Wang @GitHub</div>
 		</div>
 		
@@ -31,13 +32,6 @@
 			<div class="notification-container animation_time"></div>
 			
 			<!-- pac-input for google map search box -->
-			<input
-			      id="pac-input"
-			      class="controls"
-			      type="text"
-			      placeholder="目的地址搜索"
-				  style="visibility: hidden;"
-			    />
 				
 			<div class='info_container'>
 				<div class='info_panel' style="display: none;">
@@ -67,7 +61,9 @@
 				</div>
 			</div>
 			
-			<div id="map"></div>
+			<!-- load different menu content into frame -->
+			<div id="frame">
+			</div>
 		</div>
 
 		<div class="right animation_time" id="sidebar">
@@ -173,6 +169,8 @@ function getCookie(name){
 //  info_panel invoker
 //  global variable that indicates which panel is activated
 var active_li;
+var active_menu_row;
+active_menu_row = $("#p_search")[0];
 function info(self){
 	if(active_li == self){
 		close_panel();
@@ -202,6 +200,23 @@ function close_panel(){
 	}
 	show_check_button();
 	active_li = null;
+}
+
+function select_menu_row(self){
+	active_menu_row.style = "";
+	active_menu_row = self;
+	active_menu_row.style.background = "lightgray";
+	active_menu_row.style.boxShadow = "inset 0px 0px 6px rgb(0,0,0, 50%)";
+	if(self.id != 'p_search'){
+		close_panel();
+		$('#search')[0].style.transition = '0s';
+		$('#search')[0].style.visibility = 'hidden';
+	}
+	else{
+		$('#search')[0].style.transition = '0.4s ease'
+		$('#search')[0].style.visibility = "";
+	}
+	$('#frame').load(`${self.id}.html`);
 }
 
 function get_appointments_by_date(){
@@ -365,97 +380,6 @@ function reserve(){
 	});
 }
 
-var map;
-function initMap(){
-	if (navigator.geolocation) {
-		// TODO swap in production
-		map = new google.maps.Map(document.getElementById("map"), {
-		    center: { lat: 0, lng: 0 },
-		    zoom: 13,
-			disableDefaultUI: true
-		  });
-		
-		navigator.geolocation.getCurrentPosition(
-			function (position) {
-				map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-			}
-		);
-		
-		// Create the search box and link it to the UI element.
-		const input = document.getElementById("pac-input");
-		const searchBox = new google.maps.places.SearchBox(input);
-		
-		map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-		// Bias the SearchBox results towards current map's viewport.
-		map.addListener("bounds_changed", () => {
-		  searchBox.setBounds(map.getBounds());
-		});
-		
-		let markers = [];
-		
-		// Listen for the event fired when the user selects a prediction and retrieve
-		// more details for that place.
-		// !!search and refocus event!!
-		searchBox.addListener("places_changed", () => {
-		  const places = searchBox.getPlaces();
-		
-		  if (places.length == 0) {
-		    return;
-		  }
-		
-		  // Clear out the old markers.
-		  markers.forEach((marker) => {
-		    marker.setMap(null);
-		  });
-		  markers = [];
-		
-		  // For each place, get the icon, name and location.
-		  const bounds = new google.maps.LatLngBounds();
-		
-		  places.forEach((place) => {
-		    if (!place.geometry || !place.geometry.location) {
-		      console.log("Returned place contains no geometry");
-		      return;
-		    }
-		
-		    const icon = {
-		      url: place.icon,
-		      size: new google.maps.Size(71, 71),
-		      origin: new google.maps.Point(0, 0),
-		      anchor: new google.maps.Point(17, 34),
-		      scaledSize: new google.maps.Size(25, 25),
-		    };
-		
-		    // Create a marker for each place.
-		    markers.push(
-		      new google.maps.Marker({
-		        map,
-		        icon,
-		        title: place.name,
-		        position: place.geometry.location,
-		      })
-		    );
-			
-			// get lat and lng for searched location
-			sessionStorage.setItem('lat', place.geometry.location.lat());
-			sessionStorage.setItem('lng', place.geometry.location.lng());
-			
-		    if (place.geometry.viewport) {
-		      // Only geocodes have viewport.
-		      bounds.union(place.geometry.viewport);
-		    } else {
-		      bounds.extend(place.geometry.location);
-		    }
-		  });
-		  map.fitBounds(bounds);
-		});
-		success('Map load success.');
-	} 
-	else{
-		error('Unable to get location.');
-	}
-}
-
 function success(success_message){
 	notification.innerHTML = '<div class="rectangle" id="success" style="display: flex; position: absolute;">'
 								+'<div class="notification-text">'
@@ -480,8 +404,6 @@ function my_alert(alert_message){
 							+'</div>';
 }
 
-// TODO initiate map in production
-// initMap();
 
 // left menu logic
 new Vue({
@@ -870,6 +792,7 @@ function set_token_cookie(){
 		return;
 	}
 	document.cookie = "token="+sessionStorage.getItem('token');
+	select_menu_row($('#p_search')[0]);
 }
 
 </script>

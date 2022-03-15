@@ -239,8 +239,6 @@ body {
 }
 .left .row:hover {
    font-weight: 400;
-   border-right: #0057b7 6px solid;
-   border-left: #0057b7 6px solid;
    box-shadow: 0 2px 4px 3px rgb(0 0 0 / 40%);
 }
 /* menu options from left navigation bar */

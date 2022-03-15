@@ -93,7 +93,9 @@ new Vue({
 					// store token in cookie
 					sessionStorage.setItem('name', response.data.data.name);
 					sessionStorage.setItem('token', response.data.data.token);
-					setTimeout(function(){window.location.href = '../user_main/user_main.html'}, 2000);
+					if(response.data.data.user_type == 1) setTimeout(function(){window.location.href = '../user_main/user_main.html'}, 1500);
+					if(response.data.data.user_type == 2) setTimeout(function(){window.location.href = '../property_main/property_main.html'}, 1500);
+					if(response.data.data.user_type == 3) setTimeout(function(){window.location.href = '../admin_main/admin_main.html'}, 1500);
 				}
 				else{
 					notification.innerHTML = '<div class="rectangle" id="error" style="display: flex;">'

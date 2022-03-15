@@ -238,11 +238,9 @@ body {
 	white-space: nowrap;
 }
 .left .row:hover {
-   font-weight: 400;
-   border-right: #0057b7 6px solid;
-   border-left: #0057b7 6px solid;
    box-shadow: 0 2px 4px 3px rgb(0 0 0 / 40%);
 }
+
 /* menu options from left navigation bar */
 .menu_item{
 	font-size: 20px;
@@ -383,7 +381,7 @@ div#search-area button {
   color: white;
   font-weight: 600;
   height: 5vh;
-  width: 6vh;
+  width: 3.5vw;
   display: inline-block;
   outline: none;
   border: none;
