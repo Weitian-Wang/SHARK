@@ -440,7 +440,7 @@ div#results-area ul li p {
 }
 
 div#results-area ul li p.p-name {
-	padding-left: 2px;
+  padding-left: 2px;
   font: 400 15px Roboto, Arial, sans-serif;
   color: #000000;
   text-transform: uppercase;

@@ -100,6 +100,15 @@ def search_pname(auth):
         result = user_proxy.search_pname(params['p_name'], float(params['lat']), float(params['lng']))
         return jsonify(result.to_dict())
 
+@app.route('/user/get_p_near_coord', methods=['GET'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
+def get_p_near_coord(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.get_p_near_coord(float(params['lat']), float(params['lng']))
+        return jsonify(result.to_dict())
+
 @app.route('/user/get_appointments', methods=['GET'])
 @authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def get_appointments_by_id_and_type(auth):
@@ -148,6 +157,43 @@ def deny_order(auth):
     with user_proxy:
         result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
         return jsonify(result.to_dict())
+
+@app.route('/user/load_reservation_page', methods=['GET'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+def get_order_info(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
+        return jsonify(result.to_dict())
+
+@app.route('/user/load_spot_management_page', methods=['GET'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+def get_spot_info(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
+        return jsonify(result.to_dict())
+
+@app.route('/property/load_lot_management_page', methods=['GET'])
+@authenticate_token([UserType.PROPERTY, UserType.ADMIN])
+def get_lot_info(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
+        return jsonify(result.to_dict())
+
+@app.route('/user/load_account_setting_page', methods=['GET'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+def get_account_info(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
+        return jsonify(result.to_dict())
+
 
 # set order_status as USING_SPOT upon start time
 def order_scheduler_job(order_id):

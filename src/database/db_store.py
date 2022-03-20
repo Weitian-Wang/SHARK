@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.functions import current_time
 from src.error_code.error_code import *
-from src.user.constant import OrderStatus, PaymentStatus
+from src.user.constant import OrderStatus, PaymentStatus, SpotType
 from .schema import Base, User, ParkingLot, ParkingSpot, Order
 
 class DBStore():
@@ -51,15 +51,34 @@ class DBStore():
         spot = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).one()
         return spot
 
+
+    # 110 kilometers per lat, 111.32 kilometers per lng, approximate to same km/degree
+    # ±0.018 degree = ±2km
+    def get_personal_spots_in_proximity(self, lat, lng, range = 0.018):
+        # -90 to 90 for latitude, -180 to 180 for longitude
+        # ignore overflow and underflow
+        spot_list = []
+        spots = self._session.query(ParkingSpot).filter(ParkingSpot.spot_type == SpotType.INDIVIDUAL, ParkingSpot.latitude<=(lat+range), ParkingSpot.latitude>=(lat-range), ParkingSpot.longitude<=(lng+range), ParkingSpot.longitude>=(lng-range)).all()
+        for spot in spots:
+            spot_list.append({'id': spot.ps_id, 'type': SpotType.INDIVIDUAL, 'name':spot.name, 'price_per_min': spot.price_per_min, 'latitude':spot.latitude, 'longitude':spot.longitude})
+        return spot_list
+
+    def get_all_property_lots_in_proximity(self, lat, lng, range = 0.018):
+        lot_list = []
+        lots = self._session.query(ParkingLot).filter(ParkingLot.latitude<=lat+range, ParkingLot.latitude>=(lat-range), ParkingLot.longitude<=(lng+range), ParkingLot.longitude>=(lng-range)).all()
+        for lot in lots:
+            lot_list.append({'id': lot.pl_id, 'type': SpotType.PROPERTY, 'name':lot.name, 'price_per_min': lot.price_per_min, 'latitude':lot.latitude, 'longitude':lot.longitude})
+        return lot_list
+
     # supports parking lots and spots
     def get_p_by_name(self, p_name):
         # for searching parking spots
-        spot_sql = "SELECT ps_id AS p_id, name, spot_type AS type, price_per_min, coordinate FROM parking_spot WHERE name LIKE '%{}%' AND spot_type=1".format(p_name)
+        spot_sql = "SELECT ps_id AS p_id, name, spot_type AS type, price_per_min, latitude, longitude FROM parking_spot WHERE name LIKE '%{}%' AND spot_type=1".format(p_name)
         rst = self._session.execute(spot_sql)
         # turn CursorResult object (query result) into list of dictionary
         p_dict_list = [dict(item) for item in rst]
         # for searching parking lots
-        lot_sql = "SELECT pl_id AS p_id, name, 2 AS type, price_per_min, coordinate FROM parking_lot WHERE name LIKE '%{}%'".format(p_name)
+        lot_sql = "SELECT pl_id AS p_id, name, 2 AS type, price_per_min, latitude, longitude FROM parking_lot WHERE name LIKE '%{}%'".format(p_name)
         rst = self._session.execute(lot_sql)
         # merge spots & lots results
         p_dict_list.extend([dict(item) for item in rst])

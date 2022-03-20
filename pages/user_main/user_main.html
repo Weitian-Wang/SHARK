@@ -74,14 +74,11 @@
 			
 			<div id="results-area">
 				<ul id="p_list">
-					</li>
-					<li style="opacity: 0;">
-					</li>
 				</ul>
 			</div>
 		</div>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0&libraries=places"></script>
 		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0"></script> -->
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0&libraries=places"></script>
 	</body>
 
 <!-- script section -->
@@ -140,32 +137,6 @@ function getCookie(name){
 }
 
 
-// google map
-// TODO TODO TODO
-
-// // custom icon pic and resize
-// var icon = {
-//     url: "../index_pic/parking.png", // url
-//     scaledSize: new google.maps.Size(46, 46), // scaled size
-//     origin: new google.maps.Point(0,0), // origin
-//     anchor: new google.maps.Point(0, 0) // anchor
-// };
-// // info display when click marker icon
-// var infowindow = new google.maps.InfoWindow({
-//                 content: "Add your popup content here"
-// });
-// // create marker instance on map
-// var marker = new google.maps.Marker({
-// 	// float number, parseFloat(sessionStorage.getItem('lat/lng'))
-//     position: {lat: 120, lng: 120},
-//     map,
-//     icon: icon
-//   });
-// //  add infowindow to marker
-// marker.addListener('click', function() {
-//           infowindow.open(map, marker);
-// });
-
 //  info_panel invoker
 //  global variable that indicates which panel is activated
 var active_li;
@@ -179,9 +150,9 @@ function info(self){
 	if(active_li != null){
 		close_panel();
 	}
-	if(self.getAttribute('class') == 2) my_alert("停车场时间表以查询为准");
+	if(self.getAttribute('class').split(' ')[0] == 2) my_alert("停车场时间表以查询为准");
 	$('.info_panel #loc_name')[0].innerText = $(`#${self.getAttribute('id')} .p-name`)[0].innerText;
-	$('.info_panel #type')[0].innerText	= owner[self.getAttribute('class') - 1];
+	$('.info_panel #type')[0].innerText	= owner[self.getAttribute('class').split(' ')[0] - 1];
 	$('.info_panel')[0].style.display = 'flex';
 	var today = new Date().toISOString().split('T')[0];
 	sd.setAttribute('min', today);
@@ -227,7 +198,7 @@ function get_appointments_by_date(){
 		else{
 			appointments[0] = ['00:00','00:00'];
 		}
-		axios.get(`/user/get_appointments?id=${active_li.id}&type=${active_li.getAttribute('class')}&date=${sd.value==ed.value?sd.value:null}`,
+		axios.get(`/user/get_appointments?id=${active_li.id}&type=${active_li.getAttribute('class').split(' ')[0]}&date=${sd.value==ed.value?sd.value:null}`,
 					{
 						headers:{
 						'Content-Type': 'application/json;charset=UTF-8',
@@ -286,7 +257,7 @@ function check_period(){
 	axios.post('/user/check_period_validity',
 		{
 			'id': active_li.id,
-			'type': active_li.getAttribute('class'),
+			'type': active_li.getAttribute('class').split(' ')[0],
 			'start_time': `${sd.value} ${sh.value}:${sm.value}`,
 			'end_time': `${ed.value} ${eh.value}:${em.value}`
 		},
@@ -310,7 +281,7 @@ function check_period(){
 			success(response.data.message);
 			// parking lot store ps_id in button value
 			show_confirm_cancel_buttons();
-			if(active_li.getAttribute('class')=='2'){
+			if(active_li.getAttribute('class').split(' ')[0]=='2'){
 				$('#reserve_button')[0].value = response.data.data.avail_ps_id;
 			}
 			
@@ -340,7 +311,7 @@ function reserve(){
 		return;
 	}
 	var ps_id;
-	if(active_li.getAttribute('class')=='2'){
+	if(active_li.getAttribute('class').split(' ')[0]=='2'){
 		ps_id = $('#reserve_button')[0].value;
 	}
 	else{

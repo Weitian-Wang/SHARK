@@ -70,10 +70,20 @@ class UserProxy():
     def search_pname(self, p_name, lat=0, lng=0):
         p_list = self._database.get_p_by_name(p_name)
         for it in p_list:
-            coord = json.loads(it['coordinate'])
-            it['distance'] = self.distance_cal(lat, lng, coord['lat'], coord['lng'])
+            it['distance'] = self.distance_cal(lat, lng, it.get('latitude'), it.get('longitude'))
         p_list = sorted(p_list, key=lambda d: d['distance'])
         return ResultSuccess({'list':p_list}, message="找到{}个结果".format(len(p_list)))
+
+    def get_p_near_coord(self, lat, lng, no_results = 7, range = 0.018):
+        # spot list
+        list = self._database.get_personal_spots_in_proximity(lat, lng, range)
+        # lot list
+        lot_list = self._database.get_all_property_lots_in_proximity(lat, lng, range)
+        list.extend(lot_list)
+        for it in list:
+            it['distance'] = self.distance_cal(lat, lng, it.get('latitude'), it.get('longitude'))
+        list = sorted(list, key=lambda d: d['distance'])
+        return ResultSuccess(data = {'list':list[0:no_results]}, message='找到附近{}个结果'.format(len(list[0:no_results])) if len(list[0:no_results])!= 0 else '附近没有车位或停车场')
 
     # get appointments and display at time scheduler
     def get_appointments_by_id_type(self, id, type, date=str(datetime.today().date())):

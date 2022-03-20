@@ -53,12 +53,8 @@ class ParkingLot(Base):
     # } need a parse function?? 
     # TODO generate subordinate parking spots
     spot_id_range = Column(JSON, nullable=False)
-    no_spots = Column(Integer, nullable=False)
-    # {
-    #   'lat': 40.689247,
-    #   'lng': -74.044502
-    # }
-    coordinate = Column(JSON, nullable=False)
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
     price_per_min = Column(Float, nullable=False)
 
 class ParkingSpot(Base):
@@ -75,13 +71,9 @@ class ParkingSpot(Base):
     pl_id = Column(String(36), ForeignKey('parking_lot.pl_id'), nullable=True)
     price_per_min = Column(Float, nullable=False)
     # NOT_AVAILABLE = 0, AVAILABLE = 1, RESERVED = 2, USING = 3
-    # TODO!!! status stored or calculated on flight???
     status = Column(Integer, nullable=True)
-    # {
-    #   lat: 40.689247,
-    #   lng: -74.044502
-    # }
-    coordinate = Column(JSON, nullable=False)
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
     # appointments = {'2022-02-25':[['00:00','12:00'], ['20:30','21:00']], '2022-05-04':[['06:00','12:00'], ['22:30','23:00']]}
     appointments = Column(JSON, nullable=False, default={})
     # flag for row level mutually exclusive update
