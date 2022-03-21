@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.functions import current_time
 from src.error_code.error_code import *
-from src.user.constant import OrderStatus, PaymentStatus, SpotType
+from src.user.constant import OrderStatus, SpotType
 from .schema import Base, User, ParkingLot, ParkingSpot, Order
 
 class DBStore():
@@ -133,6 +133,20 @@ class DBStore():
 
     def get_order_by_id(self, order_id):
         return self._session.query(Order).filter(Order.order_id == order_id).first()
+
+    def get_user_orders(self, user_tel):
+        # order is keyword in sql
+        sql = "SELECT "\
+            "SHARK.order.order_id as order_id,"\
+            "SHARK.order.order_status as status,"\
+            "SHARK.order.assigned_start_time as start_time,"\
+            "SHARK.order.assigned_end_time as end_time,"\
+            "SHARK.parking_spot.name as name,"\
+            "SHARK.parking_spot.price_per_min as price "\
+            "FROM SHARK.order JOIN SHARK.parking_spot WHERE custom_tel='{}' "\
+            "AND SHARK.order.ps_id=SHARK.parking_spot.ps_id".format(user_tel)
+        rst = self._session.execute(sql)
+        return [dict(item) for item in rst]
 
     # acceptable updates: PLACED->USING_SPOT, PLACED->CANCELED, PLACED->DENIED, USING_SPOT->COMPLETED
     def update_order_status(self, order_id, new_status):

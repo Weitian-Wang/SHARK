@@ -15,10 +15,8 @@ class OrderStatus(object):
     DENIED = 0
     PLACED = 1
     USING_SPOT = 2
-    COMPLETED = 3
+    # COMPLETED = 3
     CANCELED = 4
     ABNORMAL = 5
-
-class PaymentStatus(object):
-    UNPAID = 0
-    PAID = 1
+    LEFT_AND_UNPAID = 10
+    COMPLETED = 11

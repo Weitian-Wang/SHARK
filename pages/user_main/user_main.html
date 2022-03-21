@@ -158,8 +158,10 @@ function info(self){
 	sd.setAttribute('min', today);
 	ed.setAttribute('min', today);
 	active_li = self;
-	self.style.boxShadow = "0 4px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%)";
-	self.style.background = "rgba(200,200,200, 0.9)";
+	if(active_li.tagName!='DIV'){
+		self.style.boxShadow = "0 4px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%)";
+		self.style.background = "rgba(200,200,200, 0.9)";
+	}
 	get_appointments_by_date();
 }
 // close information panel

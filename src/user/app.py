@@ -158,13 +158,13 @@ def deny_order(auth):
         result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
         return jsonify(result.to_dict())
 
-@app.route('/user/load_reservation_page', methods=['GET'])
+@app.route('/user/get_orders', methods=['GET'])
 @authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
-def get_order_info(auth):
+def get_orders(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
+        result = user_proxy.get_orders(auth['user_tel'])
         return jsonify(result.to_dict())
 
 @app.route('/user/load_spot_management_page', methods=['GET'])

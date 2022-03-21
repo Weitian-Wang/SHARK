@@ -735,3 +735,12 @@ div#results-area ul li div.row div.content {
 #time {
 	display: flex;
 }
+#frame{
+	width: inherit;
+	height: inherit;
+	display: flex;
+	flex-wrap: wrap;
+	overflow-y: scroll;
+	justify-content: center;
+	background: linear-gradient(to bottom,  #eae9f5, #f8f9fa,  #bfc4d8);
+}

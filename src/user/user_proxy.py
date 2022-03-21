@@ -381,6 +381,11 @@ class UserProxy():
     def update_order_status_as_using(self, order_id):
         self._database.update_order_status(order_id, OrderStatus.USING_SPOT)
 
+    def get_orders(self, user_tel):
+        data =  self._database.get_user_orders(user_tel)
+        data = sorted(data, key=lambda d: d['start_time'])
+        return ResultSuccess(data={'order_list':data})
+
     # utility functions
     def distance_cal(self, lat1, lng1, lat2, lng2):
         lat1 = radians(lat1)

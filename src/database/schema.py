@@ -84,10 +84,8 @@ class Order(Base):
     order_id = Column(String(36), primary_key=True, nullable=False, default=get_str_uuid)
     custom_tel = Column(String(11), ForeignKey('user.tel'), nullable=False)
     ps_id = Column(String(36), nullable=False)
-    # DENIED = 0, PLACED = 1, USING_SPOT = 2, COMPLETED = 3, CANCELED = 4, ABNORMAL = 5
+    # DENIED = 0, PLACED = 1, USING_SPOT = 2, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED_PAID = 11
     order_status = Column(Integer, nullable=False)
-    # UNPAIED = 0, PAID = 1
-    payment_status = Column(Integer, nullable=False, default=False)
     utc_create_time = Column(DateTime, nullable=False, default=get_datetime)
     utc_complete_time = Column(DateTime, nullable=True)
 

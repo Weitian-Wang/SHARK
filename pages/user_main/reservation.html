@@ -1,5 +1,93 @@
-<link rel="stylesheet" type="text/css" href="reservation.css"/>
+<link rel="stylesheet" type="text/css" href="reservation.css"/>	
+<!-- src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=348490cc-fd79-4b62-b677-9a6ff58d6b29" -->     
+<div class="order-container">
+<!-- pagination todo maybe will not implement -->
+<!-- <div class="pagination">
+  <div>&laquo;</div>
+  <div class="active">1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>&raquo;</div>
+</div> -->
 
-<div>reservation</div>
+<div class="order container">
 
-<script type="text/javascript">
+
+<script type="application/javascript">
+
+// # DENIED = 0, PLACED = 1, USING_SPOT = 2, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED_PAID = 11
+var status_string = {'0':'订单被拒绝', '1':'订单待使用', '2':'订单进行中', '3':'how did u get here?', '4':'订单已取消', '5':'订单异常', '10':'订单待支付','11':'订单已完成'}
+var status_options = {'1':'<div>取消</div><div>入场</div><div>支付</div>', '2':'<div>离场</div><div>支付</div>', '3':'how did u get here?', '5':'订单异常', '10':'<div>支付</div>'}
+var status_color = {'0':'Grey', '1':'Lime', '2':'Orange', '3':'how did u get here?', '4':'Grey', '5':'Red', '10':'Amber','11':'Indigo'}
+var rst;
+var orders;
+
+function get_orders(){
+			$('.order-container').empty();
+			axios.get(`/user/get_orders`,
+			{
+				headers:{
+				'Content-Type': 'application/json;charset=UTF-8',
+				'Accept': 'application/json, text/plain, */*',
+				'Auth': getCookie('token')
+				}
+			}
+			)
+			.then(function (response) {
+				if(response.data.error_code!=0){
+					error(response.data.message);
+					if(response.data.error_code==1000 || response.data.error_code==1001){
+						setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+					}
+					return;
+				}
+				orders = response.data.data.order_list;
+				success(`找到${orders.length}个订单`);
+				for(var i = 0; i < orders.length; i++){
+					var order = orders[i];
+					var order_div = document.createElement('div');
+					order_div.innerHTML = `<div>
+												<article class="material-card ${status_color[order.status]} mc-active">
+												<h2>
+													<span>${order.name}</span>
+													<strong>
+														${status_string[order.status]}
+													</strong>
+												</h2>
+												<div class="mc-content">
+													<div class="img-container mc-btn-action" onclick="expand_qr(this)">
+														<img class="img-responsive" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=order.order_id">
+													</div>
+													<div class="mc-description">
+														入场时间: ${order.start_time}<br>
+														离场期限: ${order.end_time}<br>
+														需支付: 10元<br>
+													</div>
+												</div>
+												<div class="mc-footer">
+													<h4>
+														${order.order_id}
+													</h4>
+													${status_options[order.status]==undefined?'':status_options[order.status]}
+												</div>
+											</article>
+										</div>`;
+					$('.order-container').append(order_div);
+				}
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+}
+get_orders();
+
+function expand_qr(self){
+	var card = $(self).parent('.mc-content').parent('.material-card');
+	if (card.hasClass('mc-active')) {
+		card.removeClass('mc-active');
+	} else {
+		card.addClass('mc-active');
+	}
+}
+
+</script>
