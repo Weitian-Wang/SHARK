@@ -78,7 +78,7 @@ def switch_role_to_property(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.switch_role(auth, params['user_tel'], int(params['target_role']))    
+        result = user_proxy.switch_role(auth['user_tel'], int(params['target_role']))    
     return jsonify(result.to_dict())
 
 # operation of admin, change user's role
@@ -167,7 +167,34 @@ def get_orders(auth):
         result = user_proxy.get_orders(auth['user_tel'])
         return jsonify(result.to_dict())
 
-@app.route('/user/load_spot_management_page', methods=['GET'])
+@app.route('/user/enter_spot', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+def enter_spot(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.enter_spot(auth['user_tel'], params['order_id'])
+        return jsonify(result.to_dict())
+
+@app.route('/user/leave_spot', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+def leave_spot(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.leave_spot(auth['user_tel'], params['order_id'])
+        return jsonify(result.to_dict())
+
+@app.route('/user/pay_order', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+def pay_order(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.pay_order(auth['user_tel'], params['order_id'])
+        return jsonify(result.to_dict())
+
+@app.route('/individual/load_spot_management_page', methods=['GET'])
 @authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
 def get_spot_info(auth):
     params = get_request_params()
@@ -185,15 +212,14 @@ def get_lot_info(auth):
         result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
         return jsonify(result.to_dict())
 
-@app.route('/user/load_account_setting_page', methods=['GET'])
+@app.route('/user/get_account_info', methods=['GET'])
 @authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
 def get_account_info(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
+        result = user_proxy.get_account_info(auth['user_tel'])
         return jsonify(result.to_dict())
-
 
 # set order_status as USING_SPOT upon start time
 def order_scheduler_job(order_id):

@@ -147,14 +147,15 @@ class DBStore():
             "AND SHARK.order.ps_id=SHARK.parking_spot.ps_id".format(user_tel)
         rst = self._session.execute(sql)
         return [dict(item) for item in rst]
-
-    # acceptable updates: PLACED->USING_SPOT, PLACED->CANCELED, PLACED->DENIED, USING_SPOT->COMPLETED
+        
+    # PLACED = 1, USING_SPOT = 2, DENIED = 3, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED = 11
+    # acceptable updates: PLACED->USING_SPOT, PLACED->CANCELED, PLACED->DENIED, USING_SPOT->LEFT_UNPAID->COMPLETED
     def update_order_status(self, order_id, new_status):
-        if new_status not in [OrderStatus.PLACED, OrderStatus.USING_SPOT, OrderStatus.CANCELED, OrderStatus.DENIED, OrderStatus.ABNORMAL, OrderStatus.COMPLETED]:
+        if new_status not in [OrderStatus.PLACED, OrderStatus.USING_SPOT, OrderStatus.CANCELED, OrderStatus.DENIED, OrderStatus.ABNORMAL, OrderStatus.LEFT_UNPAID, OrderStatus.COMPLETED]:
             raise ParamError()
         self.order_update_flag_lock(order_id)
         order = self.get_order_by_id(order_id)
-        if (order.order_status == OrderStatus.PLACED and new_status not in [OrderStatus.USING_SPOT, OrderStatus.CANCELED, OrderStatus.DENIED]) or (order.order_status == OrderStatus.USING_SPOT and new_status != OrderStatus.COMPLETED):
+        if (order.order_status == OrderStatus.PLACED and new_status not in [OrderStatus.USING_SPOT, OrderStatus.CANCELED, OrderStatus.DENIED]) or (order.order_status == OrderStatus.USING_SPOT and new_status != OrderStatus.LEFT_UNPAID) or (order.order_status == OrderStatus.LEFT_UNPAID and new_status != OrderStatus.COMPLETED):
             self.order_update_flag_unlock(order_id)
             raise ParamError()
         self._session.query(Order).filter(Order.order_id == order_id).update({"order_status": new_status})
@@ -168,7 +169,6 @@ class DBStore():
             ps_id = ps_id,
             custom_tel = user_tel,
             order_status = OrderStatus.PLACED,
-            payment_status = PaymentStatus.UNPAID,
             # utc as creat time
             utc_create_time = current_time,
             # local time as start/end_time, corresponds with appointments
@@ -178,6 +178,21 @@ class DBStore():
         self._session.add(order)
         return order
 
+    def update_order_actual_start_time(self, order_id):
+        self.order_update_flag_lock(order_id)
+        self._session.query(Order).filter(Order.order_id == order_id).update({'actual_start_time': datetime.utcnow()})
+        self.order_update_flag_unlock(order_id)
+
+    def update_order_actual_end_time(self, order_id):
+        self.order_update_flag_lock(order_id)
+        self._session.query(Order).filter(Order.order_id == order_id).update({'actual_end_time': datetime.utcnow()})
+        self.order_update_flag_unlock(order_id)
+
+    def update_order_complete_time(self, order_id):
+        self.order_update_flag_lock(order_id)
+        self._session.query(Order).filter(Order.order_id == order_id).update({'utc_complete_time':datetime.utcnow()})
+        self.order_update_flag_unlock(order_id)
+        
     def update_appointments(self, ps_id, new_appointments):
         self.commit()
         self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).update({"appointments": new_appointments})

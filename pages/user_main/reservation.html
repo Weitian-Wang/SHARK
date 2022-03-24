@@ -15,10 +15,10 @@
 
 <script type="application/javascript">
 
-// # DENIED = 0, PLACED = 1, USING_SPOT = 2, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED_PAID = 11
-var status_string = {'0':'订单被拒绝', '1':'订单待使用', '2':'订单进行中', '3':'how did u get here?', '4':'订单已取消', '5':'订单异常', '10':'订单待支付','11':'订单已完成'}
-var status_options = {'1':'<div>取消</div><div>入场</div><div>支付</div>', '2':'<div>离场</div><div>支付</div>', '3':'how did u get here?', '5':'订单异常', '10':'<div>支付</div>'}
-var status_color = {'0':'Grey', '1':'Lime', '2':'Orange', '3':'how did u get here?', '4':'Grey', '5':'Red', '10':'Amber','11':'Indigo'}
+// PLACED = 1, USING_SPOT = 2, DENIED = 3, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED_PAID = 11
+var status_string = {'1':'订单待使用', '2':'订单进行中', '3':'订单被拒绝', '4':'订单已取消', '5':'订单异常', '10':'订单待支付','11':'订单已完成'};
+var status_options = {'1':'<div onclick="cancel_order(this)">取消</div><div onclick="enter_p(this)">入场</div>', '2':'<div onclick="leave_p(this)">离场</div>', '3':'订单被拒绝', '4':'订单取消','5':'订单异常', '10':'<div onclick="pay_order(this)">支付</div>', '11':'支付成功'};
+var status_color = {'1':'Orange', '2':'Green', '3':'Grey', '4':'Grey', '5':'Red', '10':'Blue','11':'Indigo'};
 var rst;
 var orders;
 
@@ -46,6 +46,8 @@ function get_orders(){
 				for(var i = 0; i < orders.length; i++){
 					var order = orders[i];
 					var order_div = document.createElement('div');
+					var s_date = new Date(order.start_time.substring(0,25));
+					var e_date = new Date(order.end_time.substring(0,25));
 					order_div.innerHTML = `<div>
 												<article class="material-card ${status_color[order.status]} mc-active">
 												<h2>
@@ -59,9 +61,12 @@ function get_orders(){
 														<img class="img-responsive" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=order.order_id">
 													</div>
 													<div class="mc-description">
-														入场时间: ${order.start_time}<br>
-														离场期限: ${order.end_time}<br>
-														需支付: 10元<br>
+														🔜 ${formatDate(s_date)}<br>
+														🔚 ${formatDate(e_date)}<br>
+														<br>
+														<p style="opacity: 15%">————————————————————————————</p>
+														金额 ${String("¥ "+order.price*(e_date-s_date)/60000).padStart('21','\xa0')}<br>
+														<p style="opacity: 15%">————————————————————————————</p>
 													</div>
 												</div>
 												<div class="mc-footer">
@@ -90,4 +95,127 @@ function expand_qr(self){
 	}
 }
 
+function cancel_order(self){
+	axios.post('/user/cancel_order',
+		{
+			'order_id': $(self).parent('.mc-footer').children('h4')[0].innerText
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		else{
+			success(response.data.message);
+			setTimeout(function() {get_orders();}, 2000);
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function enter_p(self){
+	axios.post('/user/enter_spot',
+		{
+			'order_id': $(self).parent('.mc-footer').children('h4')[0].innerText
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		else{
+			success(response.data.message);
+			setTimeout(function() {get_orders();}, 2000);
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function leave_p(self){
+	axios.post('/user/leave_spot',
+		{
+			'order_id': $(self).parent('.mc-footer').children('h4')[0].innerText
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		else{
+			success(response.data.message);
+			setTimeout(function() {get_orders();}, 2000);
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function pay_order(self){
+	axios.post('/user/pay_order',
+		{
+			'order_id': $(self).parent('.mc-footer').children('h4')[0].innerText
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		else{
+			success(response.data.message);
+			setTimeout(function() {get_orders();}, 2000);
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
 </script>

@@ -57,9 +57,9 @@ class UserProxy():
             return ResultSuccess(data, "登录成功")
 
 
-    def switch_role(self, auth, user_tel, target_role):
+    def switch_role(self, user_tel, target_role):
         user = self._database.get_user_by_tel(tel=user_tel)
-        if not user or target_role not in [UserType.INDIVIDUAL, UserType.PROPERTY] or user.tel == auth['user_tel']:
+        if not user or target_role not in [UserType.INDIVIDUAL, UserType.PROPERTY]:
             raise ParamError()
         else:
             self._database.change_user_role(user_tel, target_role)
@@ -216,7 +216,7 @@ class UserProxy():
         return insert_location
 
     def reserve_spot(self, user_tel, ps_id, start_time, end_time):
-        # +8 China Standard Time
+        # !!!+8 China Standard Time!!!
         if datetime.strptime(start_time, '%Y-%m-%d %H:%M') <= datetime.utcnow() + timedelta(hours=8):
             raise ParamError()
         # ENTER check flag and lock
@@ -246,7 +246,7 @@ class UserProxy():
                     insert_location = self.check_and_insert_period_in_specific_date(appointments_of_that_date=appointments_of_that_date, period_start_time=st, period_end_time=et)
                 except InvalidPeriod:
                     self._database.spot_update_flag_unlock(ps_id)
-                    return InvalidPeriod()
+                    raise InvalidPeriod()
                 appointments[start_time.split(' ')[0]].insert(insert_location, [start_time.split(' ')[1], end_time.split(' ')[1]])
                 self._database.update_appointments(ps_id, new_appointments = appointments)
 
@@ -309,8 +309,8 @@ class UserProxy():
         if order.custom_tel != user_tel:
             raise UnauthorizedOperation()
         # use dictionary as switch clause
-        # DENIED = 0, PLACED = 1, USING_SPOT = 2, COMPLETED = 3, CANCELED = 4, ABNORMAL = 5
-        reason = {0:'订单已经被拒绝', 1:'预定成功', 2:'已经开始使用,无法取消', 3:'订单已完成,无法取消', 4:'已经取消', 5:'订单异常,无法取消'}
+        # PLACED = 1, USING_SPOT = 2, DENIED = 3, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED = 11
+        reason = {1:'预定成功', 2:'已经开始使用,无法取消', 3:'订单已经被拒绝', 4:'已经取消', 5:'订单异常,无法取消', 10:'无法取消待支付订单', 11:'订单已完成无法取消'}
         if order.order_status != 1:
             raise GeneralError(message=reason[order.order_status])
         # update appointment of order's parking spot
@@ -351,8 +351,8 @@ class UserProxy():
         if not order or order.custom_tel != custom_tel:
             raise ParamError()
         # use dictionary as switch clause
-        # DENIED = 0, PLACED = 1, USING_SPOT = 2, COMPLETED = 3, CANCELED = 4, ABNORMAL = 5
-        reason = {0:'订单已经拒绝', 1:'预定成功', 2:'已经开始使用,无法拒绝', 3:'订单已完成,无法拒绝', 4:'已经取消,无法拒绝', 5:'订单异常,无法拒绝'}
+        # PLACED = 1, USING_SPOT = 2, DENIED = 3, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED = 11
+        reason = {1:'预定成功', 2:'已经开始使用,无法取消', 3:'订单已经被拒绝', 4:'已经取消', 5:'订单异常,无法取消', 10:'无法取消待支付订单', 11:'订单已完成无法取消'}
         if order.order_status != 1:
             raise GeneralError(message=reason[order.order_status])
         # update appointment of order's parking spot
@@ -378,13 +378,59 @@ class UserProxy():
         self._database.update_order_status(order_id, OrderStatus.DENIED)
         return ResultSuccess(message="成功拒绝订单")
 
+    def enter_spot(self, user_tel, order_id):
+        spot = self._database.get_order_by_id(order_id)
+        if not spot:
+            raise ParamError()
+        if spot.custom_tel != user_tel:
+            raise UnauthorizedOperation()
+
+        self._database.update_order_status(order_id, OrderStatus.USING_SPOT)
+        self._database.update_order_actual_start_time(order_id)
+
+        return ResultSuccess(message="开始使用车位")
+
+    def leave_spot(self, user_tel, order_id):
+        spot = self._database.get_order_by_id(order_id)
+        if not spot:
+            raise ParamError()
+        if spot.custom_tel != user_tel:
+            raise UnauthorizedOperation()
+
+        self._database.update_order_status(order_id, OrderStatus.LEFT_UNPAID)
+        self._database.update_order_actual_end_time(order_id)
+        
+        return ResultSuccess(message="离场成功")
+    
+    def pay_order(self, user_tel, order_id):
+        spot = self._database.get_order_by_id(order_id)
+        if not spot:
+            raise ParamError()
+        if spot.custom_tel != user_tel:
+            raise UnauthorizedOperation()
+
+        self._database.update_order_status(order_id, OrderStatus.COMPLETED)
+        self._database.update_order_complete_time(order_id)
+        
+        return ResultSuccess(message="支付成功")
+
     def update_order_status_as_using(self, order_id):
         self._database.update_order_status(order_id, OrderStatus.USING_SPOT)
 
     def get_orders(self, user_tel):
         data =  self._database.get_user_orders(user_tel)
-        data = sorted(data, key=lambda d: d['start_time'])
+        data = sorted(data, key=lambda d: (d['status'],d['start_time']))
         return ResultSuccess(data={'order_list':data})
+
+
+    # account related functions
+    def get_account_info(self, user_tel):
+        user = self._database.get_user_by_tel(user_tel)
+        if not user:
+            raise ParamError()
+        user_data_dict = {'name':user.name, 'user_tel':user.tel, 'create_date':user.create_date, 'type':user.user_type}
+        return ResultSuccess(data={'user':user_data_dict})
+
 
     # utility functions
     def distance_cal(self, lat1, lng1, lat2, lng2):

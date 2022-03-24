@@ -12,11 +12,10 @@ class SpotStatus(object):
     AVAILABLE = 1
 
 class OrderStatus(object):
-    DENIED = 0
     PLACED = 1
     USING_SPOT = 2
-    # COMPLETED = 3
+    DENIED = 3
     CANCELED = 4
     ABNORMAL = 5
-    LEFT_AND_UNPAID = 10
+    LEFT_UNPAID = 10
     COMPLETED = 11

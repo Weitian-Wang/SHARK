@@ -231,7 +231,7 @@ function padTo2Digits(num) {
   return num.toString().padStart(2, '0');
 }
 
-// time utility function 1
+// time utility function 2
 function formatDate(date) {
   return (
     [
@@ -601,6 +601,7 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
   function set_time(self){
 	  date_validity = true;
 	  date_valid_color();
+	  show_check_button();
 	  sh.value = pad(sh.value, 2, '0');
 	  sm.value = pad(sm.value, 2, '0');
 	  eh.value = pad(eh.value, 2, '0');

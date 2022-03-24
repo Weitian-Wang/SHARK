@@ -1,2 +1,89 @@
-<link rel="stylesheet" type="text/css" href="account_setting.css"/>
-<input type="checkbox" class="apple-switch" checked>
+<link rel="stylesheet" type="text/css" href="account_setting.css" />
+<div class="account-container">
+
+	<div class="leftbox">
+		<nav>
+			<a id="profile"><i class="fa fa-user"></i></a>
+		</nav>
+	</div>
+	<div class="rightbox">
+		<div class="profile" id="profile">
+			<h1>账号信息</h1>
+			<h2>姓名</h2>
+			<p id='name'></p>
+			<h2>手机号</h2>
+			<p id='user_tel'></p>
+			<h2>加入日期</h2>
+			<p id='create_date'></p>
+			<h2>物业</h2>
+			<input type="checkbox" class="apple-switch" onclick="switch_role()"><br>
+			<p></p>
+		</div>
+
+	</div>
+</div>
+</div>
+
+<script type="application/javascript">
+function get_user_info(){
+	axios.get(`/user/get_account_info`, {
+		headers: {
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+		}
+	})
+	.then(function(response) {
+		if (response.data.error_code != 0) {
+			error(response.data.message);
+			if (response.data.error_code == 1000 || response.data.error_code == 1001) {
+				setTimeout(function() {
+					window.location.href = '../login/login.html'
+				}, 2000);
+			}
+			return;
+		}
+		$('#name')[0].innerText = response.data.data.user.name;
+		$('#user_tel')[0].innerText = response.data.data.user.user_tel;
+		$('#create_date')[0].innerText = formatDate(new Date(response.data.data.user.create_date.substring(0,25))).substring(0,10);
+		if(response.data.data.user.type == 1) $('.apple-switch')[0].checked = false;
+		else $('.apple-switch')[0].checked = true;
+	})
+	.catch(function(error) {
+		console.log(error);
+		return;
+	});
+}
+
+function switch_role(){
+	axios.post(`/user/switch_role`,{
+		'target_role': $('.apple-switch')[0].checked==true?2:1
+	},
+	{
+		headers: {
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+		}
+	})
+	.then(function(response) {
+		if (response.data.error_code != 0) {
+			error(response.data.message);
+			if (response.data.error_code == 1000 || response.data.error_code == 1001) {
+				setTimeout(function() {
+					window.location.href = '../login/login.html'
+				}, 2000);
+			}
+			return;
+		}
+		success(response.data.message);
+	})
+	.catch(function(error) {
+		console.log(error);
+		return;
+	});
+}
+
+get_user_info();
+
+</script>
