@@ -35,6 +35,7 @@ body {
 	width: 100vw;
 	font-family: "Source Sans Pro", sans-serif;
 	box-shadow: 0 -3px 5px 3px rgb(0 0 0 / 40%);
+	background: linear-gradient(to bottom,  #eae9f5, #f8f9fa,  #bfc4d8);
 }
 
 .notification-container {

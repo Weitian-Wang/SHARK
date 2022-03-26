@@ -1,0 +1,347 @@
+:root {
+  --app-container: #f3f6fd;
+  --main-color: #1f1c2e;
+  --secondary-color: #4A4A4A;
+  --link-color: #1f1c2e;
+  --link-color-hover: #c3cff4;
+  --link-color-active: #fff;
+  --link-color-active-bg: #1f1c2e;
+  --projects-section: #fff;
+  --message-box-hover: #fafcff;
+  --message-box-border: #e9ebf0;
+  --more-list-bg: #fff;
+  --more-list-bg-hover: #f6fbff;
+  --more-list-shadow: rgba(209, 209, 209, 0.4);
+  --button-bg: #1f1c24;
+  --search-area-bg: #fff;
+  --star: #1ff1c2e;
+  --message-btn: #fff;
+}
+
+.projects-section {
+  background-color: transparent;
+  display: flex;
+  height: 92vh;
+  width: calc(88%);
+  justify-content: center;
+  flex-direction: column;
+}
+.projects-section-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+}
+.projects-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  margin-top: 24px;
+  color: var(--main-color);
+}
+.projects-section-header p {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  opacity: 0.9;
+  margin: 0;
+  align-self: center;
+  color: var(--main-color);
+}
+.projects-section-header .time {
+  font-size: 20px;
+}
+
+.projects-status {
+  display: flex;
+}
+
+
+.item-status {
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+}
+
+
+.status-number {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  color: var(--main-color);
+}
+
+.status-type {
+  position: relative;
+  padding-right: 24px;
+  color: var(--secondary-color);
+}
+
+.my-spots{
+	display: flex;
+	flex-direction: row;
+}
+
+.view-actions {
+  display: flex;
+  align-items: center;
+}
+
+.view-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: var(--main-color);
+  transition: 0.2s;
+}
+.list-view{
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+.grid-view{
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+.add-spot{
+	border-radius: 5px;
+	margin-left: 10px;
+}
+.view-btn.active {
+  background-color: var(--link-color-active-bg);
+  color: var(--link-color-active);
+}
+.view-btn:not(.active):hover {
+  background-color: var(--link-color-hover);
+  color: var(--link-color-active);
+}
+
+img {
+	height: 20px;
+	width: 20px;
+}
+
+.project-boxes {
+  margin: 0 -8px;
+  overflow: scroll;
+  height: 72vh;
+}
+.project-boxes.jsGridView {
+  display: flex;
+  flex-wrap: wrap;
+}
+.project-boxes.jsGridView .project-box-wrapper {
+  width: 33.3%;
+}
+.project-boxes.jsListView .project-box {
+  display: flex;
+  border-radius: 5px;
+  position: relative;
+}
+.project-boxes.jsListView .project-box > * {
+  margin-right: 24px;
+}
+.project-boxes.jsListView .more-wrapper {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+.project-boxes.jsListView .project-box-content-header {
+  order: 1;
+  width: 200px;
+}
+.project-boxes.jsListView .project-box-header {
+  order: 2;
+}
+.project-boxes.jsListView .project-box-footer {
+  order: 3;
+  padding-top: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+   padding-left: 7vw;
+   align-self: center;
+}
+.project-boxes.jsListView .project-box-footer:after {
+  display: none;
+}
+.project-boxes.jsListView .participants {
+  margin-bottom: 8px;
+}
+.project-boxes.jsListView .project-box-content-header p {
+  text-align: left;
+  white-space: wrap;
+}
+.project-boxes.jsListView .project-box-header > input {
+  position: absolute;
+  font-size: 16px;
+  color: #4A4A4A;
+  opacity: 0.7;
+  border: none;
+  outline: none;
+  opacity: 0.7;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 16px;
+  left: 16px;
+  bottom: 16px;
+  margin: 0 0 -8px 0;
+  /* color: transparent; */
+  background: transparent;
+}
+
+.project-boxes.jsListView .box-progress-wrapper {
+  order: 3;
+  flex: 1;
+  align-self: center;
+}
+
+.project-box {
+  --main-color-card: #dbf6fd;
+  border-radius: 5px;
+  padding: 16px;
+  padding-bottom: 20px;
+  background-color: var(--main-color-card);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%);
+}
+.project-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  color: var(--main-color);
+}
+.project-box-header input {
+  color: #4A4A4A;
+  opacity: 0.7;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 200;
+  /* color: transparent; */
+  background: transparent;
+}
+.project-box-content-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.project-box-content-header p {
+  margin: 0;
+}
+.project-box-wrapper {
+  padding: 8px;
+  transition: 0.2s;
+}
+
+.project-btn-more {
+  padding: 0;
+  height: 14px;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  background-color: transparent;
+  border: none;
+  flex-shrink: 0;
+  /*&:after, &:before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    opacity: .8;
+    left: 50%;
+    transform: translatex(-50%);
+  }
+
+  &:before { top: 0;}
+  &:after { bottom: 0; }*/
+}
+
+.more-wrapper {
+  position: relative;
+}
+
+
+.box-content-header {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.box-content-subheader {
+  font-size: 14px;
+  line-height: 24px;
+  opacity: 0.7;
+}
+
+.box-progress {
+  display: block;
+  height: 4px;
+  border-radius: 6px;
+}
+.box-progress-bar {
+  height: 4px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #fff;
+  margin: 8px 0;
+}
+.box-progress-header {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  margin: 0;
+}
+.box-progress-percentage {
+  text-align: right;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.project-box-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  position: relative;
+}
+.project-box-footer:after {
+  content: "";
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6);
+  width: calc(100% + 32px);
+  top: 0;
+  left: -16px;
+  height: 1px;
+  margin-top: 10px;
+}
+
+.add-participant {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin-left: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.days-left {
+  background-color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  padding: 6px 16px;
+  font-weight: 700;
+}

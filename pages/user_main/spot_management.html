@@ -1,2 +1,163 @@
 <link rel="stylesheet" type="text/css" href="spot_management.css"/>
-<div>spot management</div>
+
+<div class="projects-section">
+	
+      <div class="projects-section-header">
+		<div class="my-spots">
+			<p>我的车位</p>
+			<button class="view-btn add-spot" title="Add Spot">
+			  <svg xmlns="" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid">
+			  <line x1="4" y1="12" x2="20" y2="12" stroke-width="6px"></line>
+			  <line x1="12" y1="20" x2="12" y2="4" stroke-width="6px"></line></svg>
+			</button>
+		</div>
+        <p id="time"></p>
+      </div>
+	  
+      <div class="projects-section-line">
+        <div class="projects-status">
+          <div class="item-status">
+            <span class="status-number no_of_spots">45</span>
+            <span class="status-type">车位数</span>
+          </div>
+		  <div class="item-status">
+		    <span class="status-number no_of_placed_orders">1</span>
+		    <span class="status-type">待开始</span>
+		  </div>
+          <div class="item-status">
+            <span class="status-number no_of_using_spot_orders">24</span>
+            <span class="status-type">进行中</span>
+          </div>
+          <div class="item-status">
+            <span class="status-number no_of_total_orders">62</span>
+            <span class="status-type">总订单数</span>
+          </div>
+        </div>
+        <div class="view-actions">
+          <button class="view-btn list-view" title="List View">
+            <svg xmlns="" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          </button>
+          <button class="view-btn grid-view active" title="Grid View">
+            <svg xmlns="" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect></svg>
+          </button>
+        </div>
+      </div>
+	  
+    <div class="project-boxes jsGridView"></div>
+</div>
+
+<script type="application/javascript">
+
+// change view
+var listView = document.querySelector('.list-view');
+var gridView = document.querySelector('.grid-view');
+var projectsList = document.querySelector('.project-boxes');
+var spot_list = [];
+
+
+listView.addEventListener('click', function () {
+	gridView.classList.remove('active');
+	listView.classList.add('active');
+	projectsList.classList.remove('jsGridView');
+	projectsList.classList.add('jsListView');
+});
+
+gridView.addEventListener('click', function () {
+	gridView.classList.add('active');
+	listView.classList.remove('active');
+	projectsList.classList.remove('jsListView');
+	projectsList.classList.add('jsGridView');
+});
+
+// onload
+function get_spot_list(){
+	axios.get(`/individual/get_spot_list`,
+				{
+					headers:{
+					'Content-Type': 'application/json;charset=UTF-8',
+					'Accept': 'application/json, text/plain, */*',
+					'Auth': getCookie('token')
+					}
+				}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		var spot_list = response.data.data.spot_list;
+		$('.no_of_spots')[0].innerText = spot_list.length;
+		$('.no_of_total_orders')[0].innerText = response.data.data.total_no_of_orders;
+		var no_of_placed_orders = 0;
+		var no_of_using_spot_orders = 0;
+		for(var i = 0; i<spot_list.length; i++){
+			var box_wrapper = document.createElement('div');
+			box_wrapper.setAttribute("class", "project-box-wrapper");
+			box_wrapper.id = spot_list[i].ps_id;
+			box_wrapper.innerHTML = 
+				`<div class="project-box" style="background-color: #fee4cb;">
+						<div class="project-box-header">
+						  <input class='spot-date' type='date' value="${formatDate(d).split(' ')[0]}" onchange="get_spot_info_of_date(this)">
+						  <div class="more-wrapper">
+							<button class="project-btn-more">
+							  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+								<circle cx="12" cy="12" r="1"></circle>
+								<circle cx="12" cy="5" r="1"></circle>
+								<circle cx="12" cy="19" r="1"></circle></svg>
+							</button>
+						</div>
+					</div>
+					<div class="project-box-content-header">
+					  <p class="box-content-header">${spot_list[i].name}</p>
+					  <p class="box-content-subheader"></p>
+					</div>
+					<div class="box-progress-wrapper">
+						  <p class="box-progress-header">使用率</p>
+							  <div class="box-progress-bar">
+								<span class="box-progress" style="width: ${spot_list[i].use_rate}%; background-color: #ff942e"></span>
+							  </div>
+						  <p class="box-progress-percentage">${spot_list[i].use_rate}%</p>
+					</div>
+					<div class="project-box-footer">
+					  <div class="participants">
+						  总订单 3
+					  </div>
+					  <div class="days-left" style="color: #ff942e;">
+						  待处理 1
+					  </div>
+					</div>
+				</div>`;
+			$('.project-boxes').append(box_wrapper);
+			no_of_placed_orders += spot_list[i].placed.length;
+			no_of_using_spot_orders += spot_list[i].using_spot.length;
+		}
+		$('.no_of_placed_orders')[0].innerText = no_of_placed_orders;
+		$('.no_of_using_spot_orders')[0].innerText = no_of_using_spot_orders;
+		success(`查询${spot_list.length}个车位`);
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+get_spot_list();
+
+// get date in header
+function init_time(){
+	document.getElementById('time').innerText = (d.getMonth()+1) + "月" + d.getDate() +"日";
+	$('.spot-date').each(function(){ this.value = formatDate(d).split(' ')[0];});
+}
+</script>

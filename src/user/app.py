@@ -194,13 +194,13 @@ def pay_order(auth):
         result = user_proxy.pay_order(auth['user_tel'], params['order_id'])
         return jsonify(result.to_dict())
 
-@app.route('/individual/load_spot_management_page', methods=['GET'])
+@app.route('/individual/get_spot_list', methods=['GET'])
 @authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
-def get_spot_info(auth):
+def get_spot_list(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
+        result = user_proxy.get_spot_list(auth['user_tel'])
         return jsonify(result.to_dict())
 
 @app.route('/property/load_lot_management_page', methods=['GET'])
@@ -213,7 +213,7 @@ def get_lot_info(auth):
         return jsonify(result.to_dict())
 
 @app.route('/user/get_account_info', methods=['GET'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def get_account_info(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()

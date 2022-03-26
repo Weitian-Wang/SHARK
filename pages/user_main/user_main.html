@@ -189,7 +189,9 @@ function select_menu_row(self){
 		$('#search')[0].style.transition = '0.4s ease'
 		$('#search')[0].style.visibility = "";
 	}
+	$('#frame')[0].style.visibility = 'hidden';
 	$('#frame').load(`${self.id}.html`);
+	setTimeout(function(){ $('#frame')[0].style.visibility = '' }, 50);
 }
 
 function get_appointments_by_date(){
@@ -723,6 +725,7 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
 	    
 	    $("div.clock").on('mousedown touchstart', function(e) {
 	      is_moving_appointment = true;
+		  show_check_button();
 	    });
 	    
 	    $(window).on('mouseup touchend', function() {

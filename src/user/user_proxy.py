@@ -24,7 +24,7 @@ class UserProxy():
         # trigger action at certain time
         self._scheduler = BackgroundScheduler()
 
-    # login & register related
+    # account related
     def tel_check(self, tel):
         user =  self._database.get_user_by_tel(tel=tel)
         if user is None:
@@ -65,7 +65,7 @@ class UserProxy():
             self._database.change_user_role(user_tel, target_role)
             return ResultSuccess(message="修改用户角色成功")
             
-
+    # parking space search
     # TODO fuzzy search
     def search_pname(self, p_name, lat=0, lng=0):
         p_list = self._database.get_p_by_name(p_name)
@@ -431,8 +431,34 @@ class UserProxy():
         user_data_dict = {'name':user.name, 'user_tel':user.tel, 'create_date':user.create_date, 'type':user.user_type}
         return ResultSuccess(data={'user':user_data_dict})
 
+    
+    # spot management related functions
+    def get_spot_list(self, user_tel):
+        spots = self._database.get_spot_list_by_owner_tel(user_tel)
+        spot_list = []
+        total_no_of_orders = 0
+        for spot in spots:
+            order_of_spot = self._database.get_order_list_of_spot(spot.ps_id)
+            total_no_of_orders += len(order_of_spot)
+
+            spot_list.append({
+                "ps_id": spot.ps_id,
+                "name": spot.name,
+                # CST = UTC + 8h
+                "use_rate": self.get_usage_of_appointments(spot.appointments.get(datetime.strftime(datetime.utcnow()+timedelta(hours=8), "%Y-%m-%d") ,[])),
+                "total_no_orders": len(order_of_spot),
+                "using_spot": [order.order_id for order in order_of_spot if order.order_status==OrderStatus.USING_SPOT],
+                "placed":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.PLACED]
+            })
+        return ResultSuccess(data={'spot_list':spot_list, 'total_no_of_orders':total_no_of_orders})
 
     # utility functions
+    def get_usage_of_appointments(self, appointments):
+        occupied_time = timedelta(seconds=0)
+        for appointment in appointments:
+            occupied_time += datetime.strptime(appointment[1],"%H:%M") - datetime.strptime(appointment[0],"%H:%M")
+        return round(occupied_time/timedelta(days=1)*100)
+        
     def distance_cal(self, lat1, lng1, lat2, lng2):
         lat1 = radians(lat1)
         lng1 = radians(lng1)

@@ -77,6 +77,10 @@ function switch_role(){
 			return;
 		}
 		success(response.data.message);
+		sessionStorage.removeItem('token');
+		setTimeout(function() {
+			window.location.href = '../login/login.html'
+		}, 2000);
 	})
 	.catch(function(error) {
 		console.log(error);

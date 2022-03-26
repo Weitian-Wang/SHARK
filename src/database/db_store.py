@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.functions import current_time
+from sympy import ode_order
 from src.error_code.error_code import *
 from src.user.constant import OrderStatus, SpotType
 from .schema import Base, User, ParkingLot, ParkingSpot, Order
@@ -51,6 +52,14 @@ class DBStore():
         spot = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).one()
         return spot
 
+    def get_spot_list_by_owner_tel(self, user_tel):
+        # .all() return ParkingSpot object list
+        spots = self._session.query(ParkingSpot).filter(ParkingSpot.owner_tel == user_tel, ParkingSpot.spot_type == SpotType.INDIVIDUAL).all()
+        return spots
+
+    def get_order_list_of_spot(self, ps_id):
+        orders = self._session.query(Order).filter(Order.ps_id == ps_id).all()
+        return orders
 
     # 110 kilometers per lat, 111.32 kilometers per lng, approximate to same km/degree
     # ±0.018 degree = ±2km
