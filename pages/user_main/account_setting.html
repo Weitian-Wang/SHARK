@@ -18,6 +18,9 @@
 			<h2>物业</h2>
 			<input type="checkbox" class="apple-switch" onclick="switch_role()"><br>
 			<p></p>
+			<h2>登录状态</h2>
+			<input type="checkbox" class="apple-switch" onclick="logout()" checked="true"><br>
+			<p></p>
 		</div>
 
 	</div>
@@ -88,6 +91,13 @@ function switch_role(){
 	});
 }
 
+function logout(){
+	sessionStorage.removeItem('token');
+	success("已登出");
+	setTimeout(function() {
+		window.location.href = '../index/index.html'
+	}, 2000);
+}
 get_user_info();
 
 </script>

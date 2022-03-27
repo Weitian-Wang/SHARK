@@ -452,6 +452,30 @@ class UserProxy():
             })
         return ResultSuccess(data={'spot_list':spot_list, 'total_no_of_orders':total_no_of_orders})
 
+    def get_spot_info_of_date(self, user_tel, ps_id, date):
+        spot = self._database.get_spot_by_id(ps_id)
+        if spot.owner_tel != user_tel:
+            raise UnauthorizedOperation()
+        spot_info = {}
+        if not date:
+            order_of_spot = self._database.get_order_list_of_spot(spot.ps_id, date)
+            spot_info = {
+                "use_rate": "N/A",
+                "total_no_orders": len(order_of_spot),
+                "using_spot": [order.order_id for order in order_of_spot if order.order_status==OrderStatus.USING_SPOT],
+                "placed":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.PLACED],
+            }
+        else:
+            # filter orders with assigned start date as 
+            order_of_spot_on_date = self._database.get_order_list_of_spot_on_date(spot.ps_id, date)
+            spot_info = {
+                "use_rate": self._get_usage_of_appointments(spot.appointments.get(date,[])),
+                "total_no_orders": len(order_of_spot_on_date),
+                "using_spot": [order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.USING_SPOT],
+                "placed":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.PLACED],
+            }
+        return ResultSuccess(data={'spot_info':spot_info})
+
     # utility functions
     def get_usage_of_appointments(self, appointments):
         occupied_time = timedelta(seconds=0)

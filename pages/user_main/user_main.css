@@ -409,6 +409,7 @@ div#search-area button:active{
   white-space: nowrap;
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(22px);
+  -webkit-mask-image: linear-gradient(0deg, #000 95%, transparent);
 }
 
 div#results-area ul {

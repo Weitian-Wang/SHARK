@@ -17,19 +17,19 @@
       <div class="projects-section-line">
         <div class="projects-status">
           <div class="item-status">
-            <span class="status-number no_of_spots">45</span>
+            <span class="status-number no_of_spots"></span>
             <span class="status-type">车位数</span>
           </div>
 		  <div class="item-status">
-		    <span class="status-number no_of_placed_orders">1</span>
+		    <span class="status-number no_of_placed_orders"></span>
 		    <span class="status-type">待开始</span>
 		  </div>
           <div class="item-status">
-            <span class="status-number no_of_using_spot_orders">24</span>
+            <span class="status-number no_of_using_spot_orders"></span>
             <span class="status-type">进行中</span>
           </div>
           <div class="item-status">
-            <span class="status-number no_of_total_orders">62</span>
+            <span class="status-number no_of_total_orders"></span>
             <span class="status-type">总订单数</span>
           </div>
         </div>
@@ -108,9 +108,9 @@ function get_spot_list(){
 			box_wrapper.setAttribute("class", "project-box-wrapper");
 			box_wrapper.id = spot_list[i].ps_id;
 			box_wrapper.innerHTML = 
-				`<div class="project-box" style="background-color: #fee4cb;">
+				`<div class="project-box" style="background-color: rgba(249 250 251 / 80%);">
 						<div class="project-box-header">
-						  <input class='spot-date' type='date' value="${formatDate(d).split(' ')[0]}" onchange="get_spot_info_of_date(this)">
+						  <input class='spot-date' type='date' onchange="get_spot_info_of_date(this)">
 						  <div class="more-wrapper">
 							<button class="project-btn-more">
 							  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
@@ -121,22 +121,22 @@ function get_spot_list(){
 						</div>
 					</div>
 					<div class="project-box-content-header">
-					  <p class="box-content-header">${spot_list[i].name}</p>
-					  <p class="box-content-subheader"></p>
+					  <p class="box-content-header">${spot_list[i].name.split(' ')[0]}</p>
+					  <p class="box-content-subheader">${spot_list[i].name.split(' ')[1]}</p>
 					</div>
 					<div class="box-progress-wrapper">
 						  <p class="box-progress-header">使用率</p>
 							  <div class="box-progress-bar">
-								<span class="box-progress" style="width: ${spot_list[i].use_rate}%; background-color: #ff942e"></span>
+								<span class="box-progress" style="width: 100%; background-color: darkgrey"></span>
 							  </div>
-						  <p class="box-progress-percentage">${spot_list[i].use_rate}%</p>
+						  <p class="box-progress-percentage">N/A</p>
 					</div>
 					<div class="project-box-footer">
 					  <div class="participants">
-						  总订单 3
+						  总订单 ${spot_list[i].total_no_orders}
 					  </div>
-					  <div class="days-left" style="color: #ff942e;">
-						  待处理 1
+					  <div class="days-left" style="color: ${spot_list[i].placed.length?'#ED5565':'grey'};">
+						  待处理 ${spot_list[i].placed.length}
 					  </div>
 					</div>
 				</div>`;
@@ -146,7 +146,7 @@ function get_spot_list(){
 		}
 		$('.no_of_placed_orders')[0].innerText = no_of_placed_orders;
 		$('.no_of_using_spot_orders')[0].innerText = no_of_using_spot_orders;
-		success(`查询${spot_list.length}个车位`);
+		success(`查询到${spot_list.length}个车位`);
 	})
 	.catch(function (error) {
 		console.log(error);
@@ -157,7 +157,12 @@ get_spot_list();
 
 // get date in header
 function init_time(){
-	document.getElementById('time').innerText = (d.getMonth()+1) + "月" + d.getDate() +"日";
-	$('.spot-date').each(function(){ this.value = formatDate(d).split(' ')[0];});
+	$('#time')[0].innerText = (d.getMonth()+1) + "月" + d.getDate() +"日";
+}
+
+init_time();
+
+function get_spot_info_of_date(self){
+	var selected_date = self.value();
 }
 </script>

@@ -10,7 +10,7 @@
 // PLACED = 1, USING_SPOT = 2, DENIED = 3, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED_PAID = 11
 var status_string = {'1':'订单待使用', '2':'订单进行中', '3':'订单被拒绝', '4':'订单已取消', '5':'订单异常', '10':'订单待支付','11':'订单已完成'};
 var status_options = {'1':'<div onclick="cancel_order(this)">取消</div><div onclick="enter_p(this)">入场</div>', '2':'<div onclick="leave_p(this)">离场</div>', '3':'订单被拒绝', '4':'订单取消','5':'订单异常', '10':'<div onclick="pay_order(this)">支付</div>', '11':'支付成功'};
-var status_color = {'1':'Orange', '2':'Green', '3':'Grey', '4':'Grey', '5':'Red', '10':'Blue','11':'Indigo'};
+var status_color = {'1':'Blue-Grey', '2':'Green', '3':'Grey', '4':'Grey', '5':'Red', '10':'Blue','11':'Indigo'};
 var rst;
 var orders;
 

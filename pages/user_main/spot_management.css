@@ -127,8 +127,10 @@ img {
 
 .project-boxes {
   margin: 0 -8px;
+  padding-bottom: 20px;
   overflow: scroll;
   height: 72vh;
+  -webkit-mask-image: linear-gradient(0deg, #000 99%, transparent);
 }
 .project-boxes.jsGridView {
   display: flex;
@@ -162,7 +164,8 @@ img {
   padding-top: 0;
   flex-direction: column;
   justify-content: flex-start;
-   padding-left: 7vw;
+   padding-left: 3vw;
+   padding-right: 3vw;
    align-self: center;
 }
 .project-boxes.jsListView .project-box-footer:after {
@@ -170,6 +173,7 @@ img {
 }
 .project-boxes.jsListView .participants {
   margin-bottom: 8px;
+  align-self: center;
 }
 .project-boxes.jsListView .project-box-content-header p {
   text-align: left;
@@ -310,13 +314,13 @@ img {
 .project-box-footer {
   display: flex;
   justify-content: space-between;
-  padding-top: 16px;
+  padding-top: 4vh;
   position: relative;
 }
 .project-box-footer:after {
   content: "";
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(90deg,  #eeffff,  #a3c2f3,  #6191ce, #a3c2f3, #eeffff);
   width: calc(100% + 32px);
   top: 0;
   left: -16px;
@@ -338,10 +342,30 @@ img {
 }
 
 .days-left {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(180, 180, 198, 0.2);
   font-size: 12px;
   border-radius: 20px;
   flex-shrink: 0;
   padding: 6px 16px;
   font-weight: 700;
+}
+
+.days-left.has_placed{
+  background-color: #ffd9da;
+  font-size: 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  padding: 6px 16px;
+  font-weight: 700;
+  transition: 0.4s ease;
+}
+
+.days-left.has_placed:hover{
+  background-color: #febec2;
+  font-size: 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  padding: 6px 16px;
+  font-weight: 700;
+  transition: 0.4s ease;
 }

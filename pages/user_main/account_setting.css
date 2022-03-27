@@ -1,9 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,900|Montserrat|Roboto");
 
 .account-container {
-  background: #FFFFFF;
+  background: rgba(249 250 251 / 80%);;
   width: 50vw;
-  height: 60vh;
+  height: 63vh;
   margin: 0 auto;
   position: relative;
   margin-top: 12vh;
@@ -74,6 +74,14 @@ nav a:first-child {
   background-size: contain;
   background-repeat: no-repeat;
 }
+nav a:nth-child(2) {
+  margin-top: 43vh;
+  margin-left: 14px;
+  background-image: url(../index_pic/logout.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 
 .active {
   color: #3FB6A8;
@@ -93,7 +101,7 @@ h1 {
   font-family: "Source Sans Pro", sans-serif;
   color: #7ED386;
   font-size: 20px;
-  margin-top: 5vh;
+  margin-top: 3vh;
   margin-bottom: 3vh;
 }
 

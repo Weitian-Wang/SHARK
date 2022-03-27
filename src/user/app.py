@@ -203,6 +203,15 @@ def get_spot_list(auth):
         result = user_proxy.get_spot_list(auth['user_tel'])
         return jsonify(result.to_dict())
 
+@app.route('/individual/get_spot_info_of_date', methods=['GET'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+def get_spot_info_of_date(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.get_spot_info_of_date(auth['user_tel'], params['ps_id'], params['date'])
+        return jsonify(result.to_dict())
+
 @app.route('/property/load_lot_management_page', methods=['GET'])
 @authenticate_token([UserType.PROPERTY, UserType.ADMIN])
 def get_lot_info(auth):
