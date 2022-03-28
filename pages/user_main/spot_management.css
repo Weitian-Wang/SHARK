@@ -22,7 +22,7 @@
   background-color: transparent;
   display: flex;
   height: 92vh;
-  width: calc(88%);
+  width: calc(93%);
   justify-content: center;
   flex-direction: column;
 }
@@ -30,19 +30,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 12px;
+  padding-bottom: 1.7vh;
 }
 .projects-section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  margin-top: 24px;
+  margin-bottom: 3vh;
+  margin-top: 3vh;
   color: var(--main-color);
 }
 .projects-section-header p {
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 3.3vh;
+  line-height: 3vh;
   font-weight: 700;
   opacity: 0.9;
   margin: 0;
@@ -50,7 +50,7 @@
   color: var(--main-color);
 }
 .projects-section-header .time {
-  font-size: 20px;
+  font-size: 3.2vh;
 }
 
 .projects-status {
@@ -61,20 +61,19 @@
 .item-status {
   display: flex;
   flex-direction: column;
-  margin-right: 16px;
+  margin-right: 1.25vw;
 }
 
 
 .status-number {
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 3vh;
   font-weight: 700;
   color: var(--main-color);
 }
 
 .status-type {
   position: relative;
-  padding-right: 24px;
+  padding-right: 1.8vw;
   color: var(--secondary-color);
 }
 
@@ -154,7 +153,7 @@ img {
 }
 .project-boxes.jsListView .project-box-content-header {
   order: 1;
-  width: 200px;
+  width: 15vw;
 }
 .project-boxes.jsListView .project-box-header {
   order: 2;
@@ -181,16 +180,15 @@ img {
 }
 .project-boxes.jsListView .project-box-header > input {
   position: absolute;
-  font-size: 16px;
   color: #4A4A4A;
   opacity: 0.7;
   border: none;
   outline: none;
   opacity: 0.7;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 2vh;
   font-weight: 200;
-  line-height: 16px;
+  line-height: 2.3vh;
   left: 16px;
   bottom: 16px;
   margin: 0 0 -8px 0;
@@ -207,8 +205,8 @@ img {
 .project-box {
   --main-color-card: #dbf6fd;
   border-radius: 5px;
-  padding: 16px;
-  padding-bottom: 20px;
+  padding: 1.2vw;
+  padding-bottom: 3vh;
   background-color: var(--main-color-card);
   box-shadow: 0 2px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%);
 }
@@ -225,28 +223,27 @@ img {
   border: none;
   outline: none;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 2vh;
   font-weight: 200;
   /* color: transparent; */
   background: transparent;
 }
 .project-box-content-header {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 2.3vh;
 }
 .project-box-content-header p {
   margin: 0;
 }
 .project-box-wrapper {
-  padding: 8px;
+  padding: 1.5vh;
   transition: 0.2s;
 }
 
 .project-btn-more {
   padding: 0;
-  height: 14px;
-  width: 24px;
-  height: 24px;
+  height: 2vh;
+  width: 1.9vw;
   position: relative;
   background-color: transparent;
   border: none;
@@ -273,40 +270,40 @@ img {
 
 
 .box-content-header {
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 2.3vh;
+  line-height: 3vh;
   font-weight: 700;
   opacity: 0.7;
 }
 
 .box-content-subheader {
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 2vh;
+  line-height: 4vh;
   opacity: 0.7;
 }
 
 .box-progress {
   display: block;
-  height: 4px;
+  height: 0.57vh;
   border-radius: 6px;
 }
 .box-progress-bar {
-  height: 4px;
+  height:  0.57vh;
   border-radius: 5px;
   overflow: hidden;
   background-color: #fff;
-  margin: 8px 0;
+  margin: 1.1vh 0;
 }
 .box-progress-header {
-  font-size: 14px;
+  font-size: 2vh;
   font-weight: 700;
-  line-height: 16px;
+  line-height: 2.3vh;
   margin: 0;
 }
 .box-progress-percentage {
   text-align: right;
   margin: 0;
-  font-size: 14px;
+  font-size: 2vh;
   font-weight: 700;
   line-height: 16px;
 }
@@ -321,11 +318,10 @@ img {
   content: "";
   position: absolute;
   background: linear-gradient(90deg,  #eeffff,  #a3c2f3,  #6191ce, #a3c2f3, #eeffff);
-  width: calc(100% + 32px);
+  width: calc(100%);
   top: 0;
-  left: -16px;
   height: 1px;
-  margin-top: 10px;
+  margin-top: 1.4vh;
 }
 
 .add-participant {
@@ -343,7 +339,7 @@ img {
 
 .days-left {
   background-color: rgba(180, 180, 198, 0.2);
-  font-size: 12px;
+  font-size: 1.7vh;
   border-radius: 20px;
   flex-shrink: 0;
   padding: 6px 16px;
@@ -352,7 +348,7 @@ img {
 
 .days-left.has_placed{
   background-color: #ffd9da;
-  font-size: 12px;
+  font-size: 1.7vh;
   border-radius: 20px;
   flex-shrink: 0;
   padding: 6px 16px;
@@ -362,10 +358,4 @@ img {
 
 .days-left.has_placed:hover{
   background-color: #febec2;
-  font-size: 12px;
-  border-radius: 20px;
-  flex-shrink: 0;
-  padding: 6px 16px;
-  font-weight: 700;
-  transition: 0.4s ease;
 }

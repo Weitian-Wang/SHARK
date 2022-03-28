@@ -153,6 +153,9 @@ function initMap(){
 	else{
 		error('定位失败');
 	}
+	if(l_status){
+		$('#pac-input')[0].style.marginLeft = '30vw';
+	}
 }
 // initialize map on loading this html file
 // initMap();

@@ -469,7 +469,7 @@ class UserProxy():
             # filter orders with assigned start date as 
             order_of_spot_on_date = self._database.get_order_list_of_spot_on_date(spot.ps_id, date)
             spot_info = {
-                "use_rate": self._get_usage_of_appointments(spot.appointments.get(date,[])),
+                "use_rate": self.get_usage_of_appointments(spot.appointments.get(date,[])),
                 "total_no_orders": len(order_of_spot_on_date),
                 "using_spot": [order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.USING_SPOT],
                 "placed":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.PLACED],

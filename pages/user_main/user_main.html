@@ -106,6 +106,14 @@ new Vue({
 			l_status = !l_status;
 			$('.left').toggleClass('expanded');
 			$('.main_container').toggleClass('main_container_retracted');
+			if(active_menu_row.id == 'p_search'){
+				if(l_status){
+					$('#pac-input')[0].style.marginLeft = '30vw';
+				}
+				else{
+					$('#pac-input')[0].style.marginLeft = '40vw';
+				}
+			}
 		},
 		toggle_right(){
 			if(l_status){

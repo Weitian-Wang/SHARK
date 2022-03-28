@@ -13,12 +13,11 @@
 
 .logo {
   float: right;
-  margin-right: 12px;
-  margin-top: 12px;
+  margin-right: 1vw;
+  margin-top: 1.7vh;
   font-family: "Source Sans Pro", sans-serif;
   color: #3DBB3D;
   font-weight: 900;
-  font-size: 1.5em;
   letter-spacing: 1px;
 }
 
@@ -55,33 +54,24 @@
   background: #7ED386;
   box-shadow: 3px 3px 10px rgba(119, 119, 119, 0.5);
   border-radius: 5px;
+  display: flex;
+  align-content: center;
 }
 
 nav a {
   list-style: none;
-  padding: 35px;
   color: #FFFFFF;
+  padding: 5.5vh;
   font-size: 1.1em;
   display: block;
 }
-nav a:hover {
-  color: #3FB6A8;
-}
 nav a:first-child {
-  margin-top: 7px;
-  margin-left: 14px;
+  margin-top: 1vh;
+  margin-left: 1vw;
   background-image: url(../index_pic/user.png);
   background-size: contain;
   background-repeat: no-repeat;
 }
-nav a:nth-child(2) {
-  margin-top: 43vh;
-  margin-left: 14px;
-  background-image: url(../index_pic/logout.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
 
 .active {
   color: #3FB6A8;
@@ -100,7 +90,7 @@ nav a:nth-child(2) {
 h1 {
   font-family: "Source Sans Pro", sans-serif;
   color: #7ED386;
-  font-size: 20px;
+  font-size: 3vh;
   margin-top: 3vh;
   margin-bottom: 3vh;
 }
@@ -110,11 +100,11 @@ h2 {
   font-family: "Source Sans Pro", sans-serif;
   width: 80%;
   text-transform: uppercase;
-  font-size: 15px;
+  font-size: 2vh;
   letter-spacing: 1px;
-  margin-left: 2px;
-  padding-top: 12px;
-  padding-bottom: 5px;
+  margin-left: 0.1vw;
+  padding-top: 1.7vh;
+  padding-bottom: 0.7vh;
 }
 
 p {
@@ -124,7 +114,7 @@ p {
   border-top: 0;
   width: 90%;
   font-family: "Source Sans Pro", sans-serif;
-  font-size: 20px;
+  font-size: 2.7vh;
   padding: 7px 0;
   color: #070707;
   line-height: 10px;
@@ -134,7 +124,7 @@ p {
   float: right;
   font-family: "Source Sans Pro", sans-serif;
   text-transform: uppercase;
-  font-size: 10px;
+  font-size: 1.4vh;
   border: none;
   color: #3FB6A8;
 }
@@ -149,18 +139,6 @@ input {
   font-family: "Roboto", sans-serif;
   padding: 2px;
   margin: 0;
-}
-
-.privacy h2 {
-  margin-top: 25px;
-}
-
-.settings h2 {
-  margin-top: 25px;
-}
-
-.noshow {
-  opacity: 0;
 }
 
 footer {

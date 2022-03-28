@@ -61,6 +61,10 @@ class DBStore():
         orders = self._session.query(Order).filter(Order.ps_id == ps_id).all()
         return orders
 
+    def get_order_list_of_spot_on_date(self, ps_id, date):
+        orders = self._session.query(Order).filter(Order.ps_id == ps_id).all()
+        return [order for order in orders if str(order.assigned_start_time.date())==date]
+
     # 110 kilometers per lat, 111.32 kilometers per lng, approximate to same km/degree
     # ±0.018 degree = ±2km
     def get_personal_spots_in_proximity(self, lat, lng, range = 0.018):

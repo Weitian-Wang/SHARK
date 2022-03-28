@@ -135,7 +135,7 @@ function get_spot_list(){
 					  <div class="participants">
 						  总订单 ${spot_list[i].total_no_orders}
 					  </div>
-					  <div class="days-left" style="color: ${spot_list[i].placed.length?'#ED5565':'grey'};">
+					  <div class="days-left${spot_list[i].placed.length?' has_placed':''}" style="color: ${spot_list[i].placed.length?'#ED5565':'grey'};">
 						  待处理 ${spot_list[i].placed.length}
 					  </div>
 					</div>
