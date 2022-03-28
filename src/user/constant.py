@@ -11,6 +11,10 @@ class SpotStatus(object):
     NOT_AVAILABLE = 0
     AVAILABLE = 1
 
+class LotStatus(object):
+    NOT_AVAILABLE = 0
+    AVAILABLE = 1
+
 class OrderStatus(object):
     PLACED = 1
     USING_SPOT = 2

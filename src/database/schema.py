@@ -56,6 +56,8 @@ class ParkingLot(Base):
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     price_per_min = Column(Float, nullable=False)
+    # NOT_AVAILABLE = 0, AVAILABLE = 1 owner can disable parking lot
+    status = Column(Integer, nullable=False)
 
 class ParkingSpot(Base):
     __tablename__ = 'parking_spot'
@@ -70,8 +72,8 @@ class ParkingSpot(Base):
     # spot_type = 2, property management owned spot
     pl_id = Column(String(36), ForeignKey('parking_lot.pl_id'), nullable=True)
     price_per_min = Column(Float, nullable=False)
-    # NOT_AVAILABLE = 0, AVAILABLE = 1, RESERVED = 2, USING = 3
-    status = Column(Integer, nullable=True)
+    # NOT_AVAILABLE = 0, AVAILABLE = 1
+    status = Column(Integer, nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     # appointments = {'2022-02-25':[['00:00','12:00'], ['20:30','21:00']], '2022-05-04':[['06:00','12:00'], ['22:30','23:00']]}
@@ -96,3 +98,5 @@ class Order(Base):
     actual_end_time = Column(DateTime, nullable=True)
 
     flag = Column(Integer, nullable=False, default=0)
+    # price per min when customer place order
+    price_per_min = Column(Float, nullable=False)

@@ -298,7 +298,7 @@ class UserProxy():
             self._database.update_appointments(ps_id, appointments)
         
         order_id = str(uuid.uuid4())
-        order = self._database.place_order(order_id, user_tel, ps_id, datetime.strptime(start_time, '%Y-%m-%d %H:%M'), datetime.strptime(end_time, '%Y-%m-%d %H:%M'))
+        order = self._database.place_order(order_id, user_tel, ps_id, datetime.strptime(start_time, '%Y-%m-%d %H:%M'), datetime.strptime(end_time, '%Y-%m-%d %H:%M'), spot.price_per_min)
         self._database.spot_update_flag_unlock(ps_id)
         return order
     
@@ -458,7 +458,7 @@ class UserProxy():
             raise UnauthorizedOperation()
         spot_info = {}
         if not date:
-            order_of_spot = self._database.get_order_list_of_spot(spot.ps_id, date)
+            order_of_spot = self._database.get_order_list_of_spot(spot.ps_id)
             spot_info = {
                 "use_rate": "N/A",
                 "total_no_orders": len(order_of_spot),

@@ -122,7 +122,7 @@ function get_spot_list(){
 					</div>
 					<div class="project-box-content-header">
 					  <p class="box-content-header">${spot_list[i].name.split(' ')[0]}</p>
-					  <p class="box-content-subheader">${spot_list[i].name.split(' ')[1]}</p>
+					  <p class="box-content-subheader">${spot_list[i].name.split(' ')[1]?spot_list[i].name.split(' ')[1]:''}</p>
 					</div>
 					<div class="box-progress-wrapper">
 						  <p class="box-progress-header">使用率</p>
@@ -136,7 +136,7 @@ function get_spot_list(){
 						  总订单 ${spot_list[i].total_no_orders}
 					  </div>
 					  <div class="days-left${spot_list[i].placed.length?' has_placed':''}" style="color: ${spot_list[i].placed.length?'#ED5565':'grey'};">
-						  待处理 ${spot_list[i].placed.length}
+						  待开始 ${spot_list[i].placed.length}
 					  </div>
 					</div>
 				</div>`;
@@ -161,8 +161,55 @@ function init_time(){
 }
 
 init_time();
-
+var test;
 function get_spot_info_of_date(self){
-	var selected_date = self.value();
+	var selected_date = self.value;
+	var ps_id = self.parentElement.parentElement.parentElement.id;
+	axios.get(`/individual/get_spot_info_of_date?ps_id=${ps_id}&date=${selected_date}`,
+				{
+					headers:{
+					'Content-Type': 'application/json;charset=UTF-8',
+					'Accept': 'application/json, text/plain, */*',
+					'Auth': getCookie('token')
+					}
+				}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		test = response;
+		var spot_info = response.data.data.spot_info;
+		if(spot_info.use_rate != 'N/A'){
+			$(`#${ps_id}`).find('.box-progress')[0].style.width = `${spot_info.use_rate}%`
+			$(`#${ps_id}`).find('.box-progress')[0].style.backgroundColor = '#4DF3BC';
+			$(`#${ps_id}`).find('.box-progress-percentage')[0].innerText = `${spot_info.use_rate}%`;
+		}
+		else{
+			$(`#${ps_id}`).find('.box-progress')[0].style.width = `100%`
+			$(`#${ps_id}`).find('.box-progress')[0].style.backgroundColor = 'darkgrey';
+			$(`#${ps_id}`).find('.box-progress-percentage')[0].innerText = `N/A`;
+		}
+		$(`#${ps_id}`).find('.participants')[0].innerText = `总订单 ${spot_info.total_no_orders}`;
+		$(`#${ps_id}`).find('.days-left')[0].innerText = `待开始 ${spot_info.placed.length}`;
+		$(`#${ps_id}`).find('.days-left')[0].classList.remove('has_placed');
+		$(`#${ps_id}`).find('.days-left')[0].style.color = 'grey';
+		if(spot_info.placed.length){
+			$(`#${ps_id}`).find('.days-left')[0].classList.add('has_placed');
+			$(`#${ps_id}`).find('.days-left')[0].style.color = '#ED5565';
+		}
+		success(`查询到${spot_info.total_no_orders}个订单`);
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function add_spot(){
+	
 }
 </script>

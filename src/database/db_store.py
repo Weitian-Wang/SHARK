@@ -155,7 +155,7 @@ class DBStore():
             "SHARK.order.assigned_start_time as start_time,"\
             "SHARK.order.assigned_end_time as end_time,"\
             "SHARK.parking_spot.name as name,"\
-            "SHARK.parking_spot.price_per_min as price "\
+            "SHARK.order.price_per_min as price "\
             "FROM SHARK.order JOIN SHARK.parking_spot WHERE custom_tel='{}' "\
             "AND SHARK.order.ps_id=SHARK.parking_spot.ps_id".format(user_tel)
         rst = self._session.execute(sql)
@@ -175,7 +175,7 @@ class DBStore():
         self.order_update_flag_unlock(order_id)
         self._session.commit()
 
-    def place_order(self, order_id, user_tel, ps_id, start_time, end_time):
+    def place_order(self, order_id, user_tel, ps_id, start_time, end_time, price_per_min):
         current_time = datetime.utcnow()
         order = Order(
             order_id = order_id,
@@ -186,7 +186,8 @@ class DBStore():
             utc_create_time = current_time,
             # local time as start/end_time, corresponds with appointments
             assigned_start_time = start_time,
-            assigned_end_time = end_time
+            assigned_end_time = end_time,
+            price_per_min = price_per_min
         )
         self._session.add(order)
         return order
