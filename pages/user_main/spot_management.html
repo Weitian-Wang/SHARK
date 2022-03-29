@@ -112,7 +112,7 @@ function get_spot_list(){
 						<div class="project-box-header">
 						  <input class='spot-date' type='date' onchange="get_spot_info_of_date(this)">
 						  <div class="more-wrapper">
-							<button class="project-btn-more">
+							<button class="project-btn-more" onclick="spot_detail()">
 							  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
 								<circle cx="12" cy="12" r="1"></circle>
 								<circle cx="12" cy="5" r="1"></circle>
@@ -161,7 +161,6 @@ function init_time(){
 }
 
 init_time();
-var test;
 function get_spot_info_of_date(self){
 	var selected_date = self.value;
 	var ps_id = self.parentElement.parentElement.parentElement.id;
@@ -182,7 +181,6 @@ function get_spot_info_of_date(self){
 			}
 			return;
 		}
-		test = response;
 		var spot_info = response.data.data.spot_info;
 		if(spot_info.use_rate != 'N/A'){
 			$(`#${ps_id}`).find('.box-progress')[0].style.width = `${spot_info.use_rate}%`
@@ -211,5 +209,22 @@ function get_spot_info_of_date(self){
 
 function add_spot(){
 	
+}
+
+function spot_detail(){
+	$('.spot_info_panel')[0].style.display = 'flex';
+	$('.projects-section')[0].style.webkitFilter = "blur(4px)";
+}
+
+function close_spot_panel(){
+	$('.spot_info_panel')[0].style.display = 'none';
+	$('.projects-section')[0].style.webkitFilter = "";
+}
+
+var active_order_type = $('.placed_orders')[0];
+function select_order_type(self){
+	active_order_type.classList.remove('active');
+	active_order_type = self;
+	active_order_type.classList.add('active');
 }
 </script>

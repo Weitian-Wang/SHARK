@@ -65,66 +65,101 @@
 					<button type='button' class='close_panel' onclick="close_spot_panel()"></button>
 					<h2 id='loc_name'>Place Holder</h2>
 					<input class='date_select' type='date'>
+					<div id="income">收益420元</div>
 					<div class='order_type'>
-						<div class='placed_orders'>
+						<div class='placed_orders' onclick='select_order_type(this)'>
 							待开始
 						</div>
-						<div class='using_spot'>
+						<div class='using_spot' onclick='select_order_type(this)'>
 							使用中
 						</div>
-						<div class='left_unpaid'>
+						<div class='left_unpaid' onclick='select_order_type(this)'>
 							未支付
 						</div>
-						<div class='completed'>
+						<div class='completed' onclick='select_order_type(this)'>
 							已完成
 						</div>
-						<div class='others'>
-							其他的
+						<div class='others' onclick='select_order_type(this)'>
+							其他
 						</div>
 					</div>
 					<div class="order_wrapper">
 						<div class="spot_info_order">
 							<p class="customer_name">王**</p>
 							<p class="customer_tel">157****6973</p>
-							<div class="order_period">2022-03-28 19:00 to 2022-03-29 20:00</div>
+							<div class="order_period">
+								2022-03-28 19:00<br>
+								2022-03-29 20:00
+							</div>
 							<button id="cancel_button">拒绝订单</button>
 						</div>
 						<div class="spot_info_order">
 							<p class="customer_name">王**</p>
 							<p class="customer_tel">157****6973</p>
-							<div class="order_period">2022-03-28 19:00 to 2022-03-29 20:00</div>
+							<div class="order_period">
+								2022-03-28 19:00<br>
+								2022-03-29 20:00
+							</div>
 							<button id="cancel_button">拒绝订单</button>
 						</div>
 						<div class="spot_info_order">
 							<p class="customer_name">王**</p>
 							<p class="customer_tel">157****6973</p>
-							<div class="order_period">2022-03-28 19:00 to 2022-03-29 20:00</div>
+							<div class="order_period">
+								2022-03-28 19:00<br>
+								2022-03-29 20:00
+							</div>
 							<button id="cancel_button">拒绝订单</button>
 						</div>
 						<div class="spot_info_order">
 							<p class="customer_name">王**</p>
 							<p class="customer_tel">157****6973</p>
-							<div class="order_period">2022-03-28 19:00 to 2022-03-29 20:00</div>
+							<div class="order_period">
+								2022-03-28 19:00<br>
+								2022-03-29 20:00
+							</div>
 							<button id="cancel_button">拒绝订单</button>
 						</div>
 						<div class="spot_info_order">
 							<p class="customer_name">王**</p>
 							<p class="customer_tel">157****6973</p>
-							<div class="order_period">2022-03-28 19:00 to 2022-03-29 20:00</div>
+							<div class="order_period">
+								2022-03-28 19:00<br>
+								2022-03-29 20:00
+							</div>
 							<button id="cancel_button">拒绝订单</button>
 						</div>
 						<div class="spot_info_order">
 							<p class="customer_name">王**</p>
 							<p class="customer_tel">157****6973</p>
-							<div class="order_period">2022-03-28 19:00 to 2022-03-29 20:00</div>
+							<div class="order_period">
+								2022-03-28 19:00<br>
+								2022-03-29 20:00
+							</div>
+							<button id="cancel_button">拒绝订单</button>
+						</div>
+						<div class="spot_info_order">
+							<p class="customer_name">王**</p>
+							<p class="customer_tel">157****6973</p>
+							<div class="order_period">
+								2022-03-28 19:00<br>
+								2022-03-29 20:00
+							</div>
+							<button id="cancel_button">拒绝订单</button>
+						</div>
+						<div class="spot_info_order">
+							<p class="customer_name">王**</p>
+							<p class="customer_tel">157****6973</p>
+							<div class="order_period">
+								2022-03-28 19:00<br>
+								2022-03-29 20:00
+							</div>
 							<button id="cancel_button">拒绝订单</button>
 						</div>
 					</div>
 					<div class="spot_options">
-						每分钟价格
-						<input type='number'>
-						开放车位
-						<input type="checkbox" class="apple-switch">
+						<p>每分钟价格<input type='number'></p>
+						<div class="toggle_spot">开放车位<input type="checkbox" class="apple-switch"></div>
 						<button id="cancel_button">删除车位</button>
 					</div>
 					
@@ -242,11 +277,15 @@ function info(self){
 		self.style.boxShadow = "0 4px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%)";
 		self.style.background = "rgba(200,200,200, 0.9)";
 	}
+	$('#map')[0].style.filter = "blur(5px)";
 	get_appointments_by_date();
 }
 // close information panel
 function close_panel(){
 	$('.info_panel')[0].style.display = 'none';
+	if($('#map')[0]){
+		$('#map')[0].style.filter = "";
+	}
 	if(active_li){
 		active_li.style.boxShadow = "";
 		active_li.style.background = "";
@@ -256,19 +295,22 @@ function close_panel(){
 }
 
 function select_menu_row(self){
-	active_menu_row.style = "";
-	active_menu_row = self;
-	active_menu_row.style.background = "lightgray";
-	active_menu_row.style.boxShadow = "inset 0px 0px 6px rgb(0,0,0, 50%)";
-	if(self.id != 'p_search'){
+	if(active_menu_row.id == 'spot_management'){
+		close_spot_panel();
+	}
+	if(active_menu_row.id == 'p_search'){
 		close_panel();
 		$('#search')[0].style.transition = '0s';
 		$('#search')[0].style.visibility = 'hidden';
 	}
-	else{
+	if(self.id == 'p_search'){
 		$('#search')[0].style.transition = '0.4s ease'
 		$('#search')[0].style.visibility = "";
 	}
+	active_menu_row.style = "";
+	active_menu_row = self;
+	active_menu_row.style.background = "lightgray";
+	active_menu_row.style.boxShadow = "inset 0px 0px 6px rgb(0,0,0, 50%)";
 	$('#frame')[0].style.visibility = 'hidden';
 	$('#frame').load(`${self.id}.html`);
 	setTimeout(function(){ $('#frame')[0].style.visibility = '' }, 50);

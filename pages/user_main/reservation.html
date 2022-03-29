@@ -50,7 +50,7 @@ function get_orders(){
 												</h2>
 												<div class="mc-content">
 													<div class="img-container mc-btn-action" onclick="expand_qr(this)">
-														<img class="img-responsive" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=order.order_id">
+														<img class="img-responsive" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=${order.order_id}">
 													</div>
 													<div class="mc-description">
 														🔜 ${formatDate(s_date)}<br>

@@ -464,6 +464,10 @@ class UserProxy():
                 "total_no_orders": len(order_of_spot),
                 "using_spot": [order.order_id for order in order_of_spot if order.order_status==OrderStatus.USING_SPOT],
                 "placed":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.PLACED],
+                "price_per_min": spot.price_per_min,
+                "left_unpaid":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.LEFT_UNPAID],
+                "completed":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.COMPLETED],
+                "others":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.COMPLETED or order.order_status==OrderStatus.DENIED or order.order_status==OrderStatus.ABNORMAL]
             }
         else:
             # filter orders with assigned start date as 
@@ -473,6 +477,10 @@ class UserProxy():
                 "total_no_orders": len(order_of_spot_on_date),
                 "using_spot": [order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.USING_SPOT],
                 "placed":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.PLACED],
+                "price_per_min": spot.price_per_min,
+                "left_unpaid":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.LEFT_UNPAID],
+                "completed":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.COMPLETED],
+                "others":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.COMPLETED or order.order_status==OrderStatus.DENIED or order.order_status==OrderStatus.ABNORMAL]
             }
         return ResultSuccess(data={'spot_info':spot_info})
 

@@ -25,6 +25,7 @@
   width: calc(93%);
   justify-content: center;
   flex-direction: column;
+  transition: 0.4s ease;
 }
 .projects-section-line {
   display: flex;
@@ -248,20 +249,6 @@ img {
   background-color: transparent;
   border: none;
   flex-shrink: 0;
-  /*&:after, &:before {
-    content: '';
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--main-color);
-    opacity: .8;
-    left: 50%;
-    transform: translatex(-50%);
-  }
-
-  &:before { top: 0;}
-  &:after { bottom: 0; }*/
 }
 
 .more-wrapper {
@@ -305,7 +292,7 @@ img {
   margin: 0;
   font-size: 2vh;
   font-weight: 700;
-  line-height: 16px;
+  line-height: 2.3vh;
 }
 
 .project-box-footer {
@@ -380,20 +367,36 @@ img {
 .order_wrapper{
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	width: 40vw;
-	padding: 1vh 2vw 1vh 2vw;
-	height: 50vh;
+	height: 40vh;
+	margin: 2vh 0 2vh 0;
 	overflow-y: scroll;
-	-webkit-mask-image: linear-gradient(0deg, #000 95%, transparent);
+	-webkit-mask-image: linear-gradient(180deg, transparent, #000, #000, #000, #000, #000, #000, transparent);
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+}
+.order_wrapper::-webkit-scrollbar {
+  display: none;
 }
 .spot_info_order{
-	width: 36vw;
+	width: 37vw;
+	font-size: 2.3vh;
 	margin: 1vh 0 1vh 0;
-	height: 15vh;
+	padding: 3vh 0 3vh 0;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 	border-radius: 5px;
-	background-color: rgba(249 250 251 / 80%);
+	background-color: white;
 	box-shadow: 0 2px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%);
 }
+
+
+.spot_info_order p{
+	font-size: 2.4vh;
+}
+
 .order_type{
 	display: flex;
 	flex-direction: row;
@@ -402,6 +405,7 @@ img {
 	padding-right: 1vw;
 	width: 39vw;
 	padding-top: 1vh;
+	font-size: 2.3vh;
 }
 .order_type div{
 	width: calc(20%);
@@ -409,18 +413,25 @@ img {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* background-color: transparent; */
 	border: none;
-	color: var(--main-color);
-	transition: 0.2s;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+	color: var(--main-color);
+	transition: 0.2s;
+	font-size: 2.3vh;
 }
 .order_type div.active {
-  background-color: var(--link-color-active-bg);
+  background-color: #6191ce;
   color: var(--link-color-active);
+  font-weight: 500;
 }
 .order_type div:not(.active):hover {
   background-color: var(--link-color-hover);
   color: var(--link-color-active);
+}
+
+.spot_options{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }

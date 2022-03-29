@@ -78,7 +78,7 @@
 }
 .material-card.mc-active h2 {
   top: 0;
-  padding: 10px 16px 10px 90px;
+  padding: 1.4vh 1.25vw 1.4vh 6.3vw;
   border-radius: 5px 5px 0px 0px;
   background-color: transparent;
   box-shadow: 0px 0px 0px rgba(0,0,0,0);
@@ -214,8 +214,8 @@
 .material-card.mc-active .img-container {
   left: 0;
   top: 12px;
-  width: 60px;
-  height: 60px;
+  width: 8.6vh;
+  height: 8.6vh;
   z-index: 20;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
@@ -233,7 +233,7 @@
 }
 .material-card.mc-active .img-container .img-responsive{
 	padding: 0;
-	width: 178px;
+	width: 19vw;
 	transition: 0.4s ease;
 }
 
