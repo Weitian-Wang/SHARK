@@ -73,6 +73,11 @@ class UnauthorizedOperation(ErrorCode):
         # super().__init__(error_code=107, message="Operation unauthorized")
         super().__init__(error_code=107, message="无权进行此操作")
 
+class Unavailable(ErrorCode):
+    def __init__(self):
+        # super().__init__(error_code=108, message="Resource not available")
+        super().__init__(error_code=108, message="资源不可用")
+
 class SystemInternalError(ErrorCode):
     # def __init__(self, message="System internal error."):
     def __init__(self, message="系统内部错误"):

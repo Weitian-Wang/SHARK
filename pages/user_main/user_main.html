@@ -63,11 +63,12 @@
 				<div class='spot_info_panel' style="display: none;">
 					<!-- 1st set of UI, spot detail-->
 					<button type='button' class='close_panel' onclick="close_spot_panel()"></button>
-					<h2 id='loc_name'>Place Holder</h2>
-					<input class='date_select' type='date'>
+					<h2 id='spot_loc_name'>Place Holder</h2>
+					<input class='date_select spot_date' type='date' onchange="spot_info_of_date_panel(null)">
 					<div id="income">收益420元</div>
+					
 					<div class='order_type'>
-						<div class='placed_orders' onclick='select_order_type(this)'>
+						<div class='placed' onclick='select_order_type(this)'>
 							待开始
 						</div>
 						<div class='using_spot' onclick='select_order_type(this)'>
@@ -84,83 +85,23 @@
 						</div>
 					</div>
 					<div class="order_wrapper">
-						<div class="spot_info_order">
-							<p class="customer_name">王**</p>
-							<p class="customer_tel">157****6973</p>
-							<div class="order_period">
-								2022-03-28 19:00<br>
-								2022-03-29 20:00
-							</div>
-							<button id="cancel_button">拒绝订单</button>
-						</div>
-						<div class="spot_info_order">
-							<p class="customer_name">王**</p>
-							<p class="customer_tel">157****6973</p>
-							<div class="order_period">
-								2022-03-28 19:00<br>
-								2022-03-29 20:00
-							</div>
-							<button id="cancel_button">拒绝订单</button>
-						</div>
-						<div class="spot_info_order">
-							<p class="customer_name">王**</p>
-							<p class="customer_tel">157****6973</p>
-							<div class="order_period">
-								2022-03-28 19:00<br>
-								2022-03-29 20:00
-							</div>
-							<button id="cancel_button">拒绝订单</button>
-						</div>
-						<div class="spot_info_order">
-							<p class="customer_name">王**</p>
-							<p class="customer_tel">157****6973</p>
-							<div class="order_period">
-								2022-03-28 19:00<br>
-								2022-03-29 20:00
-							</div>
-							<button id="cancel_button">拒绝订单</button>
-						</div>
-						<div class="spot_info_order">
-							<p class="customer_name">王**</p>
-							<p class="customer_tel">157****6973</p>
-							<div class="order_period">
-								2022-03-28 19:00<br>
-								2022-03-29 20:00
-							</div>
-							<button id="cancel_button">拒绝订单</button>
-						</div>
-						<div class="spot_info_order">
-							<p class="customer_name">王**</p>
-							<p class="customer_tel">157****6973</p>
-							<div class="order_period">
-								2022-03-28 19:00<br>
-								2022-03-29 20:00
-							</div>
-							<button id="cancel_button">拒绝订单</button>
-						</div>
-						<div class="spot_info_order">
-							<p class="customer_name">王**</p>
-							<p class="customer_tel">157****6973</p>
-							<div class="order_period">
-								2022-03-28 19:00<br>
-								2022-03-29 20:00
-							</div>
-							<button id="cancel_button">拒绝订单</button>
-						</div>
-						<div class="spot_info_order">
-							<p class="customer_name">王**</p>
-							<p class="customer_tel">157****6973</p>
-							<div class="order_period">
-								2022-03-28 19:00<br>
-								2022-03-29 20:00
-							</div>
-							<button id="cancel_button">拒绝订单</button>
-						</div>
 					</div>
 					<div class="spot_options">
-						<p>每分钟价格<input type='number'></p>
-						<div class="toggle_spot">开放车位<input type="checkbox" class="apple-switch"></div>
-						<button id="cancel_button">删除车位</button>
+						<input type='number' class='spot_price' style="border:none" maxlength="5" step="0.01" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">元/分钟
+						<input type="checkbox" class="apple-switch spot_status">
+						<button class="button-hold">
+						    <div>
+						        <svg class="icon" viewBox="0 0 16 16">
+								</svg>
+						        <svg class="progress" viewBox="0 0 32 32">
+						            <circle r="8" cx="16" cy="16" />
+						        </svg>
+						        <svg class="tick" viewBox="0 0 24 24">
+						            <polyline points="18,7 11,16 6,12" />
+						        </svg>
+						    </div>
+						    删除车位
+						</button>
 					</div>
 					
 					<!-- 2nd set of UI, add new spot -->
@@ -314,6 +255,17 @@ function select_menu_row(self){
 	$('#frame')[0].style.visibility = 'hidden';
 	$('#frame').load(`${self.id}.html`);
 	setTimeout(function(){ $('#frame')[0].style.visibility = '' }, 50);
+}
+
+function set_token_cookie(){
+	// access main page with no token
+	if(sessionStorage.getItem('token')==null || sessionStorage.getItem('token').length==0){
+		error('请登录后访问');
+		setTimeout(function(){window.location.href = '../login/login.html'}, 3000);
+		return;
+	}
+	document.cookie = "token="+sessionStorage.getItem('token');
+	select_menu_row($('#p_search')[0]);
 }
 
 function get_appointments_by_date(){
@@ -881,17 +833,6 @@ function getDate() {
         day = '0' + day;
 
     return [year, month, day].join('-');
-}
-
-function set_token_cookie(){
-	// access main page with no token
-	if(sessionStorage.getItem('token')==null || sessionStorage.getItem('token').length==0){
-		error('请登录后访问');
-		setTimeout(function(){window.location.href = '../login/login.html'}, 3000);
-		return;
-	}
-	document.cookie = "token="+sessionStorage.getItem('token');
-	select_menu_row($('#p_search')[0]);
 }
 
 </script>

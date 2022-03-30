@@ -109,10 +109,10 @@ function get_spot_list(){
 			box_wrapper.id = spot_list[i].ps_id;
 			box_wrapper.innerHTML = 
 				`<div class="project-box" style="background-color: rgba(249 250 251 / 80%);">
-						<div class="project-box-header">
+					<div class="project-box-header">
 						  <input class='spot-date' type='date' onchange="get_spot_info_of_date(this)">
 						  <div class="more-wrapper">
-							<button class="project-btn-more" onclick="spot_detail()">
+							<button class="project-btn-more" onclick="spot_info_of_date_panel(this)">
 							  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
 								<circle cx="12" cy="12" r="1"></circle>
 								<circle cx="12" cy="5" r="1"></circle>
@@ -211,20 +211,138 @@ function add_spot(){
 	
 }
 
-function spot_detail(){
+var placed_list, using_spot_list, left_unpaid_list, completed_list, others_list;
+function spot_info_of_date_panel(self){
 	$('.spot_info_panel')[0].style.display = 'flex';
 	$('.projects-section')[0].style.webkitFilter = "blur(4px)";
+	var ps_id= self.parentElement.parentElement.parentElement.parentElement.id;
+	var date = self.parentElement.parentElement.firstElementChild.value;
+	$('.spot_date')[0].value = date;
+	axios.get(`/individual/get_spot_info_of_date?ps_id=${ps_id}&date=${date}`,
+				{
+					headers:{
+					'Content-Type': 'application/json;charset=UTF-8',
+					'Accept': 'application/json, text/plain, */*',
+					'Auth': getCookie('token')
+					}
+				}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		var spot_info = response.data.data.spot_info;
+		s = spot_info;
+		placed_list = spot_info.placed;
+		using_spot_list = spot_info.using_spot;
+		left_unpaid_list = spot_info.left_unpaid;
+		completed_list = spot_info.completed;
+		others_list = spot_info.others;
+		$('.spot_price')[0].value = spot_info.price_per_min;
+		$('#spot_loc_name')[0].innerText = spot_info.name;
+		$('.spot_status')[0].checked = spot_info.status;
+		select_order_type($('.placed')[0]);
+		success(`查询到${spot_info.total_no_orders}个订单`);
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
 }
 
 function close_spot_panel(){
 	$('.spot_info_panel')[0].style.display = 'none';
 	$('.projects-section')[0].style.webkitFilter = "";
+	$('.placed')[0].classList.remove('active');
+	$('.using_spot')[0].classList.remove('active');
+	$('.left_unpaid')[0].classList.remove('active');
+	$('.completed')[0].classList.remove('active');
+	$('.others')[0].classList.remove('active');
 }
 
-var active_order_type = $('.placed_orders')[0];
+// init type for execute select_order_type the first time
+var active_order_type = $('.placed')[0];
+var status_string = {'1':'订单待使用', '2':'订单进行中', '3':'订单被拒绝', '4':'订单已取消', '5':'订单异常', '10':'订单待支付','11':'订单已完成'};
 function select_order_type(self){
 	active_order_type.classList.remove('active');
 	active_order_type = self;
+	var active_order_name = self.className;
 	active_order_type.classList.add('active');
+	var order_name_var_mapping = {'placed':placed_list, 'using_spot':using_spot_list, 'left_unpaid':left_unpaid_list, 'completed':completed_list, 'others':others_list}
+	var list = order_name_var_mapping[active_order_name];
+	$('.order_wrapper').empty();
+	if(active_order_name=='placed'){
+		for(var i = 0; i < list.length; i++){
+			var spot_info_order = document.createElement('div');
+			spot_info_order.setAttribute('class', 'spot_info_order');
+			spot_info_order.id = list[i].ps_id;
+			spot_info_order.innerHTML = `<p class="customer_tel">${list[i].custom_tel}</p>
+											<div class="order_period">
+												${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
+												${formatDate(new Date(list[i].end_time.substring(0,25)))}
+											</div>
+										<button id="cancel_button">拒绝</button>`;
+			$('.order_wrapper').append(spot_info_order);
+		}
+	}
+	else if(active_order_name=='others'){
+		for(var i = 0; i < list.length; i++){
+			var spot_info_order = document.createElement('div');
+			spot_info_order.setAttribute('class', 'spot_info_order');
+			spot_info_order.id = list[i].ps_id;
+			spot_info_order.innerHTML = `<p class="customer_tel">${list[i].custom_tel}</p>
+											<div class="order_period">
+												${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
+												${formatDate(new Date(list[i].end_time.substring(0,25)))}
+											</div>
+										<p>${status_string[list[i].order_status]}</p>`;
+			$('.order_wrapper').append(spot_info_order);
+		}
+	}
+	else{
+		for(var i = 0; i < list.length; i++){
+			var spot_info_order = document.createElement('div');
+			spot_info_order.setAttribute('class', 'spot_info_order');
+			spot_info_order.id = list[i].ps_id;
+			spot_info_order.innerHTML = `<p class="customer_tel">${list[i].custom_tel}</p>
+											<div class="order_period">
+												${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
+												${formatDate(new Date(list[i].end_time.substring(0,25)))}
+											</div>`;
+			$('.order_wrapper').append(spot_info_order);
+		}
+	}
 }
+
+
+// hold button to delete
+var duration = 1500,
+    delete_success = button => {
+        //Success function
+        button.classList.add('success');
+    };
+
+document.querySelectorAll('.button-hold').forEach(button => {
+    button.style.setProperty('--duration', duration + 'ms');
+    ['mousedown', 'touchstart', 'keypress'].forEach(e => {
+        button.addEventListener(e, ev => {
+            if(e != 'keypress' || (e == 'keypress' && ev.which == 32 && !button.classList.contains('process'))) {
+                button.classList.add('process');
+                button.timeout = setTimeout(delete_success, duration, button);
+            }
+        });
+    });
+    ['mouseup', 'mouseout', 'touchend', 'keyup'].forEach(e => {
+        button.addEventListener(e, ev => {
+            if(e != 'keyup' || (e == 'keyup' && ev.which == 32)) {
+                button.classList.remove('process');
+                clearTimeout(button.timeout);
+            }
+        }, false);
+    });
+});
+
 </script>

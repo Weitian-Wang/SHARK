@@ -9,6 +9,7 @@ from src.error_code.error_code import ResultSuccess
 from .auth import authenticate_token, generate_token
 from .user_proxy import UserProxy
 from .constant import OrderStatus, UserType
+from src.user import auth
 
 app = Flask(__name__)
 CORS(app)
@@ -210,6 +211,15 @@ def get_spot_info_of_date(auth):
     user_proxy = get_user_proxy()
     with user_proxy:
         result = user_proxy.get_spot_info_of_date(auth['user_tel'], params['ps_id'], params['date'])
+        return jsonify(result.to_dict())
+
+@app.route('/individual/delete_spot', methods=['POST'])
+@authenticate_token([[UserType.INDIVIDUAL, UserType.ADMIN]])
+def delete_spot(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.delete_spot(auth['user_tel'], params['ps_id'], params['date'])
         return jsonify(result.to_dict())
 
 @app.route('/property/load_lot_management_page', methods=['GET'])

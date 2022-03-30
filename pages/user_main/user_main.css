@@ -744,14 +744,14 @@ input.apple-switch {
   border: 1px solid #D9DADC;
   border-radius: 50px;
   box-shadow: inset -20px 0 0 0 #fff;
-  float: left;
+  /* float: left; */
   transition: 0.1s ease;
 }
 
 input.apple-switch:after {
   content: "";
   position: absolute;
-  top: 1px;
+ top: 1px;
   left: 1px;
   background: transparent;
   width: 26px;

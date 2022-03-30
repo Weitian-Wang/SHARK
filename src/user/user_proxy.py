@@ -13,7 +13,7 @@ from sqlalchemy.sql.functions import user
 from src.database import DBStore
 from src.error_code import *
 from src.user.auth import generate_token
-from src.user.constant import OrderStatus, SpotType, UserType
+from src.user.constant import OrderStatus, SpotStatus, SpotType, UserType
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # for threading and logic handling
@@ -232,8 +232,11 @@ class UserProxy():
 
         # make sure fetched data is up-to-date
         spot = self._database.get_spot_by_id(ps_id)
-        appointments = spot.appointments
+        if spot.status == SpotStatus.NOT_AVAILABLE:
+            self._database.spot_update_flag_unlock(ps_id)
+            raise Unavailable()
 
+        appointments = spot.appointments
         # CASE 1, period spans single day
         if st.date() == et.date():
             date_str = str(st.date())
@@ -460,27 +463,31 @@ class UserProxy():
         if not date:
             order_of_spot = self._database.get_order_list_of_spot(spot.ps_id)
             spot_info = {
+                "name": spot.name,
                 "use_rate": "N/A",
                 "total_no_orders": len(order_of_spot),
-                "using_spot": [order.order_id for order in order_of_spot if order.order_status==OrderStatus.USING_SPOT],
-                "placed":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.PLACED],
+                "using_spot": [{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot if order.order_status==OrderStatus.USING_SPOT],
+                "placed":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot if order.order_status==OrderStatus.PLACED],
                 "price_per_min": spot.price_per_min,
-                "left_unpaid":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.LEFT_UNPAID],
-                "completed":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.COMPLETED],
-                "others":[order.order_id for order in order_of_spot if order.order_status==OrderStatus.COMPLETED or order.order_status==OrderStatus.DENIED or order.order_status==OrderStatus.ABNORMAL]
+                "left_unpaid":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot if order.order_status==OrderStatus.LEFT_UNPAID],
+                "completed":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'price_per_min': order.price_per_min} for order in order_of_spot if order.order_status==OrderStatus.COMPLETED],
+                "others":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'order_status':order.order_status} for order in order_of_spot if order.order_status==OrderStatus.CANCELED or order.order_status==OrderStatus.DENIED or order.order_status==OrderStatus.ABNORMAL],
+                "status": spot.status
             }
         else:
             # filter orders with assigned start date as 
             order_of_spot_on_date = self._database.get_order_list_of_spot_on_date(spot.ps_id, date)
             spot_info = {
+                "name": spot.name,
                 "use_rate": self.get_usage_of_appointments(spot.appointments.get(date,[])),
                 "total_no_orders": len(order_of_spot_on_date),
-                "using_spot": [order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.USING_SPOT],
-                "placed":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.PLACED],
+                "using_spot": [{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot_on_date if order.order_status==OrderStatus.USING_SPOT],
+                "placed":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot_on_date if order.order_status==OrderStatus.PLACED],
                 "price_per_min": spot.price_per_min,
-                "left_unpaid":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.LEFT_UNPAID],
-                "completed":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.COMPLETED],
-                "others":[order.order_id for order in order_of_spot_on_date if order.order_status==OrderStatus.COMPLETED or order.order_status==OrderStatus.DENIED or order.order_status==OrderStatus.ABNORMAL]
+                "left_unpaid":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot_on_date if order.order_status==OrderStatus.LEFT_UNPAID],
+                "completed":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'price_per_min': order.price_per_min} for order in order_of_spot_on_date if order.order_status==OrderStatus.COMPLETED],
+                "others":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'order_status':order.order_status} for order in order_of_spot_on_date if order.order_status==OrderStatus.CANCELED or order.order_status==OrderStatus.DENIED or order.order_status==OrderStatus.ABNORMAL],
+                "status": spot.status
             }
         return ResultSuccess(data={'spot_info':spot_info})
 
