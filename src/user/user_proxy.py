@@ -312,6 +312,10 @@ class UserProxy():
         if order.custom_tel != user_tel:
             raise UnauthorizedOperation()
         # use dictionary as switch clause
+        if datetime.utcnow()+timedelta(hours=8) >= order.assigned_start_time:
+            # self._database.update_order_status(order_id, OrderStatus.ABNORMAL)
+            raise GeneralError(message='已经超过开始时间')
+
         # PLACED = 1, USING_SPOT = 2, DENIED = 3, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED = 11
         reason = {1:'预定成功', 2:'已经开始使用,无法取消', 3:'订单已经被拒绝', 4:'已经取消', 5:'订单异常,无法取消', 10:'无法取消待支付订单', 11:'订单已完成无法取消'}
         if order.order_status != 1:
@@ -382,10 +386,16 @@ class UserProxy():
         return ResultSuccess(message="成功拒绝订单")
 
     def enter_spot(self, user_tel, order_id):
-        spot = self._database.get_order_by_id(order_id)
-        if not spot:
+        order = self._database.get_order_by_id(order_id)
+        if datetime.utcnow()+timedelta(hours=8) >= order.assigned_end_time:
+            self._database.update_order_status(order_id, OrderStatus.ABNORMAL)
+            raise GeneralError(message='已错过预约时段')
+        if datetime.utcnow()+timedelta(hours=8) < order.assigned_start_time:
+            raise EnterTooEarly()
+            
+        if not order:
             raise ParamError()
-        if spot.custom_tel != user_tel:
+        if order.custom_tel != user_tel:
             raise UnauthorizedOperation()
 
         self._database.update_order_status(order_id, OrderStatus.USING_SPOT)
@@ -469,7 +479,7 @@ class UserProxy():
                 "using_spot": [{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot if order.order_status==OrderStatus.USING_SPOT],
                 "placed":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot if order.order_status==OrderStatus.PLACED],
                 "price_per_min": spot.price_per_min,
-                "left_unpaid":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot if order.order_status==OrderStatus.LEFT_UNPAID],
+                "left_unpaid":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'price_per_min': order.price_per_min} for order in order_of_spot if order.order_status==OrderStatus.LEFT_UNPAID],
                 "completed":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'price_per_min': order.price_per_min} for order in order_of_spot if order.order_status==OrderStatus.COMPLETED],
                 "others":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'order_status':order.order_status} for order in order_of_spot if order.order_status==OrderStatus.CANCELED or order.order_status==OrderStatus.DENIED or order.order_status==OrderStatus.ABNORMAL],
                 "status": spot.status
@@ -484,7 +494,7 @@ class UserProxy():
                 "using_spot": [{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot_on_date if order.order_status==OrderStatus.USING_SPOT],
                 "placed":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot_on_date if order.order_status==OrderStatus.PLACED],
                 "price_per_min": spot.price_per_min,
-                "left_unpaid":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time} for order in order_of_spot_on_date if order.order_status==OrderStatus.LEFT_UNPAID],
+                "left_unpaid":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'price_per_min': order.price_per_min} for order in order_of_spot_on_date if order.order_status==OrderStatus.LEFT_UNPAID],
                 "completed":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'price_per_min': order.price_per_min} for order in order_of_spot_on_date if order.order_status==OrderStatus.COMPLETED],
                 "others":[{'custom_tel':order.custom_tel, 'order_id': order.order_id, 'start_time': order.assigned_start_time, 'end_time': order.assigned_end_time, 'order_status':order.order_status} for order in order_of_spot_on_date if order.order_status==OrderStatus.CANCELED or order.order_status==OrderStatus.DENIED or order.order_status==OrderStatus.ABNORMAL],
                 "status": spot.status

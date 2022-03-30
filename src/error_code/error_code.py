@@ -78,6 +78,16 @@ class Unavailable(ErrorCode):
         # super().__init__(error_code=108, message="Resource not available")
         super().__init__(error_code=108, message="资源不可用")
 
+class EnterTooEarly(ErrorCode):
+    def __init__(self):
+        # super().__init__(error_code=109, message="Can't enter before assigned start time")
+        super().__init__(error_code=109, message="未到预约时间")
+
+class LeaveTooLate(ErrorCode):
+    def __init__(self):
+        # super().__init__(error_code=110, message="Left after assigned depart time")
+        super().__init__(error_code=110, message="已超时离场")
+
 class SystemInternalError(ErrorCode):
     # def __init__(self, message="System internal error."):
     def __init__(self, message="系统内部错误"):

@@ -110,12 +110,12 @@ function cancel_order(self){
 		}
 		else{
 			success(response.data.message);
-			setTimeout(function() {get_orders();}, 2000);
 		}
 	})
 	.catch(function (error) {
 		console.log(error);
 	});
+	setTimeout(function() {get_orders();}, 2000);
 }
 
 function enter_p(self){
@@ -141,12 +141,12 @@ function enter_p(self){
 		}
 		else{
 			success(response.data.message);
-			setTimeout(function() {get_orders();}, 2000);
 		}
 	})
 	.catch(function (error) {
 		console.log(error);
 	});
+	setTimeout(function() {get_orders();}, 2000);
 }
 
 function leave_p(self){
@@ -172,12 +172,12 @@ function leave_p(self){
 		}
 		else{
 			success(response.data.message);
-			setTimeout(function() {get_orders();}, 2000);
 		}
 	})
 	.catch(function (error) {
 		console.log(error);
 	});
+	setTimeout(function() {get_orders();}, 2000);
 }
 
 function pay_order(self){
@@ -203,11 +203,11 @@ function pay_order(self){
 		}
 		else{
 			success(response.data.message);
-			setTimeout(function() {get_orders();}, 2000);
 		}
 	})
 	.catch(function (error) {
 		console.log(error);
 	});
+	setTimeout(function() {get_orders();}, 2000);
 }
 </script>

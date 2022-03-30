@@ -63,7 +63,7 @@ class DBStore():
 
     def get_order_list_of_spot_on_date(self, ps_id, date):
         orders = self._session.query(Order).filter(Order.ps_id == ps_id).all()
-        return [order for order in orders if str(order.assigned_start_time.date())==date]
+        return [order for order in orders if(str(order.assigned_start_time.date())<=date and date<=str(order.assigned_end_time.date()))]
 
     # 110 kilometers per lat, 111.32 kilometers per lng, approximate to same km/degree
     # ±0.018 degree = ±2km
@@ -162,13 +162,13 @@ class DBStore():
         return [dict(item) for item in rst]
         
     # PLACED = 1, USING_SPOT = 2, DENIED = 3, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED = 11
-    # acceptable updates: PLACED->USING_SPOT, PLACED->CANCELED, PLACED->DENIED, USING_SPOT->LEFT_UNPAID->COMPLETED
+    # acceptable updates: ANY->ABNORMAL, PLACED->USING_SPOT, PLACED->CANCELED, PLACED->DENIED, USING_SPOT->LEFT_UNPAID->COMPLETED
     def update_order_status(self, order_id, new_status):
         if new_status not in [OrderStatus.PLACED, OrderStatus.USING_SPOT, OrderStatus.CANCELED, OrderStatus.DENIED, OrderStatus.ABNORMAL, OrderStatus.LEFT_UNPAID, OrderStatus.COMPLETED]:
             raise ParamError()
         self.order_update_flag_lock(order_id)
         order = self.get_order_by_id(order_id)
-        if (order.order_status == OrderStatus.PLACED and new_status not in [OrderStatus.USING_SPOT, OrderStatus.CANCELED, OrderStatus.DENIED]) or (order.order_status == OrderStatus.USING_SPOT and new_status != OrderStatus.LEFT_UNPAID) or (order.order_status == OrderStatus.LEFT_UNPAID and new_status != OrderStatus.COMPLETED):
+        if (order.order_status == OrderStatus.PLACED and new_status not in [OrderStatus.USING_SPOT, OrderStatus.CANCELED, OrderStatus.DENIED, OrderStatus.ABNORMAL]) or (order.order_status == OrderStatus.USING_SPOT and new_status not in [OrderStatus.LEFT_UNPAID, OrderStatus.ABNORMAL]) or (order.order_status == OrderStatus.LEFT_UNPAID and new_status != OrderStatus.COMPLETED):
             self.order_update_flag_unlock(order_id)
             raise ParamError()
         self._session.query(Order).filter(Order.order_id == order_id).update({"order_status": new_status})

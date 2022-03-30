@@ -136,8 +136,8 @@ def reserve_spot(auth):
     user_proxy = get_user_proxy()
     with user_proxy:
         order = user_proxy.reserve_spot(auth['user_tel'], params['ps_id'], params['start_time'], params['end_time'])
-        # delay the update, in case scheduler misses start time
-        order_scheduler.add_job(order_scheduler_job, 'date', run_date = datetime.strptime(params['start_time'], '%Y-%m-%d %H:%M')+timedelta(seconds=3), args=[order.order_id])
+        # delay the update, in case scheduler misses start time   CHANGE TO -> USER MANUALLY START USING SPOT
+        # order_scheduler.add_job(order_scheduler_job, 'date', run_date = datetime.strptime(params['start_time'], '%Y-%m-%d %H:%M')+timedelta(seconds=3), args=[order.order_id])
         result = ResultSuccess(message="预约成功")
         return jsonify(result.to_dict())
 

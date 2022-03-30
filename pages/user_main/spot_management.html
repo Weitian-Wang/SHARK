@@ -200,6 +200,20 @@ function get_spot_info_of_date(self){
 			$(`#${ps_id}`).find('.days-left')[0].classList.add('has_placed');
 			$(`#${ps_id}`).find('.days-left')[0].style.color = '#ED5565';
 		}
+		placed_list = spot_info.placed;
+		using_spot_list = spot_info.using_spot;
+		left_unpaid_list = spot_info.left_unpaid;
+		completed_list = spot_info.completed;
+		others_list = spot_info.others;
+		var income_sum = 0;
+		for(var i=0; i<spot_info.completed.length; i++){
+			income_sum += (new Date(completed_list[i].end_time.substring(0,25)) - new Date(completed_list[i].start_time.substring(0,25)))/60000*completed_list[i].price_per_min;
+		}
+		$('#income')[0].innerText = "收入"+income_sum+"元";
+		$('.spot_price')[0].value = spot_info.price_per_min;
+		$('#spot_loc_name')[0].innerText = spot_info.name;
+		$('.spot_status')[0].checked = spot_info.status;
+		select_order_type($('.placed')[0]);
 		success(`查询到${spot_info.total_no_orders}个订单`);
 	})
 	.catch(function (error) {
@@ -242,6 +256,11 @@ function spot_info_of_date_panel(self){
 		left_unpaid_list = spot_info.left_unpaid;
 		completed_list = spot_info.completed;
 		others_list = spot_info.others;
+		var income_sum = 0;
+		for(var i=0; i<spot_info.completed.length; i++){
+			income_sum += (new Date(completed_list[i].end_time.substring(0,25)) - new Date(completed_list[i].start_time.substring(0,25)))/60000*completed_list[i].price_per_min;
+		}
+		$('#income')[0].innerText = "收入"+income_sum+"元";
 		$('.spot_price')[0].value = spot_info.price_per_min;
 		$('#spot_loc_name')[0].innerText = spot_info.name;
 		$('.spot_status')[0].checked = spot_info.status;
@@ -287,8 +306,9 @@ function select_order_type(self){
 										<button id="cancel_button">拒绝</button>`;
 			$('.order_wrapper').append(spot_info_order);
 		}
+		return;
 	}
-	else if(active_order_name=='others'){
+	if(active_order_name=='others'){
 		for(var i = 0; i < list.length; i++){
 			var spot_info_order = document.createElement('div');
 			spot_info_order.setAttribute('class', 'spot_info_order');
@@ -301,6 +321,22 @@ function select_order_type(self){
 										<p>${status_string[list[i].order_status]}</p>`;
 			$('.order_wrapper').append(spot_info_order);
 		}
+		return;
+	}
+	if(active_order_name=='left_unpaid' || active_order_name=='completed'){
+		for(var i = 0; i < list.length; i++){
+			var spot_info_order = document.createElement('div');
+			spot_info_order.setAttribute('class', 'spot_info_order');
+			spot_info_order.id = list[i].ps_id;
+			spot_info_order.innerHTML = `<p class="customer_tel">${list[i].custom_tel}</p>
+											<div class="order_period">
+												${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
+												${formatDate(new Date(list[i].end_time.substring(0,25)))}
+											</div>
+											<p>${(new Date(list[i].end_time.substring(0,25)) - new Date(list[i].start_time.substring(0,25)))/60000*list[i].price_per_min}元</p>`;
+			$('.order_wrapper').append(spot_info_order);
+		}
+		return;
 	}
 	else{
 		for(var i = 0; i < list.length; i++){
@@ -314,16 +350,17 @@ function select_order_type(self){
 											</div>`;
 			$('.order_wrapper').append(spot_info_order);
 		}
+		return;
 	}
 }
 
 
 // hold button to delete
 var duration = 1500,
-    delete_success = button => {
-        //Success function
-        button.classList.add('success');
-    };
+delete_success = button => {
+	//Success function
+	button.classList.add('success');
+};
 
 document.querySelectorAll('.button-hold').forEach(button => {
     button.style.setProperty('--duration', duration + 'ms');
