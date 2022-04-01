@@ -161,6 +161,7 @@ function init_time(){
 }
 
 init_time();
+// get spot overview of date
 function get_spot_info_of_date(self){
 	var selected_date = self.value;
 	var ps_id = self.parentElement.parentElement.parentElement.id;
@@ -200,19 +201,19 @@ function get_spot_info_of_date(self){
 			$(`#${ps_id}`).find('.days-left')[0].classList.add('has_placed');
 			$(`#${ps_id}`).find('.days-left')[0].style.color = '#ED5565';
 		}
-		placed_list = spot_info.placed;
-		using_spot_list = spot_info.using_spot;
-		left_unpaid_list = spot_info.left_unpaid;
-		completed_list = spot_info.completed;
-		others_list = spot_info.others;
-		var income_sum = 0;
-		for(var i=0; i<spot_info.completed.length; i++){
-			income_sum += (new Date(completed_list[i].end_time.substring(0,25)) - new Date(completed_list[i].start_time.substring(0,25)))/60000*completed_list[i].price_per_min;
-		}
-		$('#income')[0].innerText = "收入"+income_sum+"元";
-		$('.spot_price')[0].value = spot_info.price_per_min;
-		$('#spot_loc_name')[0].innerText = spot_info.name;
-		$('.spot_status')[0].checked = spot_info.status;
+		// placed_list = spot_info.placed;
+		// using_spot_list = spot_info.using_spot;
+		// left_unpaid_list = spot_info.left_unpaid;
+		// completed_list = spot_info.completed;
+		// others_list = spot_info.others;
+		// var income_sum = 0;
+		// for(var i=0; i<spot_info.completed.length; i++){
+		// 	income_sum += (new Date(completed_list[i].end_time.substring(0,25)) - new Date(completed_list[i].start_time.substring(0,25)))/60000*completed_list[i].price_per_min;
+		// }
+		// $('#income')[0].innerText = "收入"+income_sum+"元";
+		// $('.spot_price')[0].value = spot_info.price_per_min;
+		// $('#spot_loc_name')[0].innerText = spot_info.name;
+		// $('.spot_status')[0].checked = spot_info.status;
 		select_order_type($('.placed')[0]);
 		success(`查询到${spot_info.total_no_orders}个订单`);
 	})
@@ -225,8 +226,22 @@ function add_spot(){
 	
 }
 
+// get detail of one spot on date (optional)
 var placed_list, using_spot_list, left_unpaid_list, completed_list, others_list;
-function spot_info_of_date_panel(self){
+var active_more_btn = null;
+function spot_info_of_date_panel(self, invoked_by_panel=0, refresh=0){
+	// invoked within panel date change
+	if(refresh==1){
+		self = active_more_btn;
+	}
+	
+	if(invoked_by_panel==1){
+		active_more_btn.parentElement.parentElement.firstElementChild.value = self.value;
+		self = active_more_btn;
+	}
+	else{
+		active_more_btn = self;
+	}
 	$('.spot_info_panel')[0].style.display = 'flex';
 	$('.projects-section')[0].style.webkitFilter = "blur(4px)";
 	var ps_id= self.parentElement.parentElement.parentElement.parentElement.id;
@@ -260,11 +275,32 @@ function spot_info_of_date_panel(self){
 		for(var i=0; i<spot_info.completed.length; i++){
 			income_sum += (new Date(completed_list[i].end_time.substring(0,25)) - new Date(completed_list[i].start_time.substring(0,25)))/60000*completed_list[i].price_per_min;
 		}
+		// update spot detail panel info
 		$('#income')[0].innerText = "收入"+income_sum+"元";
 		$('.spot_price')[0].value = spot_info.price_per_min;
 		$('#spot_loc_name')[0].innerText = spot_info.name;
 		$('.spot_status')[0].checked = spot_info.status;
 		select_order_type($('.placed')[0]);
+		
+		// update spot overview info 
+		if(spot_info.use_rate != 'N/A'){
+			$(`#${ps_id}`).find('.box-progress')[0].style.width = `${spot_info.use_rate}%`
+			$(`#${ps_id}`).find('.box-progress')[0].style.backgroundColor = '#4DF3BC';
+			$(`#${ps_id}`).find('.box-progress-percentage')[0].innerText = `${spot_info.use_rate}%`;
+		}
+		else{
+			$(`#${ps_id}`).find('.box-progress')[0].style.width = `100%`
+			$(`#${ps_id}`).find('.box-progress')[0].style.backgroundColor = 'darkgrey';
+			$(`#${ps_id}`).find('.box-progress-percentage')[0].innerText = `N/A`;
+		}
+		$(`#${ps_id}`).find('.participants')[0].innerText = `总订单 ${spot_info.total_no_orders}`;
+		$(`#${ps_id}`).find('.days-left')[0].innerText = `待开始 ${spot_info.placed.length}`;
+		$(`#${ps_id}`).find('.days-left')[0].classList.remove('has_placed');
+		$(`#${ps_id}`).find('.days-left')[0].style.color = 'grey';
+		if(spot_info.placed.length){
+			$(`#${ps_id}`).find('.days-left')[0].classList.add('has_placed');
+			$(`#${ps_id}`).find('.days-left')[0].style.color = '#ED5565';
+		}
 		success(`查询到${spot_info.total_no_orders}个订单`);
 	})
 	.catch(function (error) {
@@ -273,6 +309,7 @@ function spot_info_of_date_panel(self){
 }
 
 function close_spot_panel(){
+	active_more_btn = null;
 	$('.spot_info_panel')[0].style.display = 'none';
 	$('.projects-section')[0].style.webkitFilter = "";
 	$('.placed')[0].classList.remove('active');
@@ -297,13 +334,13 @@ function select_order_type(self){
 		for(var i = 0; i < list.length; i++){
 			var spot_info_order = document.createElement('div');
 			spot_info_order.setAttribute('class', 'spot_info_order');
-			spot_info_order.id = list[i].ps_id;
+			spot_info_order.id = list[i].order_id;
 			spot_info_order.innerHTML = `<p class="customer_tel">${list[i].custom_tel}</p>
 											<div class="order_period">
 												${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
 												${formatDate(new Date(list[i].end_time.substring(0,25)))}
 											</div>
-										<button id="cancel_button">拒绝</button>`;
+										<button id="cancel_button" onclick="deny_order(this)">拒绝</button>`;
 			$('.order_wrapper').append(spot_info_order);
 		}
 		return;
@@ -381,5 +418,36 @@ document.querySelectorAll('.button-hold').forEach(button => {
         }, false);
     });
 });
+
+function deny_order(self){
+	axios.post('/user/deny_order',
+		{
+			'order_id': $(s).parent()[0].id
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		else{
+			success(response.data.message);
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+	setTimeout(function() {spot_info_of_date_panel(null, invoked_by_panel=0, refresh=1)}, 2000);
+}
 
 </script>

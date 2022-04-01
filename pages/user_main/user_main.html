@@ -64,7 +64,7 @@
 					<!-- 1st set of UI, spot detail-->
 					<button type='button' class='close_panel' onclick="close_spot_panel()"></button>
 					<h2 id='spot_loc_name'></h2>
-					<input class='date_select spot_date' type='date' onchange="spot_info_of_date_panel(null)">
+					<input class='date_select spot_date' type='date' onchange="spot_info_of_date_panel(this, 1)">
 					<div id="income"></div>
 					
 					<div class='order_type'>
@@ -478,12 +478,12 @@ new Vue({
 			active_li = null;
 			close_panel();
 			$('#p_list').empty();
-			let p_name=this.p_name, lat, lng;
+			var p_name=this.p_name, lat, lng;
 			// wait for location acquisition
 			var coord_promise = new Promise(function(resolve, reject) {
 			    navigator.geolocation.getCurrentPosition(function(pos){
-			        lat = pos.coords.latitude
-			        lng = pos.coords.longitude
+			        lat = pos.coords.latitude;
+			        lng = pos.coords.longitude;
 			        resolve({lat,lng});
 			    }) 
 			})
