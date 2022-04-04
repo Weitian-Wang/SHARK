@@ -13,142 +13,152 @@ var InforObj = [];
 var p_list = [];
 function initMap(){
 	if (navigator.geolocation) {
-		map = new google.maps.Map(document.getElementById("map"), {
-		    center: { lat: 0, lng: 0 },
-		    zoom: 13,
-			mapId: 'aa4869704b664d8d', 
-			disableDefaultUI: true
-		  });
-		  
-		const options = {
-		    fields: ["geometry"],
-		    strictBounds: false,
-		    types: ["establishment"],
-		};
-		  
-		navigator.geolocation.getCurrentPosition(
-			function (position) {
-				map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-			}
-		);
+		var lat, lng;
+		var coord_promise = new Promise(function(resolve, reject) {
+		    navigator.geolocation.getCurrentPosition(function(pos){
+		        lat = pos.coords.latitude;
+		        lng = pos.coords.longitude;
+		        resolve({lat,lng});
+		    }) 
+		})
 		
-		// Create the search box and link it to the UI element.
-		const input = document.getElementById("pac-input");
-		const autocomplete = new google.maps.places.Autocomplete(input, options);
-		
-		map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-		autocomplete.bindTo("bounds", map);
-		
-		const marker = new google.maps.Marker({
-		    map,
-		    anchorPoint: new google.maps.Point(0, -29),
-		});
-		
-		// Listen for the event fired when the user selects a prediction and retrieve
-		// more details for that place.
-		// !!search and refocus event!!
-		autocomplete.addListener("place_changed", () => {
-			const place = autocomplete.getPlace();
-			
-			// clear parking lot markers
-			p_list.forEach((it) => {
-					    it.setMap(null);
-					  });
-			p_list = [];
-			
-			if (place.length == 0) {
+		coord_promise.then(function(value){
+			if(map){
+				loc = new google.maps.LatLng(value.lat, value.lng);
+				map.setCenter(loc);
 				return;
 			}
-
-			//  set old marker invisible.
-			marker.setVisible(false);
-			// get the icon, name and location.
-			const bounds = new google.maps.LatLngBounds();
-		
-			if (!place.geometry || !place.geometry.location) {
-			  error('选择具体目的地');
-			  return;
-			}
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: { lat: value.lat, lng: value.lng },
+				zoom: 13,
+				mapId: 'aa4869704b664d8d', 
+				disableDefaultUI: true
+			});
 			
-			if (place.geometry.viewport) {
-			      map.fitBounds(place.geometry.viewport);
-			    } else {
-			      map.setCenter(place.geometry.location);
-			      map.setZoom(13);
-			}
+			const options = {
+				fields: ["geometry"],
+				strictBounds: false,
+				types: ["establishment"],
+			};
 			
-			marker.setPosition(place.geometry.location);
-			marker.setVisible(true);
-
+			// Create the search box and link it to the UI element.
+			const input = document.getElementById("pac-input");
+			const autocomplete = new google.maps.places.Autocomplete(input, options);
 			
-			axios.get(`/user/get_p_near_coord?lat=${place.geometry.location.lat()}&lng=${place.geometry.location.lng()}`,
-						{
-							headers:{
-							'Content-Type': 'application/json;charset=UTF-8',
-							'Accept': 'application/json, text/plain, */*',
-							'Auth': getCookie('token')
-							}
-						}
-			)
-			.then(function (response) {
-				if(response.data.error_code!=0){
-					error(response.data.message);
-					if(response.data.error_code==1000 || response.data.error_code==1001){
-						setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
-					}
+			map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+			autocomplete.bindTo("bounds", map);
+			
+			const marker = new google.maps.Marker({
+				map,
+				anchorPoint: new google.maps.Point(0, -29),
+			});
+			
+			// Listen for the event fired when the user selects a prediction and retrieve
+			// more details for that place.
+			// !!search and refocus event!!
+			autocomplete.addListener("place_changed", () => {
+				const place = autocomplete.getPlace();
+				
+				// clear parking lot markers
+				p_list.forEach((it) => {
+							it.setMap(null);
+						  });
+				p_list = [];
+				
+				if (place.length == 0) {
 					return;
 				}
-				success(response.data.message);
-				let list = response.data.data.list;
-				for(var i = 0; i<list.length; i++){
-					var icon = {
-						url: "../index_pic/parking.png", // url
-						scaledSize: new google.maps.Size(40, 40), // scaled size
-						origin: new google.maps.Point(0, 0), // origin
-						anchor: new google.maps.Point(0, 0) // anchor
-					};
-					// info display when click marker icon
-					var infowindow = new google.maps.InfoWindow();
-					// create marker instance on map
-					var marker = new google.maps.Marker({
-						position: {lat: list[i].latitude, lng: list[i].longitude},
-						map,
-						icon: {
+
+				//  set old marker invisible.
+				marker.setVisible(false);
+				// get the icon, name and location.
+				const bounds = new google.maps.LatLngBounds();
+			
+				if (!place.geometry || !place.geometry.location) {
+				  error('选择具体目的地');
+				  return;
+				}
+				
+				if (place.geometry.viewport) {
+					  map.fitBounds(place.geometry.viewport);
+					} else {
+					  map.setCenter(place.geometry.location);
+					  map.setZoom(13);
+				}
+				
+				marker.setPosition(place.geometry.location);
+				marker.setVisible(true);
+
+				
+				axios.get(`/user/get_p_near_coord?lat=${place.geometry.location.lat()}&lng=${place.geometry.location.lng()}`,
+							{
+								headers:{
+								'Content-Type': 'application/json;charset=UTF-8',
+								'Accept': 'application/json, text/plain, */*',
+								'Auth': getCookie('token')
+								}
+							}
+				)
+				.then(function (response) {
+					if(response.data.error_code!=0){
+						error(response.data.message);
+						if(response.data.error_code==1000 || response.data.error_code==1001){
+							setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+						}
+						return;
+					}
+					success(response.data.message);
+					let list = response.data.data.list;
+					for(var i = 0; i<list.length; i++){
+						var icon = {
 							url: "../index_pic/parking.png", // url
 							scaledSize: new google.maps.Size(40, 40), // scaled size
 							origin: new google.maps.Point(0, 0), // origin
 							anchor: new google.maps.Point(0, 0) // anchor
-						}
-					});
-					var content = `<div id=${list[i].id} class='${list[i].type} infowindow' onclick='info(this)'>`
-									+"<div class='p-name'>"+list[i].name+"</div>"
-									+"<div>"+list[i].price_per_min+"元/分钟</div>"
-									+"<div>"+owner[list[i].type - 1]+"</div>"
-									+"<div>距离目的地"+(list[i].distance>=1?Math.round(list[i].distance)+"km":Math.round(list[i].distance*1000)+"m")+"</div>"
-								 +"</div>"
-					//  add infowindow to marker
-					google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
-					    return function() {
-							closeOtherInfo();
-					        infowindow.setContent(content);
-					        infowindow.open(map,marker);
-							InforObj[0] = infowindow;
 						};
-					})(marker,content,infowindow));
-					marker.addListener('focusout', function () {
-							closeOtherInfo();
-							infowindow.close();
-							InforObj[0] = infowindow;
+						// info display when click marker icon
+						var infowindow = new google.maps.InfoWindow();
+						// create marker instance on map
+						var marker = new google.maps.Marker({
+							position: {lat: list[i].latitude, lng: list[i].longitude},
+							map,
+							icon: {
+								url: "../index_pic/parking.png", // url
+								scaledSize: new google.maps.Size(40, 40), // scaled size
+								origin: new google.maps.Point(0, 0), // origin
+								anchor: new google.maps.Point(0, 0) // anchor
+							}
 						});
-					p_list.push(marker);
-				}
-			})
-			.catch(function (error) {
-				// undefined error
-				console.log(error);
-			});
+						var content = `<div id=${list[i].id} class='${list[i].type} infowindow' onclick='info(this)'>`
+										+"<div class='p-name'>"+list[i].name+"</div>"
+										+"<div>"+list[i].price_per_min+"元/分钟</div>"
+										+"<div>"+owner[list[i].type - 1]+"</div>"
+										+"<div>距离目的地"+(list[i].distance>=1?Math.round(list[i].distance)+"km":Math.round(list[i].distance*1000)+"m")+"</div>"
+									 +"</div>"
+						//  add infowindow to marker
+						google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+							return function() {
+								closeOtherInfo();
+								infowindow.setContent(content);
+								infowindow.open(map,marker);
+								InforObj[0] = infowindow;
+							};
+						})(marker,content,infowindow));
+						marker.addListener('focusout', function () {
+								closeOtherInfo();
+								infowindow.close();
+								InforObj[0] = infowindow;
+							});
+						p_list.push(marker);
+					}
+				})
+				.catch(function (error) {
+					// undefined error
+					console.log(error);
+				});
 		});
 		success('地图加载成功');
+		});
 	} 
 	else{
 		error('定位失败');
@@ -158,7 +168,7 @@ function initMap(){
 	}
 }
 // initialize map on loading this html file
-// initMap();
+initMap();
 
 // utility functions
 function closeOtherInfo(){

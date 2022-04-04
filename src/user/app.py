@@ -150,15 +150,6 @@ def cancel_order(auth):
         result = user_proxy.cancel_order(auth['user_tel'], params['order_id'])
         return jsonify(result.to_dict())
 
-@app.route('/user/deny_order', methods=['POST'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
-def deny_order(auth):
-    params = get_request_params()
-    user_proxy = get_user_proxy()
-    with user_proxy:
-        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
-        return jsonify(result.to_dict())
-
 @app.route('/user/get_orders', methods=['GET'])
 @authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
 def get_orders(auth):
@@ -213,13 +204,41 @@ def get_spot_info_of_date(auth):
         result = user_proxy.get_spot_info_of_date(auth['user_tel'], params['ps_id'], params['date'])
         return jsonify(result.to_dict())
 
+# no frontend ui support
 @app.route('/individual/delete_spot', methods=['POST'])
-@authenticate_token([[UserType.INDIVIDUAL, UserType.ADMIN]])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
 def delete_spot(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
         result = user_proxy.delete_spot(auth['user_tel'], params['ps_id'], params['date'])
+        return jsonify(result.to_dict())
+
+@app.route('/individual/deny_order', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
+def deny_order(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
+        return jsonify(result.to_dict())
+
+@app.route('/individual/change_spot_status', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+def change_spot_status(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.change_spot_status(auth['user_tel'], params['ps_id'], int(params['new_status']))
+        return jsonify(result.to_dict())
+
+@app.route('/individual/change_spot_rate', methods=['POST'])
+@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+def change_spot_rate(auth):
+    params = get_request_params()
+    user_proxy = get_user_proxy()
+    with user_proxy:
+        result = user_proxy.change_spot_rate(auth['user_tel'], params['ps_id'], float(params['new_rate']))
         return jsonify(result.to_dict())
 
 @app.route('/property/load_lot_management_page', methods=['GET'])

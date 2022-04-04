@@ -5,7 +5,7 @@
       <div class="projects-section-header">
 		<div class="my-spots">
 			<p>我的车位</p>
-			<button class="view-btn add-spot" title="Add Spot">
+			<button class="view-btn add-spot" title="Add Spot" onclick="add_spot_panel()">
 			  <svg xmlns="" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid">
 			  <line x1="4" y1="12" x2="20" y2="12" stroke-width="6px"></line>
 			  <line x1="12" y1="20" x2="12" y2="4" stroke-width="6px"></line></svg>
@@ -21,16 +21,16 @@
             <span class="status-type">车位数</span>
           </div>
 		  <div class="item-status">
+		    <span class="status-number no_of_total_orders"></span>
+		    <span class="status-type">总订单数</span>
+		  </div>
+		  <div class="item-status">
 		    <span class="status-number no_of_placed_orders"></span>
 		    <span class="status-type">待开始</span>
 		  </div>
           <div class="item-status">
             <span class="status-number no_of_using_spot_orders"></span>
             <span class="status-type">进行中</span>
-          </div>
-          <div class="item-status">
-            <span class="status-number no_of_total_orders"></span>
-            <span class="status-type">总订单数</span>
           </div>
         </div>
         <div class="view-actions">
@@ -81,6 +81,8 @@ gridView.addEventListener('click', function () {
 
 // onload
 function get_spot_list(){
+	close_spot_panel();
+	$('.project-boxes').empty();
 	axios.get(`/individual/get_spot_list`,
 				{
 					headers:{
@@ -215,7 +217,6 @@ function get_spot_info_of_date(self){
 		// $('#spot_loc_name')[0].innerText = spot_info.name;
 		// $('.spot_status')[0].checked = spot_info.status;
 		select_order_type($('.placed')[0]);
-		success(`查询到${spot_info.total_no_orders}个订单`);
 	})
 	.catch(function (error) {
 		console.log(error);
@@ -271,9 +272,27 @@ function spot_info_of_date_panel(self, invoked_by_panel=0, refresh=0){
 		left_unpaid_list = spot_info.left_unpaid;
 		completed_list = spot_info.completed;
 		others_list = spot_info.others;
+		$('.placed').children('.bubble')[0].innerText = placed_list.length>99?'···':placed_list.length;
+		$('.placed').children('.bubble')[0].style.background = placed_list.length?'#e02424':'grey';
+		$('.using_spot').children('.bubble')[0].innerText = using_spot_list.length>99?'···':using_spot_list.length;
+		$('.using_spot').children('.bubble')[0].style.background = using_spot_list.length?'#e02424':'grey';
+		$('.left_unpaid').children('.bubble')[0].innerText = left_unpaid_list.length>99?'···':left_unpaid_list.length;
+		$('.left_unpaid').children('.bubble')[0].style.background = left_unpaid_list.length?'#e02424':'grey';
+		$('.completed').children('.bubble')[0].innerText = completed_list.length>99?'···':completed_list.length;
+		$('.completed').children('.bubble')[0].style.background = completed_list.length?'#e02424':'grey';
+		$('.others').children('.bubble')[0].innerText = others_list.length>99?'···':others_list.length;
+		$('.others').children('.bubble')[0].style.background = others_list.length?'#e02424':'grey';
 		var income_sum = 0;
-		for(var i=0; i<spot_info.completed.length; i++){
-			income_sum += (new Date(completed_list[i].end_time.substring(0,25)) - new Date(completed_list[i].start_time.substring(0,25)))/60000*completed_list[i].price_per_min;
+		if(date==''){
+			for(var i=0; i<spot_info.completed.length; i++){
+				income_sum += (new Date(completed_list[i].end_time.substring(0,25)) - new Date(completed_list[i].start_time.substring(0,25)))/60000*completed_list[i].price_per_min;
+			}
+		}
+		else{
+			for(var i=0; i<spot_info.completed.length; i++){
+				if(date == formatDate(new Date(completed_list[i].end_time)).split(' ')[0])
+					income_sum += (new Date(completed_list[i].end_time.substring(0,25)) - new Date(completed_list[i].start_time.substring(0,25)))/60000*completed_list[i].price_per_min;
+			}
 		}
 		// update spot detail panel info
 		$('#income')[0].innerText = "收入"+income_sum+"元";
@@ -337,8 +356,8 @@ function select_order_type(self){
 			spot_info_order.id = list[i].order_id;
 			spot_info_order.innerHTML = `<p class="customer_tel">${list[i].custom_tel}</p>
 											<div class="order_period">
-												${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
-												${formatDate(new Date(list[i].end_time.substring(0,25)))}
+												🔜 ${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
+												🔚 ${formatDate(new Date(list[i].end_time.substring(0,25)))}
 											</div>
 										<button id="cancel_button" onclick="deny_order(this)">拒绝</button>`;
 			$('.order_wrapper').append(spot_info_order);
@@ -352,8 +371,8 @@ function select_order_type(self){
 			spot_info_order.id = list[i].ps_id;
 			spot_info_order.innerHTML = `<p class="customer_tel">${list[i].custom_tel}</p>
 											<div class="order_period">
-												${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
-												${formatDate(new Date(list[i].end_time.substring(0,25)))}
+												🔜 ${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
+												🔚 ${formatDate(new Date(list[i].end_time.substring(0,25)))}
 											</div>
 										<p>${status_string[list[i].order_status]}</p>`;
 			$('.order_wrapper').append(spot_info_order);
@@ -367,8 +386,8 @@ function select_order_type(self){
 			spot_info_order.id = list[i].ps_id;
 			spot_info_order.innerHTML = `<p class="customer_tel">${list[i].custom_tel}</p>
 											<div class="order_period">
-												${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
-												${formatDate(new Date(list[i].end_time.substring(0,25)))}
+												🔜 ${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
+												🔚 ${formatDate(new Date(list[i].end_time.substring(0,25)))}
 											</div>
 											<p>${(new Date(list[i].end_time.substring(0,25)) - new Date(list[i].start_time.substring(0,25)))/60000*list[i].price_per_min}元</p>`;
 			$('.order_wrapper').append(spot_info_order);
@@ -382,8 +401,8 @@ function select_order_type(self){
 			spot_info_order.id = list[i].ps_id;
 			spot_info_order.innerHTML = `<p class="customer_tel">${list[i].custom_tel}</p>
 											<div class="order_period">
-												${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
-												${formatDate(new Date(list[i].end_time.substring(0,25)))}
+												🔜 ${formatDate(new Date(list[i].start_time.substring(0,25)))}<br>
+												🔚 ${formatDate(new Date(list[i].end_time.substring(0,25)))}
 											</div>`;
 			$('.order_wrapper').append(spot_info_order);
 		}
@@ -391,38 +410,10 @@ function select_order_type(self){
 	}
 }
 
-
-// hold button to delete
-var duration = 1500,
-delete_success = button => {
-	//Success function
-	button.classList.add('success');
-};
-
-document.querySelectorAll('.button-hold').forEach(button => {
-    button.style.setProperty('--duration', duration + 'ms');
-    ['mousedown', 'touchstart', 'keypress'].forEach(e => {
-        button.addEventListener(e, ev => {
-            if(e != 'keypress' || (e == 'keypress' && ev.which == 32 && !button.classList.contains('process'))) {
-                button.classList.add('process');
-                button.timeout = setTimeout(delete_success, duration, button);
-            }
-        });
-    });
-    ['mouseup', 'mouseout', 'touchend', 'keyup'].forEach(e => {
-        button.addEventListener(e, ev => {
-            if(e != 'keyup' || (e == 'keyup' && ev.which == 32)) {
-                button.classList.remove('process');
-                clearTimeout(button.timeout);
-            }
-        }, false);
-    });
-});
-
 function deny_order(self){
-	axios.post('/user/deny_order',
+	axios.post('/individual/deny_order',
 		{
-			'order_id': $(s).parent()[0].id
+			'order_id': $(self).parent()[0].id
 		},
 		{
 			headers:{
@@ -448,6 +439,125 @@ function deny_order(self){
 		console.log(error);
 	});
 	setTimeout(function() {spot_info_of_date_panel(null, invoked_by_panel=0, refresh=1)}, 2000);
+}
+
+function change_spot_status(self){
+	axios.post('/individual/change_spot_status',
+		{
+			'ps_id': active_more_btn.parentElement.parentElement.parentElement.parentElement.id,
+			'new_status': self.checked
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		else{
+			success(response.data.message);
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function change_spot_rate(self){
+	axios.post('/individual/change_spot_rate',
+		{
+			'ps_id': active_more_btn.parentElement.parentElement.parentElement.parentElement.id,
+			'new_rate': self.value
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		else{
+			success(response.data.message);
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function add_spot_panel(){
+	$('.add_spot_panel')[0].style.display = 'flex';
+	$('.projects-section')[0].style.webkitFilter = "blur(4px)";
+	init_spot_map();
+}
+
+function close_add_spot_panel(){
+	$('.add_spot_panel')[0].style.display = 'none';
+	$('.projects-section')[0].style.webkitFilter = "";
+}
+
+var add_spot_map;
+var target_position_marker;
+function init_spot_map(){
+	if(target_position_marker){
+		// remove old marker
+		target_position_marker.setMap(null);
+		target_position_marker = null;
+	}
+	var lat, lng;
+	var coord_promise = new Promise(function(resolve, reject) {
+	    navigator.geolocation.getCurrentPosition(function(pos){
+	        lat = pos.coords.latitude;
+	        lng = pos.coords.longitude;
+	        resolve({lat,lng});
+	    }) 
+	})
+	coord_promise.then(function(value){
+		if(add_spot_map){
+			loc = new google.maps.LatLng(value.lat, value.lng);
+			add_spot_map.setCenter(loc);
+		}
+		else{
+			add_spot_map = new google.maps.Map(document.getElementById('add_spot_map'), {
+				center: { lat: value.lat, lng: value.lng },
+				zoom: 18,
+				mapId: 'aa4869704b664d8d',
+				disableDefaultUI: true
+			});
+			google.maps.event.addListener(add_spot_map, 'click', function (event) {
+				placeMarker(event.latLng);
+			});
+		}
+	});
+}
+
+function placeMarker(location) {
+	if (target_position_marker) {
+		target_position_marker.setPosition(location);
+	} else {
+		target_position_marker = new google.maps.Marker({
+		position: location,
+		map: add_spot_map
+		});
+	}
 }
 
 </script>

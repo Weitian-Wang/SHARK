@@ -69,44 +69,49 @@
 					
 					<div class='order_type'>
 						<div class='placed' onclick='select_order_type(this)'>
-							待开始
+							待开始<span class="bubble">9</span>
 						</div>
 						<div class='using_spot' onclick='select_order_type(this)'>
-							使用中
+							使用中<span class="bubble">9</span>
 						</div>
 						<div class='left_unpaid' onclick='select_order_type(this)'>
-							未支付
+							未支付<span class="bubble">9</span>
 						</div>
 						<div class='completed' onclick='select_order_type(this)'>
-							已完成
+							已完成<span class="bubble">9</span>
 						</div>
 						<div class='others' onclick='select_order_type(this)'>
-							其他
+							其他<span class="bubble">9</span>
 						</div>
 					</div>
 					<div class="order_wrapper">
 					</div>
 					<div class="spot_options">
-						<input type='number' class='spot_price' style="border:none" maxlength="5" step="0.01" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">元/分钟
-						<input type="checkbox" class="apple-switch spot_status">
-						<button class="button-hold">
-						    <div>
-						        <svg class="icon" viewBox="0 0 16 16">
-								</svg>
-						        <svg class="progress" viewBox="0 0 32 32">
-						            <circle r="8" cx="16" cy="16" />
-						        </svg>
-						        <svg class="tick" viewBox="0 0 24 24">
-						            <polyline points="18,7 11,16 6,12" />
-						        </svg>
-						    </div>
-						    删除车位
-						</button>
+						<input type="checkbox" class="apple-switch spot_status" onchange="change_spot_status(this)">
+						<div><input type='number' class='spot_price' style="border:none" maxlength="5" step="0.01" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onfocusout="change_spot_rate(this)">元/分钟</div>
 					</div>
-					
-					<!-- 2nd set of UI, add new spot -->
 				</div>
 				
+				<div class="add_spot_panel" style="display: none;">
+					<button type='button' class='close_panel' onclick="close_add_spot_panel()"></button>
+					<div class="input-container">
+						<input type="#{type}" id="#{label}" required="required"/>
+						<label for="#{label}">车位名</label>
+						<div class="bar"></div>
+					</div>
+					<div class="input-container">
+						<input type="#{type}" id="#{label}" required="required"/>
+						<label for="#{label}">车位号</label>
+						<div class="bar"></div>
+					</div>
+					<div id="add_spot_map"></div>
+					<div class="input-container">
+						<input type="#{type}" id="#{label}" required="required"/>
+						<label for="#{label}">每分钟价格</label>
+						<div class="bar"></div>
+					</div>
+					<button class='button' onclick="add_spot()">添加车位</button>
+				</div>
 			</div>
 			
 			<!-- load different menu content into frame -->
@@ -535,6 +540,7 @@ new Vue({
 				.catch(function (error) {
 					console.log(error);
 				});
+				success("sent");
 			});
 		}
 	}
@@ -835,6 +841,16 @@ function getDate() {
     return [year, month, day].join('-');
 }
 
+$(document).mouseup(function (e) {
+	var con = $(".info_panel");
+	var con1 = $(".spot_info_panel");
+	var con2 = $(".add_spot_panel");
+	if ((!con.is(e.target) && con.has(e.target).length === 0) && (!con1.is(e.target) && con1.has(e.target).length === 0) && (!con2.is(e.target) && con2.has(e.target).length === 0)) {
+		try{close_panel();}catch{}
+		try{close_spot_panel();}catch{}
+		try{close_add_spot_panel();}catch{}
+	}
+});
 </script>
 
 </html>

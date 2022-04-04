@@ -359,7 +359,14 @@ img {
 	-webkit-backdrop-filter: blur(20px);
 	transition: 0.4s ease;
 }
-
+.spot_info_panel h2{
+	margin-top: 2vh;
+	font-size: 3.5vh;
+	line-height: 5vh;
+}
+.spot_date{
+	font-size: 3vh;
+}
 .order_wrapper{
 	display: flex;
 	flex-direction: column;
@@ -393,6 +400,17 @@ img {
 	font-size: 2.4vh;
 }
 
+.bubble{
+	background: #e02424;  		
+	position: relative;
+	margin-left: 5px;
+	padding: 2px 6px;
+	color: #fff;
+	font: bold .9em Tahoma, Arial, Helvetica;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
 .order_type{
 	display: flex;
 	flex-direction: row;
@@ -406,7 +424,7 @@ img {
 .order_type:after{
 	content: "";
 	position: absolute;
-	background: linear-gradient(90deg,  transparent,  darkgrey, darkgrey, darkgrey,  darkgrey, transparent);
+	background: linear-gradient(90deg, transparent, dimgrey, dimgrey, black, dimgrey, dimgrey, transparent);
 	width: calc(100%);
 	height: 1px;
 	margin-top: 36px;
@@ -428,6 +446,7 @@ img {
   background-color: #6191ce;
   color: var(--link-color-active);
   font-weight: 500;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 40%);
 }
 .order_type div:not(.active):hover {
   background-color: var(--link-color-hover);
@@ -435,18 +454,13 @@ img {
 }
 #income{
 	font-size: 2.5vh;
+	line-height: 5vh;
 	font-weight: 500;
-}
-.spot_options{
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 36vw;
 }
 .spot_options:after{
 	content: "";
 	position: absolute;
-	background: linear-gradient(90deg,  transparent,  darkgrey, darkgrey, darkgrey,  darkgrey, transparent);
+	background: linear-gradient(90deg, transparent, dimgrey, dimgrey, black, dimgrey, dimgrey, transparent);
 	width: calc(100%);
 	height: 1px;
 	left: 0;
@@ -456,15 +470,12 @@ img {
 	font-size: 2.5vh;
 	font-weight: 500;
 	display: flex;
-	width: 37vw;
+	width: 33vw;
 	flex-direction: row;
-	justify-content: flex-start;
+	justify-content: space-between;
 	align-items: center;
 	height: 10vh;
 	margin-left: 10px;
-}
-.spot_options input:nth-child(2){
-	margin: 0 15vw 0 1vw;
 }
 .spot_price{
 	font-weight: 500;
@@ -476,143 +487,102 @@ img {
 }
 
 
-
-/* hold to delete */
-.button-hold {
-  --color: #F6F8FF;
-  --background: linear-gradient(#eb212d, #a0000a);
-  --icon: var(--color);
-  --progress-border: white;
-  --progress-active: red;
-  --progress-success: white;
-  --tick-stroke: var(--progress-active);
-  --shadow: rgba(0, 9, 61, 0.2);
-  font-size: 2vh;
-  font-weight: 500;
-  line-height: 3vh;
-  min-width: 112px;
-  padding: 1vh 1vw 1vh 1vw;
-  border: 0;
-  border-radius: 10px;
-  outline: none;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  cursor: pointer;
-  -webkit-backface-visibility: hidden;
-  -webkit-appearance: none;
-  transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: box-shadow: 0 2px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%);
-  transform: scale(var(--scale, 1)) translateZ(0);
-  color: var(--color);
-  background: var(--background);
+.add_spot_panel{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height : 75vh;
+	width: 40vw;
+	top: 10vh;
+	border-radius: 5px;
+	position: absolute;
+	background: rgba(250 250 250 / 30%);
+	box-shadow: 0 2px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	transition: 0.4s ease;
 }
-.button-hold > div {
-  margin-right: 4px;
-  border-radius: 50%;
-  display: inline-block;
-  vertical-align: top;
+.add_spot_panel h2{
+	margin-top: 2vh;
+	font-size: 3.5vh;
+	line-height: 5vh;
+}
+
+
+.input-container {
   position: relative;
-  background: var(--progress-border);
+  margin: 1vh 0 2vh 0;
+  width: 20vw;
 }
-.button-hold > div:before {
-  content: "";
-  width: 16px;
-  height: 16px;
-  left: 2px;
-  top: 2px;
+
+.input-container input {
+  outline: none;
   z-index: 1;
+  position: relative;
+  background: none;
+  width: 100%;
+  height: 7vh;
+  border: 0;
+  color: #212121;
+  font-size: 3vh;
+  font-weight: 400;
+  text-align: center;
+}
+.input-container input:focus ~ label {
+  color: #9d9d9d;
+  width: 100%;
+  text-align: center;
+  transform: translate(0%, -50%) scale(0.75);
+}
+.input-container input:focus ~ .bar:before, .input-container input:focus ~ .bar:after {
+  width: 50%;
+}
+.input-container input:valid ~ label {
+  color: #9d9d9d;
+  width: 100%;
+  text-align: center;
+  transform: translate(0%, -50%) scale(0.75);
+}
+.input-container label {
   position: absolute;
-  background: var(--background);
-  border-radius: inherit;
-  transform: scale(var(--background-scale, 1));
-  transition: transform 0.32s ease;
-}
-.button-hold > div svg {
-  display: block;
-}
-.button-hold > div svg.icon, .button-hold > div svg.tick {
-  position: absolute;
-}
-.button-hold > div svg.icon {
-  width: 8px;
-  height: 8px;
-  left: 6px;
-  top: 6px;
-  fill: var(--icon);
-  z-index: 1;
-  transition: opacity 0.2s, transform 0.2s;
-  opacity: var(--icon-opacity, 1);
-  transform: translateY(var(--icon-y, 0)) scale(var(--icon-scale, 1));
-}
-.button-hold > div svg.progress, .button-hold > div svg.tick {
-  fill: none;
-}
-.button-hold > div svg.progress {
-  width: 20px;
-  height: 20px;
-  transform: rotate(-90deg) scale(var(--progress-scale, 1));
-  transition: transform 0.5s ease;
-}
-.button-hold > div svg.progress circle {
-  stroke-dashoffset: 1;
-  stroke-dasharray: var(--progress-array, 0) 52;
-  stroke-width: 16;
-  stroke: var(--progress-active);
-  transition: stroke-dasharray var(--duration) linear;
-}
-.button-hold > div svg.tick {
-  width: 20px;
-  height: 20px;
-  left: 0;
   top: 0;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: var(--tick-stroke);
-  transition: stroke 0.3s ease 0.7s;
+  left: 0;
+  color: #757575;
+  font-size: 3vh;
+  font-weight: 300;
+  line-height: 7vh;
+  transition: 0.2s ease;
+  width: 100%;
+  text-align: center;
 }
-.button-hold > div svg.tick polyline {
-  stroke-dasharray: 18 18 18;
-  stroke-dashoffset: var(--tick-offset, 18);
-  transition: stroke-dashoffset 0.4s ease 0.7s;
+.input-container .bar {
+  position: absolute;
+  left: 0;
+  bottom: 1vh;
+  background: #757575;
+  width: 100%;
+  height: 1px;
 }
-.button-hold:focus:not(.process), .button-hold:hover:not(.process) {
-  --shadow-y: 8px;
-  --shadow-blur: 16px;
+.input-container .bar:before, .input-container .bar:after {
+  content: "";
+  position: absolute;
+  background: #ed2553;
+  width: 0;
+  height: 2px;
+  transition: 0.2s ease;
 }
-.button-hold:active:not(.success) {
-  --scale: .96;
-  --shadow-y: 4px;
-  --shadow-blur: 8px;
+.input-container .bar:before {
+  left: 50%;
 }
-.button-hold.process, .button-hold.success {
-  --progress-array: 52;
-  --icon-y: -4px;
-  --icon-scale: .6;
-  --icon-opacity: 0;
-}
-.button-hold.success {
-  --progress-border: none;
-  --progress-scale: .11;
-  --tick-stroke: var(--progress-success);
-  --background-scale: 0;
-  --tick-offset: 36;
-}
-.button-hold.success > div svg.progress {
-  -webkit-animation: tick 0.3s linear forwards 0.4s;
-          animation: tick 0.3s linear forwards 0.4s;
+.input-container .bar:after {
+  right: 50%;
 }
 
-@-webkit-keyframes tick {
-  100% {
-    transform: rotate(-90deg) translate(0, -5px) scale(var(--progress-scale));
-  }
-}
-
-@keyframes tick {
-  100% {
-    transform: rotate(-90deg) translate(0, -5px) scale(var(--progress-scale));
-  }
+#add_spot_map{
+	height: 40vh;
+	width: 37vw;
+	display: flex;
+	-webkit-mask-image: linear-gradient(90deg, transparent, #000, #000,#000,#000,#000,#000,transparent);
+	background: #e6e4df;
 }

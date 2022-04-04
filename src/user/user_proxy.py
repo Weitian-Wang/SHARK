@@ -11,6 +11,7 @@ from numpy import insert, sort
 from sqlalchemy.sql.expression import true
 from sqlalchemy.sql.functions import user
 from src.database import DBStore
+from src.database.schema import ParkingSpot
 from src.error_code import *
 from src.user.auth import generate_token
 from src.user.constant import OrderStatus, SpotStatus, SpotType, UserType
@@ -336,7 +337,7 @@ class UserProxy():
 
         else: 
             it = start_time.date() + timedelta(days = 1)
-            if it < end_time.date():
+            while it < end_time.date():
                 appointments.pop(str(it))
                 it += timedelta(days = 1)
             try:
@@ -359,7 +360,7 @@ class UserProxy():
             raise ParamError()
         # use dictionary as switch clause
         # PLACED = 1, USING_SPOT = 2, DENIED = 3, CANCELED = 4, ABNORMAL = 5, LEFT_UNPAID = 10, COMPLETED = 11
-        reason = {1:'预定成功', 2:'已经开始使用,无法取消', 3:'订单已经被拒绝', 4:'已经取消', 5:'订单异常,无法取消', 10:'无法取消待支付订单', 11:'订单已完成无法取消'}
+        reason = {1:'预定成功', 2:'已经开始使用,无法拒绝', 3:'订单已经被拒绝', 4:'已经拒绝', 5:'订单异常,无法拒绝', 10:'无法拒绝待支付订单', 11:'订单已完成无法拒绝'}
         if order.order_status != 1:
             raise GeneralError(message=reason[order.order_status])
         # update appointment of order's parking spot
@@ -374,11 +375,17 @@ class UserProxy():
             appointments[date_str].remove([datetime.strftime(start_time, '%H:%M'), datetime.strftime(end_time, '%H:%M')])
         else: 
             it = start_time.date() + timedelta(days = 1)
-            if it < end_time.date():
+            while it < end_time.date():
                 appointments.pop(str(it))
                 it += timedelta(days = 1)
-            appointments[str(start_time.date())].remove([datetime.strftime(start_time, '%H:%M'),"23:59"])
-            appointments[str(end_time.date())].remove(['00:00', datetime.strftime(end_time, '%H:%M')])
+            try:
+                appointments[str(start_time.date())].remove([datetime.strftime(start_time, '%H:%M'),"23:59"])
+            except:
+                pass
+            try:
+                appointments[str(end_time.date())].remove(['00:00', datetime.strftime(end_time, '%H:%M')])
+            except:
+                pass
         self._database.update_appointments(ps_id=order.ps_id, new_appointments=appointments)
         # release lock
         self._database.spot_update_flag_unlock(ps_id = order.ps_id)
@@ -500,7 +507,24 @@ class UserProxy():
                 "status": spot.status
             }
         return ResultSuccess(data={'spot_info':spot_info})
-
+    
+    def change_spot_status(self, user_tel, ps_id, new_status):
+        spot = self._database.get_spot_by_id(ps_id)
+        if not spot or new_status not in [SpotStatus.AVAILABLE, SpotStatus.NOT_AVAILABLE]:
+            raise ParamError()
+        if spot.owner_tel != user_tel:
+            raise UnauthorizedOperation()
+        self._database.update_spot_status(ps_id, new_status)
+        return ResultSuccess(message="停止接受新订单" if new_status==SpotStatus.NOT_AVAILABLE else "已启用车位")
+        
+    def change_spot_rate(self, user_tel, ps_id, new_rate):
+        spot = self._database.get_spot_by_id(ps_id)
+        if not spot:
+            raise ParamError()
+        if spot.owner_tel != user_tel:
+            raise UnauthorizedOperation()
+        self._database.update_spot_rate(ps_id, new_rate)
+        return ResultSuccess(message="价格已更新")
     # utility functions
     def get_usage_of_appointments(self, appointments):
         occupied_time = timedelta(seconds=0)

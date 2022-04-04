@@ -57,6 +57,16 @@ class DBStore():
         spots = self._session.query(ParkingSpot).filter(ParkingSpot.owner_tel == user_tel, ParkingSpot.spot_type == SpotType.INDIVIDUAL).all()
         return spots
 
+    def update_spot_status(self, ps_id, new_status):
+        self.spot_update_flag_lock(ps_id)
+        self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).update({'status':new_status})
+        self.spot_update_flag_unlock(ps_id)
+
+    def update_spot_rate(self, ps_id, new_rate):
+        self.spot_update_flag_lock(ps_id)
+        self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).update({'price_per_min':new_rate})
+        self.spot_update_flag_unlock(ps_id)
+
     def get_order_list_of_spot(self, ps_id):
         orders = self._session.query(Order).filter(Order.ps_id == ps_id).all()
         return orders

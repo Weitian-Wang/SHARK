@@ -23,15 +23,15 @@
 
 #banner{
 	width: 100vw;
-	height: 70px;
+	height: 10vh;
 	top: 0px;
 	display: block;
 	position: fixed;
 }
 
 #logo{
-	width: 160px;
-	height: 70px;
+	width: 12.5vw;
+	height: 10vh;
 	left: 44vw;
 	top: 3vh;
 	position: absolute;
