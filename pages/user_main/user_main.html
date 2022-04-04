@@ -88,25 +88,27 @@
 					</div>
 					<div class="spot_options">
 						<input type="checkbox" class="apple-switch spot_status" onchange="change_spot_status(this)">
-						<div><input type='number' class='spot_price' style="border:none" maxlength="5" step="0.01" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onfocusout="change_spot_rate(this)">元/分钟</div>
+						<div><input type='number' class='spot_price' style="border:none" maxlength="5" step="0.001" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onfocusout="change_spot_rate(this)">元/分钟</div>
 					</div>
 				</div>
 				
 				<div class="add_spot_panel" style="display: none;">
 					<button type='button' class='close_panel' onclick="close_add_spot_panel()"></button>
-					<div class="input-container">
-						<input type="#{type}" id="#{label}" required="required"/>
-						<label for="#{label}">车位名</label>
-						<div class="bar"></div>
-					</div>
-					<div class="input-container">
-						<input type="#{type}" id="#{label}" required="required"/>
-						<label for="#{label}">车位号</label>
-						<div class="bar"></div>
+					<div class="first_two_input">
+						<div class="name-input-container input-container">
+							<input type="text" id="#{label}" required="required"/>
+							<label for="#{label}">车位名</label>
+							<div class="bar"></div>
+						</div>
+						<div class="id-input-container input-container">
+							<input type="text" id="#{label}" required="required"/>
+							<label for="#{label}">车位号</label>
+							<div class="bar"></div>
+						</div>
 					</div>
 					<div id="add_spot_map"></div>
-					<div class="input-container">
-						<input type="#{type}" id="#{label}" required="required"/>
+					<div class="rate-input-container input-container">
+						<input class="add_spot_rate" type="number" id="#{label}" required="required"  maxlength="5" step="0.001" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
 						<label for="#{label}">每分钟价格</label>
 						<div class="bar"></div>
 					</div>
@@ -239,8 +241,11 @@ function close_panel(){
 	show_check_button();
 	active_li = null;
 }
-
+var map;
 function select_menu_row(self){
+	if(active_menu_row.id != 'p_search'){
+		map = null;
+	}
 	if(active_menu_row.id == 'spot_management'){
 		close_spot_panel();
 	}
@@ -814,7 +819,7 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
 }
 
 // init scheduler upon load page, only init once
-init();
+// init();
 
 function h_check(self){
 	if(self.value < 0) self.value = Math.abs(self.value);
@@ -845,11 +850,41 @@ $(document).mouseup(function (e) {
 	var con = $(".info_panel");
 	var con1 = $(".spot_info_panel");
 	var con2 = $(".add_spot_panel");
-	if ((!con.is(e.target) && con.has(e.target).length === 0) && (!con1.is(e.target) && con1.has(e.target).length === 0) && (!con2.is(e.target) && con2.has(e.target).length === 0)) {
+	var exception = $("#user");
+	if ((con && !con.is(e.target) && con.has(e.target).length === 0) && (con1 && !con1.is(e.target) && con1.has(e.target).length === 0) && (con2 && !con2.is(e.target) && con2.has(e.target).length === 0) && (exception && !exception.is(e.target) && exception.has(e.target).length === 0)) {
 		try{close_panel();}catch{}
 		try{close_spot_panel();}catch{}
 		try{close_add_spot_panel();}catch{}
 	}
+});
+
+document.querySelector(".spot_price").addEventListener("keypress", function (evt) {
+	s = evt.which;
+    if (evt.which != 46 && evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".add_spot_rate").addEventListener("keypress", function (evt) {
+    if (evt.which != 46 && evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".name-input-container input").addEventListener("keypress", function (evt) {
+    if (evt.which == 32)
+    {
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".id-input-container input").addEventListener("keypress", function (evt) {
+    if (evt.which == 32)
+    {
+        evt.preventDefault();
+    }
 });
 </script>
 
