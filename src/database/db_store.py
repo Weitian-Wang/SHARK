@@ -1,4 +1,5 @@
 import os
+import uuid
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -47,6 +48,23 @@ class DBStore():
             self.commit()
         except:
             self.rollback()
+
+    def add_spot(self, owner_tel, name, price_per_min, latitude, longitude):
+        spot = ParkingSpot(
+            ps_id = str(uuid.uuid4()),
+            name = name,
+            spot_type = SpotType.INDIVIDUAL,
+            owner_tel = owner_tel,
+            price_per_min = price_per_min,
+            status = SpotStatus.NOT_AVAILABLE,
+            latitude = latitude,
+            longitude = longitude,
+            appointments = {},
+            flag = 0
+        )
+        self._session.add(spot)
+        self.commit()
+
 
     def get_spot_by_id(self, ps_id):
         spot = self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).one()

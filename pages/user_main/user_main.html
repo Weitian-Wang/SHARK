@@ -112,7 +112,7 @@
 						<label for="#{label}">每分钟价格</label>
 						<div class="bar"></div>
 					</div>
-					<button class='button' onclick="add_spot()">添加车位</button>
+					<button class='button' onclick="add_spot()">确定</button>
 				</div>
 			</div>
 			
@@ -819,7 +819,7 @@ var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
 }
 
 // init scheduler upon load page, only init once
-// init();
+init();
 
 function h_check(self){
 	if(self.value < 0) self.value = Math.abs(self.value);

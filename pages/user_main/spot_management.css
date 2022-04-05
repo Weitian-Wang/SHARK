@@ -598,7 +598,7 @@ img {
 	height: 38vh;
 	width: 37vw;
 	display: flex;
-	-webkit-mask-image: linear-gradient(90deg, transparent, #000, #000,#000,#000,#000,#000,transparent);
+	-webkit-mask-image: linear-gradient(90deg, transparent, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, transparent);
 	background: #e6e4df;
-	margin-bottom: 2vh;
+	margin-bottom: 1vh;
 }

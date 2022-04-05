@@ -453,6 +453,10 @@ class UserProxy():
 
     
     # spot management related functions
+    def add_spot(self, user_tel, name, id, rate, lat, lng):
+        self._database.add_spot(owner_tel = user_tel, name = f'{name} {id}', price_per_min = rate, latitude = lat, longitude = lng)
+        return ResultSuccess(message='成功新增车位')
+
     def get_spot_list(self, user_tel):
         spots = self._database.get_spot_list_by_owner_tel(user_tel)
         spot_list = []

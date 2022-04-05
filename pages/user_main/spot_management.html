@@ -224,7 +224,54 @@ function get_spot_info_of_date(self){
 }
 
 function add_spot(){
-	
+	if(!$('.name-input-container input')[0].value){
+		error('车位名未填写');
+		return;
+	}
+	if(!$('.id-input-container input')[0].value){
+		error('车位号未填写');
+		return;
+	}
+	if(!$('.rate-input-container input')[0].value){
+		error('价格未填写');
+		return;
+	}
+	if(!target_position_marker){
+		error('请选择地址');
+		return;
+	}
+	axios.post('/individual/add_spot',
+		{
+			'name': $('.name-input-container input')[0].value,
+			'id': $('.id-input-container input')[0].value,
+			'rate': $('.rate-input-container input')[0].value,
+			'lat': target_position_marker.position.lat(),
+			'lng': target_position_marker.position.lng()
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		else{
+			success(response.data.message);
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+	setTimeout(function() {close_add_spot_panel();get_spot_list()}, 1500);
 }
 
 // get detail of one spot on date (optional)
@@ -533,7 +580,7 @@ function init_spot_map(){
 	coord_promise.then(function(value){
 		if(add_spot_map){
 			loc = new google.maps.LatLng(value.lat, value.lng);
-			add_spot_map.setCenter(loc);
+			add_spot_map.panTo(loc);
 		}
 		else{
 			add_spot_map = new google.maps.Map(document.getElementById('add_spot_map'), {
@@ -558,6 +605,8 @@ function placeMarker(location) {
 		map: add_spot_map
 		});
 	}
+	loc = new google.maps.LatLng(target_position_marker.position.lat(), target_position_marker.position.lng());
+	add_spot_map.panTo(loc);
 }
 
 </script>
