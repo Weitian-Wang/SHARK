@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.functions import current_time
-from sympy import ode_order
 from src.error_code.error_code import *
 from src.user.constant import LotStatus, OrderStatus, SpotStatus, SpotType
 from .schema import Base, User, ParkingLot, ParkingSpot, Order
@@ -12,8 +11,8 @@ from .schema import Base, User, ParkingLot, ParkingSpot, Order
 class DBStore():
     def __init__(self):
         #TODO make this configurable 
-        host = os.environ.get('MYSQL_HOST', 'localhost')
-        port = os.environ.get('MYSQL_PORT', '3306')
+        host = os.environ.get('MYSQL_HOST', '0.0.0.0')
+        port = os.environ.get('MYSQL_PORT', '3300')
         user = os.environ.get('MYSQL_USER', 'root')
         password = os.environ.get('MYSQL_PASSWD', 'Wwt123456')
         database = os.environ.get('MYSQL_DB', 'SHARK')
