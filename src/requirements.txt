@@ -1,6 +1,0 @@
-flask
-flask-cors
-pyjwt
-mysql
-postgresql
-apscheduler

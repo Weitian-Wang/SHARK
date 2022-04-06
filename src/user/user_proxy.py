@@ -1,29 +1,17 @@
-import os
-from tempfile import TemporaryFile
-import time
-import json
 import uuid
 from math import sin, cos, sqrt, atan2, radians
 from datetime import datetime, timedelta
 
-from flask.json import jsonify
-from numpy import insert, sort
-from sqlalchemy.sql.expression import true
-from sqlalchemy.sql.functions import user
 from src.database import DBStore
-from src.database.schema import ParkingSpot
 from src.error_code import *
 from src.user.auth import generate_token
 from src.user.constant import OrderStatus, SpotStatus, SpotType, UserType
-from apscheduler.schedulers.background import BackgroundScheduler
 
 # for threading and logic handling
 class UserProxy():
     def __init__(self):
         self._database = DBStore()
         self._expire_time = '7200'
-        # trigger action at certain time
-        self._scheduler = BackgroundScheduler()
 
     # account related
     def tel_check(self, tel):

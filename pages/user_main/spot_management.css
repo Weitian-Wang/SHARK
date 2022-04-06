@@ -496,6 +496,7 @@ img {
 	width: 40vw;
 	top: 10vh;
 	border-radius: 5px;
+	padding-top: 2vh;
 	position: absolute;
 	background: rgba(250 250 250 / 30%);
 	box-shadow: 0 2px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%);
