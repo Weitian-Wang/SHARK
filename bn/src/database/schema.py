@@ -8,7 +8,6 @@ from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.schema import Constraint, ForeignKey
 
 from sqlalchemy.sql.sqltypes import Integer
-from tables import Col
 
 Base = declarative_base()
 

@@ -175,14 +175,15 @@ body {
   height: 92vh;
   width: 100vw;
   /* width: inherit; */
-  /* TODO swap in production */
-  background-image: url(../index_pic/map.png);
-  background-size: cover;
-  background-repeat: no-repeat;
+  TODO swap in production */
+  /* background-image: url(../index_pic/map.png); */
+  background: transparent;
+  /* background-size: cover; */
+  /* background-repeat: no-repeat;*/
   transition: 0.4s ease;
 }
 
-/* copy pasta from SF Food Truck*/
+/* copy pasta from SF Food Truck
 
 .container {
   height: 92vh;

@@ -11,8 +11,8 @@ from .schema import Base, User, ParkingLot, ParkingSpot, Order
 class DBStore():
     def __init__(self):
         #TODO make this configurable 
-        host = os.environ.get('MYSQL_HOST', '0.0.0.0')
-        port = os.environ.get('MYSQL_PORT', '3300')
+        host = os.environ.get('MYSQL_HOST', 'db')
+        port = os.environ.get('MYSQL_PORT', '3306')
         user = os.environ.get('MYSQL_USER', 'root')
         password = os.environ.get('MYSQL_PASSWD', 'Wwt123456')
         database = os.environ.get('MYSQL_DB', 'SHARK')

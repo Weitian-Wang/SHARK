@@ -1,0 +1,19 @@
+version: "2"
+services:
+  app:
+    build: .
+    links:
+      - db
+    ports:
+      - "5000:5000"
+      - "5678:5678"
+
+  db:
+    image: mysql:8.0.26
+    ports:
+      - "3300:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Wwt123456
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
+    

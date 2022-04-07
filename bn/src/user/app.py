@@ -3,7 +3,6 @@ from flask_cors import CORS
 from flask import Flask, request, g, jsonify, make_response, Response
 from functools import reduce
 from datetime import datetime, timedelta
-from apscheduler.schedulers.background import BackgroundScheduler
 from src.error_code import ErrorCode, SystemInternalError
 from src.error_code.error_code import ResultSuccess
 from .auth import authenticate_token, generate_token
@@ -13,13 +12,14 @@ from src.user import auth
 
 app = Flask(__name__)
 CORS(app)
-order_scheduler = BackgroundScheduler()
-order_scheduler.start()
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 def get_request_params():
     params = dict()
-    if request.get_json():
-        params['json'] = request.get_json() or {}
+    # if request.get_json():
+        # params['json'] = request.get_json() or {}
+    if request.data:
+        params['json'] = json.loads(request.data, strict=False)
     if request.files.to_dict():
         params['files'] = request.files.to_dict() or {}
     if request.form.to_dict():
@@ -136,8 +136,6 @@ def reserve_spot(auth):
     user_proxy = get_user_proxy()
     with user_proxy:
         order = user_proxy.reserve_spot(auth['user_tel'], params['ps_id'], params['start_time'], params['end_time'])
-        # delay the update, in case scheduler misses start time   CHANGE TO -> USER MANUALLY START USING SPOT
-        # order_scheduler.add_job(order_scheduler_job, 'date', run_date = datetime.strptime(params['start_time'], '%Y-%m-%d %H:%M')+timedelta(seconds=3), args=[order.order_id])
         result = ResultSuccess(message="预约成功")
         return jsonify(result.to_dict())
 
@@ -267,9 +265,3 @@ def get_account_info(auth):
     with user_proxy:
         result = user_proxy.get_account_info(auth['user_tel'])
         return jsonify(result.to_dict())
-
-# set order_status as USING_SPOT upon start time
-def order_scheduler_job(order_id):
-    user_proxy = UserProxy()
-    with user_proxy:
-        user_proxy.update_order_status_as_using(order_id)

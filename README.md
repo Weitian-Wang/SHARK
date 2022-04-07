@@ -1,8 +1,6 @@
 # TODO
 
-1. parking spot/lot management
-2. order management
-3. user management
-4. map related changes
+1. deploy fn to nginx
+2. deploy bn (flask app + mysql) with docker compose
 
    
