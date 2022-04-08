@@ -7,6 +7,7 @@ services:
     ports:
       - "5000:5000"
       - "5678:5678"
+    container_name: flask_app
 
   db:
     image: mysql:8.0.26
@@ -16,4 +17,4 @@ services:
       MYSQL_ROOT_PASSWORD: Wwt123456
     volumes:
       - ./db:/docker-entrypoint-initdb.d/:ro
-    
+    container_name: mysql

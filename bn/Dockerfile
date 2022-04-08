@@ -25,8 +25,8 @@ EXPOSE 5000
 ENV FLASK_APP=src/user/app.py
 
 #### debug ####
-RUN pip install debugpy -i https://pypi.tuna.tsinghua.edu.cn/simple
-CMD python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m flask run -h 0.0.0.0 -p 5000
+# RUN pip install debugpy -i https://pypi.tuna.tsinghua.edu.cn/simple
+# CMD python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m flask run -h 0.0.0.0 -p 5000
 
 #### prod ####
-# CMD python -m flask run -h 0.0.0.0 -p 5000
+CMD python -m flask run -h 0.0.0.0 -p 5000
