@@ -185,7 +185,7 @@ def pay_order(auth):
         return jsonify(result.to_dict())
 
 @app.route('/individual/add_spot', methods=['POST'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def add_spot(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
@@ -194,7 +194,7 @@ def add_spot(auth):
         return jsonify(result.to_dict())
 
 @app.route('/individual/get_spot_list', methods=['GET'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def get_spot_list(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
@@ -203,7 +203,7 @@ def get_spot_list(auth):
         return jsonify(result.to_dict())
 
 @app.route('/individual/get_spot_info_of_date', methods=['GET'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def get_spot_info_of_date(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
@@ -213,7 +213,7 @@ def get_spot_info_of_date(auth):
 
 # no frontend ui support
 @app.route('/individual/delete_spot', methods=['POST'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def delete_spot(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
@@ -231,7 +231,7 @@ def deny_order(auth):
         return jsonify(result.to_dict())
 
 @app.route('/individual/change_spot_status', methods=['POST'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def change_spot_status(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
@@ -240,7 +240,7 @@ def change_spot_status(auth):
         return jsonify(result.to_dict())
 
 @app.route('/individual/change_spot_rate', methods=['POST'])
-@authenticate_token([UserType.INDIVIDUAL, UserType.ADMIN])
+@authenticate_token([UserType.INDIVIDUAL, UserType.PROPERTY, UserType.ADMIN])
 def change_spot_rate(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()

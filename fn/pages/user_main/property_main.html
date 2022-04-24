@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+</html>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>SHARK</title>
+		<link rel="stylesheet" type="text/css" href="./user_main.css"/>
+		<link rel="stylesheet" type="text/css" href="./time.css"/>
+		
+		<script src="../url_config.js"></script>
+		<script src="../vue.js"></script>
+		<script src="../jquery.js"></script>
+		<script src="../axios.js"></script>
+		<script src="../md5.js"></script>
+	</head>
+	<body onload="set_token_cookie()">
+		
+		<div class="left animation_time" id="left_menu">
+			<div class="welcome">Welcome, {{user_name}}!</div>
+			<!-- <div id="p_search" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/p_search.png);"></div><div class="menu_item">搜索车位</div></div> -->
+			<!-- <div id="reservation" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/reservation.png);"></div><div class="menu_item">我的预定</div></div> -->
+			<div id="spot_management" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/my_spot.png);"></div><div class="menu_item">车位管理</div></div>
+			<div id="account_setting" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/setting.png);"></div><div class="menu_item">账户设置</div></div>
+			<div id="copy_right">SHARK Shared Parking - FYP by Weitian-Wang @GitHub</div>
+		</div>
+		
+		<div class="main_container animation_time">
+			<div id="heading" class="bg-gradient">
+				<div id="user" @click="toggle_left"></div>
+				<div id="logo" onclick="location.href='../index/index.html'"></div>
+				<div id="search" class="animation_time" @click="toggle_right"></div>
+			</div>
+			<div class="notification-container animation_time"></div>
+			
+			<!-- pac-input for google map search box -->
+				
+			<div class='info_container'>
+				<div class='info_panel' style="display: none;">
+					<!-- dynamic content -->
+					<!-- load once with page to boost performance, further change made to appointments-->
+					<button type='button' class='close_panel' onclick='close_panel()'></button>
+					<h2 id='loc_name'>Place Holder</h2>
+					<h3 id='type'>个人/物业</h3>
+					<div class='calendar'>
+						<h2 class='time'>
+							<input type='number' min='0' max='23' class='hour_start_h hour' oninput='h_check(this)' onchange='set_time(this)' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">:<input type='number' min='0' max='59' class='hour_start_m hour' oninput='m_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+							 -
+							<input type='number' min='0' max='23' class='hour_end_h hour'   oninput='h_check(this)' onchange='set_time(this)' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">:<input type='number' min='0' max='59' class='hour_end_m hour'   oninput='m_check(this)' onchange='set_time()' onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+						</h2>
+						<div style='display: flex; width: 25vw; align-items: center;'>
+							<input class='date_select start_date' type='date' onchange='set_time(this)'>
+							<input class='date_select end_date' type='date' onchange='set_time(this)'>
+						</div>
+						<div class='clock'>
+							<div class='hour-24 tick'><span class='hour midnight'></span></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-24 tick'></div><div class='hour-1 tick'><span class='hour'>1</span></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-1 tick'></div><div class='hour-2 tick'><span class='hour'>2</span></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-2 tick'></div><div class='hour-3 tick'><span class='hour'>3</span></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-3 tick'></div><div class='hour-4 tick'><span class='hour'>4</span></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-4 tick'></div><div class='hour-5 tick'><span class='hour'>5</span></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-5 tick'></div><div class='hour-6 tick'><span class='hour'>6</span></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-6 tick'></div><div class='hour-7 tick'><span class='hour'>7</span></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-7 tick'></div><div class='hour-8 tick'><span class='hour'>8</span></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-8 tick'></div><div class='hour-9 tick'><span class='hour'>9</span></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-9 tick'></div><div class='hour-10 tick'><span class='hour'>10</span></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-10 tick'></div><div class='hour-11 tick'><span class='hour'>11</span></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-11 tick'></div><div class='hour-12 tick'><span class='hour noon'></span></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-12 tick'></div><div class='hour-13 tick'><span class='hour'>13</span></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-13 tick'></div><div class='hour-14 tick'><span class='hour'>14</span></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-14 tick'></div><div class='hour-15 tick'><span class='hour'>15</span></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-15 tick'></div><div class='hour-16 tick'><span class='hour'>16</span></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-16 tick'></div><div class='hour-17 tick'><span class='hour'>17</span></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-17 tick'></div><div class='hour-18 tick'><span class='hour'>18</span></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-18 tick'></div><div class='hour-19 tick'><span class='hour'>19</span></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-19 tick'></div><div class='hour-20 tick'><span class='hour'>20</span></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-20 tick'></div><div class='hour-21 tick'><span class='hour'>21</span></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-21 tick'></div><div class='hour-22 tick'><span class='hour'>22</span></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-22 tick'></div><div class='hour-23 tick'><span class='hour'>23</span></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='hour-23 tick'></div><div class='center'></div>
+						</div>
+						<div id="button_holder">
+							<button id='check_button' class='button' onclick="check_period()">查询</button>
+						</div>
+					</div>
+					<!-- dynamic content -->
+				</div>
+				
+				<div class='spot_info_panel' style="display: none;">
+					<!-- 1st set of UI, spot detail-->
+					<button type='button' class='close_panel' onclick="close_spot_panel()"></button>
+					<h2 id='spot_loc_name'></h2>
+					<input class='date_select spot_date' type='date' onchange="spot_info_of_date_panel(this, 1)">
+					<div id="income"></div>
+					
+					<div class='order_type'>
+						<div class='placed' onclick='select_order_type(this)'>
+							待开始<span class="bubble">9</span>
+						</div>
+						<div class='using_spot' onclick='select_order_type(this)'>
+							使用中<span class="bubble">9</span>
+						</div>
+						<div class='left_unpaid' onclick='select_order_type(this)'>
+							未支付<span class="bubble">9</span>
+						</div>
+						<div class='completed' onclick='select_order_type(this)'>
+							已完成<span class="bubble">9</span>
+						</div>
+						<div class='others' onclick='select_order_type(this)'>
+							其他<span class="bubble">9</span>
+						</div>
+					</div>
+					<div class="order_wrapper">
+					</div>
+					<div class="spot_options">
+						<input type="checkbox" class="apple-switch spot_status" onchange="change_spot_status(this)">
+						<div><input type='number' class='spot_price' style="border:none" maxlength="5" step="0.001" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onfocusout="change_spot_rate(this)">元/分钟</div>
+					</div>
+				</div>
+				
+				<div class="add_spot_panel" style="display: none;">
+					<button type='button' class='close_panel' onclick="close_add_spot_panel()"></button>
+					<div class="first_two_input">
+						<div class="name-input-container input-container">
+							<input type="text" id="#{label}" required="required"/>
+							<label for="#{label}">车位名</label>
+							<div class="bar"></div>
+						</div>
+						<div class="id-input-container input-container">
+							<input type="text" id="#{label}" required="required"/>
+							<label for="#{label}">车位号</label>
+							<div class="bar"></div>
+						</div>
+					</div>
+					<div id="add_spot_map"></div>
+					<div class="rate-input-container input-container">
+						<input class="add_spot_rate" type="number" id="#{label}" required="required"  maxlength="5" step="0.001" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+						<label for="#{label}">每分钟价格</label>
+						<div class="bar"></div>
+					</div>
+					<button class='button' onclick="add_spot()">确定</button>
+				</div>
+			</div>
+			
+			<!-- load different menu content into frame -->
+			<div id="frame">
+			</div>
+		</div>
+
+		<div class="right animation_time" id="sidebar">
+			<div id="search-area">
+				<input id='p_name' type="text" type="text" placeholder="车位名搜索" v-model="p_name" required>
+				<button type="button" @click="search_by_pname">搜索</button>
+			</div>
+			
+			<div id="results-area">
+				<ul id="p_list">
+				</ul>
+			</div>
+		</div>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0&libraries=places"></script>
+		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7804kZZ1Gttz29wYqTWkdESYR2-az_0"></script> -->
+	</body>
+
+<!-- script section -->
+<script type="text/javascript">
+// configure Vue
+Vue.config.productionTip = false;
+// configure baseURL
+axios.defaults.baseURL = BaseURL;
+// get notification section
+notification = document.getElementsByClassName("notification-container")[0];
+// left right sidebar logic
+var l_status = false;
+var r_status = false;
+
+// left & right navigation bar logic
+new Vue({
+	el: "#heading",
+	data:{
+	},
+	methods:{
+		toggle_left(){
+			if(r_status && !l_status){
+				this.toggle_right();
+			}
+			l_status = !l_status;
+			$('.left').toggleClass('expanded');
+			$('.main_container').toggleClass('main_container_retracted');
+			if(active_menu_row.id == 'p_search'){
+				if(l_status){
+					$('#pac-input')[0].style.marginLeft = '30vw';
+				}
+				else{
+					$('#pac-input')[0].style.marginLeft = '40vw';
+				}
+			}
+		},
+		toggle_right(){
+			if(l_status){
+				this.toggle_left();
+			}
+			r_status = !r_status;
+			$('#search').toggleClass('icon_to_left');
+			$('.right').toggleClass('expanded');
+			if(r_status){
+				$('#pac-input')[0].style.marginLeft = '30vw';
+				$('.notification-container')[0].style.marginRight = '20vw';
+				$('.info_container')[0].style.marginRight = '20vw';
+			}
+			else{
+				$('#pac-input')[0].style.marginLeft = '40vw';
+				$('.notification-container')[0].style.marginRight = '';
+				$('.info_container')[0].style.marginRight = '';
+			}	
+		}
+	}
+});
+
+
+// cookie extracter - get value by name
+function getCookie(name){
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+
+//  info_panel invoker
+//  global variable that indicates which panel is activated
+var active_li;
+var active_menu_row;
+function info(self){
+	if(active_li == self){
+		close_panel();
+		return;
+	}
+	if(active_li != null){
+		close_panel();
+	}
+	if(self.getAttribute('class').split(' ')[0] == 2) my_alert("停车场时间表以查询为准");
+	$('.info_panel #loc_name')[0].innerText = $(`#${self.getAttribute('id')} .p-name`)[0].innerText;
+	$('.info_panel #type')[0].innerText	= owner[self.getAttribute('class').split(' ')[0] - 1];
+	$('.info_panel')[0].style.display = 'flex';
+	var today = new Date().toISOString().split('T')[0];
+	sd.setAttribute('min', today);
+	ed.setAttribute('min', today);
+	active_li = self;
+	if(active_li.tagName!='DIV'){
+		self.style.boxShadow = "0 4px 4px rgb(0 0 0 / 40%), 0 -1px 0 rgb(0 0 0 / 2%)";
+		self.style.background = "rgba(200,200,200, 0.9)";
+	}
+	$('#map')[0].style.filter = "blur(5px)";
+	get_appointments_by_date();
+}
+// close information panel
+function close_panel(){
+	$('.info_panel')[0].style.display = 'none';
+	if($('#map')[0]){
+		$('#map')[0].style.filter = "";
+	}
+	if(active_li){
+		active_li.style.boxShadow = "";
+		active_li.style.background = "";
+	}
+	show_check_button();
+	active_li = null;
+}
+var map;
+function select_menu_row(self){
+	if(active_menu_row.id == 'spot_management'){
+		close_spot_panel();
+	}
+	active_menu_row.style = "";
+	active_menu_row = self;
+	active_menu_row.style.background = "lightgray";
+	active_menu_row.style.boxShadow = "inset 0px 0px 6px rgb(0,0,0, 50%)";
+	$('#frame')[0].style.visibility = 'hidden';
+	$('#frame').load(`${self.id}.html`);
+	setTimeout(function(){ $('#frame')[0].style.visibility = '' }, 50);
+}
+
+function set_token_cookie(){
+	// access main page with no token
+	if(sessionStorage.getItem('token')==null || sessionStorage.getItem('token').length==0){
+		error('请登录后访问');
+		setTimeout(function(){window.location.href = '../login/login.html'}, 3000);
+		return;
+	}
+	document.cookie = "token="+sessionStorage.getItem('token');
+	$('#frame').load("spot_management.html");
+	active_menu_row = $("#spot_management")[0];
+	active_menu_row.style.background = "lightgray";
+	active_menu_row.style.boxShadow = "inset 0px 0px 6px rgb(0,0,0, 50%)";
+	$('#search')[0].style.transition = '0s';
+	$('#search')[0].style.visibility = 'hidden';
+}
+
+function get_appointments_by_date(){
+		appointments = [[]];
+		if(sd.value == getDate()){
+			setCurentTime();
+		}
+		else{
+			appointments[0] = ['00:00','00:00'];
+		}
+		axios.get(`/user/get_appointments?id=${active_li.id}&type=${active_li.getAttribute('class').split(' ')[0]}&date=${sd.value==ed.value?sd.value:null}`,
+					{
+						headers:{
+						'Content-Type': 'application/json;charset=UTF-8',
+						'Accept': 'application/json, text/plain, */*',
+						'Auth': getCookie('token')
+						}
+					}
+		)
+		.then(function (response) {
+			if(response.data.error_code!=0){
+				error(response.data.message);
+				if(response.data.error_code==1000 || response.data.error_code==1001){
+					setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+				}
+				return;
+			}
+			appointments = appointments.concat(response.data.data.appointment_list);
+			// show newly acquired appointments in .then, to prevent asynchronous!
+			showAppointments();
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+}
+
+// time utility function 1
+function padTo2Digits(num) {
+  return num.toString().padStart(2, '0');
+}
+
+// time utility function 2
+function formatDate(date) {
+  return (
+    [
+      date.getFullYear(),
+      padTo2Digits(date.getMonth() + 1),
+      padTo2Digits(date.getDate()),
+    ].join('-') +
+    ' ' +
+    [
+      padTo2Digits(date.getHours()),
+      padTo2Digits(date.getMinutes()),
+    ].join(':')
+  );
+}
+
+function check_period(){
+	if(`${sd.value} ${sh.value}:${sm.value}` >= `${ed.value} ${eh.value}:${em.value}`){
+		error("开始时间应该早于结束时间");
+		return;
+	}
+	if(`${sd.value} ${sh.value}:${sm.value}` <= formatDate(new Date())){
+		error("已经错过开始时间");
+		return;
+	}
+	axios.post('/user/check_period_validity',
+		{
+			'id': active_li.id,
+			'type': active_li.getAttribute('class').split(' ')[0],
+			'start_time': `${sd.value} ${sh.value}:${sm.value}`,
+			'end_time': `${ed.value} ${eh.value}:${em.value}`
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			return;
+		}
+		else{
+			success(response.data.message);
+			// parking lot store ps_id in button value
+			show_confirm_cancel_buttons();
+			if(active_li.getAttribute('class').split(' ')[0]=='2'){
+				$('#reserve_button')[0].value = response.data.data.avail_ps_id;
+			}
+			
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function show_check_button(){
+	$('#button_holder')[0].innerHTML = "<button id='check_button' class='button' onclick='check_period()'>查询</button>";
+}
+function show_confirm_cancel_buttons(){
+	$('#button_holder')[0].innerHTML = "<button id='reserve_button' class='button' onclick='reserve()'>预定</button><button id='cancel_button' class='button' onclick='show_check_button()'>取消</button>";
+}
+
+function reserve(){
+	if(`${sd.value} ${sh.value}:${sm.value}` >= `${ed.value} ${eh.value}:${em.value}`){
+		error("开始时间应该早于结束时间");
+		show_check_button();
+		return;
+	}
+	if(`${sd.value} ${sh.value}:${sm.value}` <= formatDate(new Date())){
+		error("已经错过开始时间");
+		show_check_button();
+		return;
+	}
+	var ps_id;
+	if(active_li.getAttribute('class').split(' ')[0]=='2'){
+		ps_id = $('#reserve_button')[0].value;
+	}
+	else{
+		ps_id = active_li.id;
+	}
+	axios.post('/user/reserve',
+		{
+			'ps_id': ps_id,
+			'start_time': `${sd.value} ${sh.value}:${sm.value}`,
+			'end_time': `${ed.value} ${eh.value}:${em.value}`
+		},
+		{
+			headers:{
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Accept': 'application/json, text/plain, */*',
+			'Auth': getCookie('token')
+			}
+		}
+	)
+	.then(function (response) {
+		if(response.data.error_code!=0){
+			error(response.data.message);
+			if(response.data.error_code==1000 || response.data.error_code==1001){
+				setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+			}
+			show_check_button();
+			return;
+		}
+		else{
+			success(response.data.message);
+			show_check_button();
+			get_appointments_by_date();
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function success(success_message){
+	notification.innerHTML = '<div class="rectangle" id="success" style="display: flex; position: absolute;">'
+								+'<div class="notification-text">'
+									+'<span>&nbsp;&nbsp;'+success_message+'</span>'
+								+'</div>'
+							+'</div>';
+}
+
+function error(error_message){
+	notification.innerHTML = '<div class="rectangle" id="error" style="display: flex; position: absolute;">'
+								+'<div class="notification-text">'
+									+'<span>&nbsp;&nbsp;'+error_message+'</span>'
+								+'</div>'
+							+'</div>';
+}
+
+function my_alert(alert_message){
+	notification.innerHTML = '<div class="rectangle" id="alert" style="display: flex; position: absolute;">'
+								+'<div class="notification-text">'
+									+'<span>&nbsp;&nbsp;'+alert_message+'</span>'
+								+'</div>'
+							+'</div>';
+}
+
+
+// left menu logic
+new Vue({
+	el: "#left_menu",
+	data:{
+		user_name : sessionStorage.getItem('name')
+	},
+	methods:{
+		
+	}
+});
+
+var owner = ['个人','物业'];
+// right sidebar logic
+new Vue({
+	el: "#sidebar",
+	data:{
+		p_name:""
+	},
+	methods:{
+		search_by_pname(){
+			success("正在定位");
+			active_li = null;
+			close_panel();
+			$('#p_list').empty();
+			var p_name=this.p_name, lat, lng;
+			// wait for location acquisition
+			var coord_promise = new Promise(function(resolve, reject) {
+			    navigator.geolocation.getCurrentPosition(function(pos){
+			        lat = pos.coords.latitude;
+			        lng = pos.coords.longitude;
+			        resolve({lat,lng});
+			    }) 
+			})
+			coord_promise.then(function(value){
+				axios.get(`/user/search_pname?p_name=${p_name}&lat=${value.lat}&lng=${value.lng}`,
+							{
+								headers:{
+								'Content-Type': 'application/json;charset=UTF-8',
+								'Accept': 'application/json, text/plain, */*',
+								'Auth': getCookie('token')
+								}
+							}
+				)
+				.then(function (response) {
+					if(response.data.error_code!=0){
+						error(response.data.message);
+						if(response.data.error_code==1000 || response.data.error_code==1001){
+							setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+						}
+						return;
+					}
+					success(response.data.message);
+					let list = response.data.data.list;
+					for(var i=0; i<list.length; i++){
+						let li = document.createElement('li');
+						li.setAttribute("onclick", "info(this)");
+						li.setAttribute("id", list[i].p_id);
+						li.setAttribute("class", list[i].type);
+						li.innerHTML = "<p class='p-name'>"+list[i].name+"</p>"
+									+"<div class='row'>"
+										+"<div class='price_icons'></div>"
+										+"<div class='content'>"+list[i].price_per_min+"元/分钟</div>"
+									+"</div>"
+									+"<div class='row'>"
+										+"<div class='status_icons'></div>"
+										+"<div class='content'>"+owner[list[i].type - 1]+"</div>"
+									+"</div>"
+									+"<div class='row'>"
+										+"<div class='distance_icons'></div>"
+										+"<div class='content'>"+(list[i].distance>=1?Math.round(list[i].distance)+"km":Math.round(list[i].distance*1000)+"m")+"</div>"
+									+"</div>";
+						$('#p_list').append(li);
+					}
+					// append empty li as list padding
+					let li = document.createElement('li');
+					li.setAttribute("style","visibility: hidden;");
+					$('#p_list').append(li);
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+				success("sent");
+			});
+		}
+	}
+});
+
+// time scheduler
+
+var appointments = [
+// array item 0 reserved for all time before current time
+	[]
+];
+var transformed_appointments = [];
+
+var new_appointment_duration = 60;
+
+var sh;
+var sm;
+var eh;
+var em;
+var sd;
+var ed;
+var $centerElement;
+var is_moving_appointment;
+var curent_time_position;
+var date_validity = true;
+  
+var d = new Date();
+var new_appointment_time_start = d.getHours()+":"+(d.getMinutes()+10);
+  
+  function durationtodeg(duration) {
+    return Math.floor(duration/2);
+  }
+  
+  function timetodeg(time) {
+    var hour_parts = time.split(":");
+    return Math.floor(((hour_parts[0] * 30)-1) + ((hour_parts[1]/2)-1));
+  }
+  
+  function pad(n, width, z) {
+    z = z || '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
+  
+  function transformAppointment(appointment) {
+    var start_deg = timetodeg(appointment[0]);
+    var end_deg = timetodeg(appointment[1])+1;
+    var deg_duration = end_deg - start_deg;
+    return [start_deg, deg_duration];
+  }
+  
+  function showAppointments() {
+	// clear transformed_appointments
+	transformed_appointments = [];
+    for(i in appointments) {
+      var transformed_appointment = transformAppointment(appointments[i]);
+        transformed_appointments.push(transformed_appointment);
+    }
+    
+    $("div.clock > div.tick").addClass('free');
+    $("div.clock > div.tick").removeClass('taken');
+    
+    for(i in transformed_appointments) {
+      var st = transformed_appointments[i][0];
+      var length = transformed_appointments[i][1];
+      
+      if(st > 720) {
+        st = st - 720; 
+      }
+      
+      var selector = "div.clock div.tick:gt(" + st + "):lt(" + length + ")";
+      var selector_size = $(selector).length;
+      if(selector_size < length) {
+        selector += ", div.clock div.tick:lt(" + (length-selector_size) + ")";
+      }
+      $(selector).removeClass('free');
+      $(selector).addClass('taken');
+    }
+  }
+  
+  function setCurentTime(){
+	if(sd.value != getDate()) return;
+    var d = new Date();
+    var curent_hour = d.getHours();
+    var curent_minute = d.getMinutes();
+	appointments[0] = ['00:00', curent_hour+':'+curent_minute];
+  }
+  
+
+  function getTimeBasedOnMousPosition(e) {
+    if(is_moving_appointment){
+      var p2 = {
+        x: $centerElement.offset().left,
+        y: $centerElement.offset().top
+      };
+      var p1 = {
+        x: e.pageX || e.originalEvent.touches[0].pageX,
+        y: e.pageY || e.originalEvent.touches[0].pageY
+      }
+      var angleDeg = (Math.atan2(p1.y - p2.y, p1.x - p2.x) * 180 / Math.PI) + 90;
+      if (angleDeg < 0) angleDeg = 360 + angleDeg;
+      curent_time_position = Math.floor(angleDeg*2);
+    }
+  }
+  
+  function renderSelectedTimeBlock(force) {
+    force = force || false;
+    if(is_moving_appointment || force) {
+      var length = durationtodeg(new_appointment_duration);
+      var st = curent_time_position;
+      var selector = "div.clock div.tick:gt(" + curent_time_position + "):lt(" + length + ")";
+      var negative_selector = "div.clock div.tick:not(:gt(" + st + "):lt(" + length + "))";
+      var selector_size = $(selector).length;
+      if(selector_size < length) {
+        selector += ", div.clock div.tick:lt(" + (length-selector_size) + ")";
+        negative_selector += ", div.clock div.tick:not(:lt(" + (length-selector_size) + "))";
+      }
+      $("div.clock div.tick").removeClass('selected');
+      $(selector).addClass('selected');
+      
+	  // render caused by mouse select
+	  if(!force){
+		var curentHour = Math.floor((curent_time_position+2) / 30);
+		var minutesDeg = (curent_time_position+2) % 30;
+		var curentMinute = minutesDeg * 2;
+		if(curentHour>=24) curentHour -= 24;
+		sh.value = pad(curentHour,2,'0');
+		sm.value = pad(curentMinute, 2, '0');
+		var end_time_position = curent_time_position + durationtodeg(new_appointment_duration);
+		var end_time_hour = Math.floor((end_time_position+2) / 30);
+		if(end_time_hour >= 24) end_time_hour -= 24;
+		var end_time_minute = ((end_time_position+2) % 30)*2;
+		eh.value = pad(end_time_hour,2,'0');
+		em.value = pad(end_time_minute, 2, '0');
+	  }
+    }
+  }
+  
+  // TODO TODO needs further improvement
+  function set_time(self){
+	  date_validity = true;
+	  date_valid_color();
+	  show_check_button();
+	  sh.value = pad(sh.value, 2, '0');
+	  sm.value = pad(sm.value, 2, '0');
+	  eh.value = pad(eh.value, 2, '0');
+	  em.value = pad(em.value, 2, '0');
+	  var start_hour = parseInt(sh.value); 
+	  var start_minute = parseInt(sm.value);
+	  var end_hour = parseInt(eh.value);
+	  var end_minute = parseInt(em.value);
+	  if(sd.value > ed.value){
+		  date_invalid_color();
+		  date_validity = false;
+		  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
+		  $("div.clock").on('mousedown touchstart', function(e) {
+		    is_moving_appointment = false;
+		  });  
+		  return;
+	  }
+	  // same day
+	  if(sd.value == ed.value){
+		  if(start_hour > end_hour){
+			  date_invalid_color();
+			  date_validity = false;
+			  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
+			  $("div.clock").on('mousedown touchstart', function(e) {
+			    is_moving_appointment = false;
+			  });
+			  return;
+		  }
+		  // same hour
+		  if(start_hour == end_hour){
+			  if(start_minute >= end_minute){
+				  date_invalid_color();
+				  date_validity = false;
+				  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
+				  $("div.clock").on('mousedown touchstart', function(e) {
+				    is_moving_appointment = false;
+				  });
+				  return;
+			  }
+		  }
+		  
+		  if((start_hour*60+start_minute)+10 > (end_hour*60+end_minute)){
+			  error('预定时间最少10分钟');
+			  date_invalid_color();
+			  date_validity = false;
+			  new_appointment_duration = 0;
+			  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
+			  $("div.clock").on('mousedown touchstart', function(e) {
+			    is_moving_appointment = false;
+			  });
+			  return;
+		  }
+		  else{
+			  curent_time_position = timetodeg(start_hour+":"+start_minute);
+			  new_appointment_duration = (end_hour-start_hour)*60 + end_minute-start_minute;
+		  }
+		  
+		  renderSelectedTimeBlock(true);
+		  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = '';
+		  $("div.clock").on('mousedown touchstart', function(e) {
+			  is_moving_appointment = true;
+		  });
+		  // get appointments by date if set_time triggered by date change
+		  if(self==sd || self==ed){
+		  	get_appointments_by_date();	
+		  }
+	  }
+	  else{
+		  for(i=0; i<720; i++) $('.tick')[i].style.backgroundColor = 'grey';
+		  $("div.clock").on('mousedown touchstart', function(e) {
+		    is_moving_appointment = false;
+		  });
+	  }
+  }
+  
+  function date_invalid_color(){
+	  sd.style.color = '#ED5565';
+	  ed.style.color = '#ED5565';
+	  sh.style.color = '#ED5565';
+	  sm.style.color = '#ED5565';
+	  eh.style.color = '#ED5565';
+	  em.style.color = '#ED5565';
+  }
+  
+  function date_valid_color(){
+	  sd.style.color = '#304f8d';
+	  ed.style.color = '#304f8d';
+	  sh.style.color = '#304f8d';
+	  sm.style.color = '#304f8d';
+	  eh.style.color = '#304f8d';
+	  em.style.color = '#304f8d';
+  }
+  
+function h_check(self){
+	if(self.value < 0) self.value = Math.abs(self.value);
+	if(self.value.length >= 3) self.value = self.value[0]+self.value[1];
+	if(self.value > 23) self.value = 23;
+}
+
+function m_check(self){
+	if(self.value < 0) self.value = Math.abs(self.value);
+	if(self.value.length >= 3) self.value = self.value[0]+self.value[1];
+	if(self.value > 59 || self.value.length >= 3) self.value = 59;
+}
+
+function getDate() {
+    var month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+$(document).mousedown(function (e) {
+	var con = $(".info_panel");
+	var con1 = $(".spot_info_panel");
+	var con2 = $(".add_spot_panel");
+	var exception = $("#user");
+	if ((con && !con.is(e.target) && con.has(e.target).length === 0) && (con1 && !con1.is(e.target) && con1.has(e.target).length === 0) && (con2 && !con2.is(e.target) && con2.has(e.target).length === 0) && (exception && !exception.is(e.target) && exception.has(e.target).length === 0)){
+		try{close_panel();}catch{}
+		try{close_spot_panel();}catch{}
+		try{close_add_spot_panel();}catch{}
+	}
+});
+
+document.querySelector(".spot_price").addEventListener("keypress", function (evt) {
+	s = evt.which;
+    if (evt.which != 46 && evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".add_spot_rate").addEventListener("keypress", function (evt) {
+    if (evt.which != 46 && evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".name-input-container input").addEventListener("keypress", function (evt) {
+    if (evt.which == 32)
+    {
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".id-input-container input").addEventListener("keypress", function (evt) {
+    if (evt.which == 32)
+    {
+        evt.preventDefault();
+    }
+});
+</script>
+
+</html>

@@ -16,7 +16,7 @@
 			<h2>加入日期</h2>
 			<p id='create_date'></p>
 			<h2>物业</h2>
-			<input type="checkbox" class="apple-switch" onclick="switch_role()"><br>
+			<input type="checkbox" class="apple-switch switch" onclick="switch_role()"><br>
 			<p></p>
 			<h2>登录状态</h2>
 			<input type="checkbox" class="apple-switch" onclick="logout()" checked="true"><br>
@@ -49,8 +49,8 @@ function get_user_info(){
 		$('#name')[0].innerText = response.data.data.user.name;
 		$('#user_tel')[0].innerText = response.data.data.user.user_tel;
 		$('#create_date')[0].innerText = formatDate(new Date(response.data.data.user.create_date.substring(0,25))).substring(0,10);
-		if(response.data.data.user.type == 1) $('.apple-switch')[0].checked = false;
-		else $('.apple-switch')[0].checked = true;
+		if(response.data.data.user.type == 1) $('.switch')[0].checked = false;
+		else $('.switch')[0].checked = true;
 	})
 	.catch(function(error) {
 		console.log(error);
@@ -60,7 +60,7 @@ function get_user_info(){
 
 function switch_role(){
 	axios.post(`/user/switch_role`,{
-		'target_role': $('.apple-switch')[0].checked==true?2:1
+		'target_role': $('.switch')[0].checked==true?2:1
 	},
 	{
 		headers: {

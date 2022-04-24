@@ -11,12 +11,11 @@ from .schema import Base, User, ParkingLot, ParkingSpot, Order
 class DBStore():
     def __init__(self):
         #TODO make this configurable 
-        host = os.environ.get('MYSQL_HOST', 'db')
+        host = os.environ.get('MYSQL_HOST', 'localhost')
         port = os.environ.get('MYSQL_PORT', '3306')
         user = os.environ.get('MYSQL_USER', 'root')
         password = os.environ.get('MYSQL_PASSWD', 'Wwt123456')
         database = os.environ.get('MYSQL_DB', 'SHARK')
-
         connection_url = f'mysql://{user}:{password}@{host}:{port}/{database}?charset=utf8'
 
         self._engine = create_engine(connection_url)

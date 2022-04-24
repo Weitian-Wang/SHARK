@@ -23,7 +23,7 @@ EXPOSE 5000
 
 # alternative app start
 ENV FLASK_APP=src/user/app.py
-
+ENV MYSQL_HOST='db'
 #### debug ####
 # RUN pip install debugpy -i https://pypi.tuna.tsinghua.edu.cn/simple
 # CMD python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m flask run -h 0.0.0.0 -p 5000

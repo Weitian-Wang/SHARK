@@ -846,12 +846,13 @@ function getDate() {
     return [year, month, day].join('-');
 }
 
-$(document).mouseup(function (e) {
+$(document).mousedown(function (e) {
 	var con = $(".info_panel");
 	var con1 = $(".spot_info_panel");
 	var con2 = $(".add_spot_panel");
 	var exception = $("#user");
-	if ((con && !con.is(e.target) && con.has(e.target).length === 0) && (con1 && !con1.is(e.target) && con1.has(e.target).length === 0) && (con2 && !con2.is(e.target) && con2.has(e.target).length === 0) && (exception && !exception.is(e.target) && exception.has(e.target).length === 0)) {
+	var exception2 = $("#search");
+	if ((con && !con.is(e.target) && con.has(e.target).length === 0) && (con1 && !con1.is(e.target) && con1.has(e.target).length === 0) && (con2 && !con2.is(e.target) && con2.has(e.target).length === 0) && (exception && !exception.is(e.target) && exception.has(e.target).length === 0) && (exception2 && !exception2.is(e.target) && exception2.has(e.target).length === 0)){
 		try{close_panel();}catch{}
 		try{close_spot_panel();}catch{}
 		try{close_add_spot_panel();}catch{}
