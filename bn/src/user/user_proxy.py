@@ -380,7 +380,7 @@ class UserProxy():
         self._database.update_order_status(order_id, OrderStatus.DENIED)
         return ResultSuccess(message="成功拒绝订单")
 
-    def enter_spot(self, user_tel, order_id):
+    def enter_spot(self, order_id, user_tel=None):
         order = self._database.get_order_by_id(order_id)
         if datetime.utcnow()+timedelta(hours=8) >= order.assigned_end_time:
             self._database.update_order_status(order_id, OrderStatus.ABNORMAL)
@@ -390,7 +390,7 @@ class UserProxy():
             
         if not order:
             raise ParamError()
-        if order.custom_tel != user_tel:
+        if user_tel and order.custom_tel != user_tel:
             raise UnauthorizedOperation()
 
         self._database.update_order_status(order_id, OrderStatus.USING_SPOT)
@@ -398,11 +398,11 @@ class UserProxy():
 
         return ResultSuccess(message="开始使用车位")
 
-    def leave_spot(self, user_tel, order_id):
+    def leave_spot(self, order_id, user_tel=None):
         spot = self._database.get_order_by_id(order_id)
         if not spot:
             raise ParamError()
-        if spot.custom_tel != user_tel:
+        if user_tel and spot.custom_tel != user_tel:
             raise UnauthorizedOperation()
 
         self._database.update_order_status(order_id, OrderStatus.LEFT_UNPAID)
@@ -517,6 +517,23 @@ class UserProxy():
             raise UnauthorizedOperation()
         self._database.update_spot_rate(ps_id, new_rate)
         return ResultSuccess(message="价格已更新")
+
+    def enter_or_leave(self, user_tel, order_id):
+        order = self._database.get_order_by_id(order_id=order_id)
+        owner_tel_of_order = self._database.get_owner_tel_by_order_id(order_id)
+        if owner_tel_of_order != user_tel:
+            raise UnauthorizedOperation()
+
+        if order.order_status not in [OrderStatus.PLACED, OrderStatus.USING_SPOT]:
+            raise GeneralError(message="请扫描正确的订单")
+
+        if order.order_status == OrderStatus.PLACED:
+            return self.enter_spot(order_id=order_id)
+        elif order.order_status == OrderStatus.USING_SPOT:
+            return self.leave_spot(order_id=order_id)
+        else:
+            raise ParamError()
+
     # utility functions
     def get_usage_of_appointments(self, appointments):
         occupied_time = timedelta(seconds=0)

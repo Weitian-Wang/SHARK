@@ -237,6 +237,13 @@ class DBStore():
         self.commit()
         self._session.query(ParkingSpot).filter(ParkingSpot.ps_id == ps_id).update({"appointments": new_appointments})
         self.commit()
+    
+    def get_owner_tel_by_order_id(self, order_id):
+        sql = f"SELECT SHARK.parking_spot.owner_tel FROM SHARK.order JOIN SHARK.parking_spot WHERE SHARK.order.ps_id=SHARK.parking_spot.ps_id AND SHARK.order.order_id='{order_id}'"
+        rst = self._session.execute(sql).first()
+        if not rst:
+            raise ParamError()
+        return rst.owner_tel
 
     def withdraw_appointment(self, ps_id, start_time, end_time):
         pass

@@ -163,7 +163,7 @@ def enter_spot(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.enter_spot(auth['user_tel'], params['order_id'])
+        result = user_proxy.enter_spot(order_id=params['order_id'], user_tel=auth['user_tel'],)
         return jsonify(result.to_dict())
 
 @app.route('/user/leave_spot', methods=['POST'])
@@ -172,7 +172,7 @@ def leave_spot(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.leave_spot(auth['user_tel'], params['order_id'])
+        result = user_proxy.leave_spot(order_id=params['order_id'], user_tel=auth['user_tel'])
         return jsonify(result.to_dict())
 
 @app.route('/user/pay_order', methods=['POST'])
@@ -248,13 +248,13 @@ def change_spot_rate(auth):
         result = user_proxy.change_spot_rate(auth['user_tel'], params['ps_id'], float(params['new_rate']))
         return jsonify(result.to_dict())
 
-@app.route('/property/load_lot_management_page', methods=['GET'])
+@app.route('/property/scan_code', methods=['POST'])
 @authenticate_token([UserType.PROPERTY, UserType.ADMIN])
-def get_lot_info(auth):
+def scan_code(auth):
     params = get_request_params()
     user_proxy = get_user_proxy()
     with user_proxy:
-        result = user_proxy.deny_order(auth['user_tel'], params['order_id'])
+        result = user_proxy.enter_or_leave(auth['user_tel'], params['order_id'])
         return jsonify(result.to_dict())
 
 @app.route('/user/get_account_info', methods=['GET'])

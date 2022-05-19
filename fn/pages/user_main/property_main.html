@@ -2,15 +2,6 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title></title>
-	</head>
-	<body>
-	</body>
-</html>
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
 		<title>SHARK</title>
 		<link rel="stylesheet" type="text/css" href="./user_main.css"/>
 		<link rel="stylesheet" type="text/css" href="./time.css"/>
@@ -20,6 +11,8 @@
 		<script src="../jquery.js"></script>
 		<script src="../axios.js"></script>
 		<script src="../md5.js"></script>
+		<script src="../html5-qrcode.min.js"></script>
+		
 	</head>
 	<body onload="set_token_cookie()">
 		
@@ -28,6 +21,7 @@
 			<!-- <div id="p_search" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/p_search.png);"></div><div class="menu_item">搜索车位</div></div> -->
 			<!-- <div id="reservation" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/reservation.png);"></div><div class="menu_item">我的预定</div></div> -->
 			<div id="spot_management" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/my_spot.png);"></div><div class="menu_item">车位管理</div></div>
+			<div id="qr_scan" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/scan.png);"></div><div class="menu_item">扫码出入</div></div>
 			<div id="account_setting" class="row animation_time" onclick="select_menu_row(this)"><div class="icon" style="background-image: url(../index_pic/setting.png);"></div><div class="menu_item">账户设置</div></div>
 			<div id="copy_right">SHARK Shared Parking - FYP by Weitian-Wang @GitHub</div>
 		</div>
