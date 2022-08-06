@@ -1,0 +1,54 @@
+<div id="pad"></div>
+<div id="reader"></div>
+<link rel="stylesheet" type="text/css" href="qr_scan.css"/>
+<script>
+	function onScanSuccess(decodedText, decodedResult) {
+	  // handle the scanned code as you like, for example:
+	  html5QrcodeScanner.clear();
+	  axios.post('/property/scan_code',
+	  	{
+	  		'order_id': decodedText
+	  	},
+	  	{
+	  		headers:{
+	  		'Content-Type': 'application/json;charset=UTF-8',
+	  		'Accept': 'application/json, text/plain, */*',
+	  		'Auth': getCookie('token')
+	  		}
+	  	}
+	  )
+	  .then(function (response) {
+	  	if(response.data.error_code!=0){
+	  		error(response.data.message);
+	  		if(response.data.error_code==1000 || response.data.error_code==1001){
+	  			setTimeout(function(){window.location.href = '../login/login.html'}, 2000);
+	  		}
+			html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+	  		return;
+	  	}
+	  	else{
+	  		success(response.data.message);
+			html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+	  	}
+	  })
+	  .catch(function (error) {
+	  	console.log(error);
+	  });
+	  html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+	}
+	
+	function onScanFailure(error) {
+	  // handle scan failure, usually better to ignore and keep scanning.
+	  // for example:
+	  error('error');
+	  console.warn(`Code scan error = ${error}`);
+	}
+	
+	var html5QrcodeScanner = new Html5QrcodeScanner(
+	  "reader",
+	  { fps: 5, qrbox: {width: 300, height: 300} },
+	  /* verbose= */ false);
+	html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+</script>
+

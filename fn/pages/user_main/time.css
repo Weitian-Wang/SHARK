@@ -1,0 +1,5207 @@
+div.calendar {
+  font-family: "Roboto";  
+  color: #000e5b;
+  position: relative;
+  -webkit-user-select: none;
+  /* Chrome/Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+ */
+  /* Rules below not implemented in browsers yet */
+  -o-user-select: none;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+div.calendar h2.time {
+  font: 500 20px Roboto, Arial, sans-serif;
+  color: #304f8d;
+  margin: 5px 0 0 0;
+  padding: 0;
+  font-size: 27px;
+  position: relative;
+  display: flex;
+  width: 22vw;
+  align-items: center;
+  justify-content: center;
+}
+div.calendar h2.date {
+  font: 500 20px Roboto, Arial, sans-serif;
+  color: #304f8d;
+  padding: 0;
+  text-shadow: 0 1px 1px white;
+}
+div.calendar div.clock {
+  width: 230px;
+  height: 230px;
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 60px;
+}
+div.calendar div.clock div.tick {
+  width: 1px;
+  height: 20px;
+  background-color: #ED5565;
+ position: absolute;
+ top: 50%;
+  left: 50%;
+  margin-top: -200px;
+}
+div.calendar div.clock div.tick.free {
+  background-color: #4DF3BC;
+}
+div.calendar div.clock div.tick.selected {
+  width: 1px;
+  background: #37a8ff;
+}
+div.calendar div.clock div.tick.selected.taken {
+  background-color: #c84df0;
+  width: 1px;
+}
+div.calendar div.clock div.tick span.hour {
+  position: absolute;
+   font: 400 13px Roboto, Arial, sans-serif;
+  color: #040103;
+  width: 20px;
+  text-align: center;
+  margin: -26px 0 0 -11px;
+}
+
+div.calendar div.clock div.tick:nth-child(1) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(0.5deg);
+}
+div.calendar div.clock div.tick:nth-child(1) .hour {
+  transform: rotate(-0.5deg);
+}
+div.calendar div.clock div.tick:nth-child(2) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(1.0deg);
+}
+div.calendar div.clock div.tick:nth-child(2) .hour {
+  transform: rotate(-1.0deg);
+}
+div.calendar div.clock div.tick:nth-child(3) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(1.5deg);
+}
+div.calendar div.clock div.tick:nth-child(3) .hour {
+  transform: rotate(-1.5deg);
+}
+div.calendar div.clock div.tick:nth-child(4) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(2.0deg);
+}
+div.calendar div.clock div.tick:nth-child(4) .hour {
+  transform: rotate(-2.0deg);
+}
+div.calendar div.clock div.tick:nth-child(5) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(2.5deg);
+}
+div.calendar div.clock div.tick:nth-child(5) .hour {
+  transform: rotate(-2.5deg);
+}
+div.calendar div.clock div.tick:nth-child(6) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(3.0deg);
+}
+div.calendar div.clock div.tick:nth-child(6) .hour {
+  transform: rotate(-3.0deg);
+}
+div.calendar div.clock div.tick:nth-child(7) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(3.5deg);
+}
+div.calendar div.clock div.tick:nth-child(7) .hour {
+  transform: rotate(-3.5deg);
+}
+div.calendar div.clock div.tick:nth-child(8) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(4.0deg);
+}
+div.calendar div.clock div.tick:nth-child(8) .hour {
+  transform: rotate(-4.0deg);
+}
+div.calendar div.clock div.tick:nth-child(9) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(4.5deg);
+}
+div.calendar div.clock div.tick:nth-child(9) .hour {
+  transform: rotate(-4.5deg);
+}
+div.calendar div.clock div.tick:nth-child(10) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(5.0deg);
+}
+div.calendar div.clock div.tick:nth-child(10) .hour {
+  transform: rotate(-5.0deg);
+}
+div.calendar div.clock div.tick:nth-child(11) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(5.5deg);
+}
+div.calendar div.clock div.tick:nth-child(11) .hour {
+  transform: rotate(-5.5deg);
+}
+div.calendar div.clock div.tick:nth-child(12) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(6.0deg);
+}
+div.calendar div.clock div.tick:nth-child(12) .hour {
+  transform: rotate(-6.0deg);
+}
+div.calendar div.clock div.tick:nth-child(13) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(6.5deg);
+}
+div.calendar div.clock div.tick:nth-child(13) .hour {
+  transform: rotate(-6.5deg);
+}
+div.calendar div.clock div.tick:nth-child(14) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(7.0deg);
+}
+div.calendar div.clock div.tick:nth-child(14) .hour {
+  transform: rotate(-7.0deg);
+}
+div.calendar div.clock div.tick:nth-child(15) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(7.5deg);
+}
+div.calendar div.clock div.tick:nth-child(15) .hour {
+  transform: rotate(-7.5deg);
+}
+div.calendar div.clock div.tick:nth-child(16) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(8.0deg);
+}
+div.calendar div.clock div.tick:nth-child(16) .hour {
+  transform: rotate(-8.0deg);
+}
+div.calendar div.clock div.tick:nth-child(17) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(8.5deg);
+}
+div.calendar div.clock div.tick:nth-child(17) .hour {
+  transform: rotate(-8.5deg);
+}
+div.calendar div.clock div.tick:nth-child(18) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(9.0deg);
+}
+div.calendar div.clock div.tick:nth-child(18) .hour {
+  transform: rotate(-9.0deg);
+}
+div.calendar div.clock div.tick:nth-child(19) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(9.5deg);
+}
+div.calendar div.clock div.tick:nth-child(19) .hour {
+  transform: rotate(-9.5deg);
+}
+div.calendar div.clock div.tick:nth-child(20) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(10.0deg);
+}
+div.calendar div.clock div.tick:nth-child(20) .hour {
+  transform: rotate(-10.0deg);
+}
+div.calendar div.clock div.tick:nth-child(21) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(10.5deg);
+}
+div.calendar div.clock div.tick:nth-child(21) .hour {
+  transform: rotate(-10.5deg);
+}
+div.calendar div.clock div.tick:nth-child(22) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(11.0deg);
+}
+div.calendar div.clock div.tick:nth-child(22) .hour {
+  transform: rotate(-11.0deg);
+}
+div.calendar div.clock div.tick:nth-child(23) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(11.5deg);
+}
+div.calendar div.clock div.tick:nth-child(23) .hour {
+  transform: rotate(-11.5deg);
+}
+div.calendar div.clock div.tick:nth-child(24) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(12.0deg);
+}
+div.calendar div.clock div.tick:nth-child(24) .hour {
+  transform: rotate(-12.0deg);
+}
+div.calendar div.clock div.tick:nth-child(25) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(12.5deg);
+}
+div.calendar div.clock div.tick:nth-child(25) .hour {
+  transform: rotate(-12.5deg);
+}
+div.calendar div.clock div.tick:nth-child(26) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(13.0deg);
+}
+div.calendar div.clock div.tick:nth-child(26) .hour {
+  transform: rotate(-13.0deg);
+}
+div.calendar div.clock div.tick:nth-child(27) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(13.5deg);
+}
+div.calendar div.clock div.tick:nth-child(27) .hour {
+  transform: rotate(-13.5deg);
+}
+div.calendar div.clock div.tick:nth-child(28) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(14.0deg);
+}
+div.calendar div.clock div.tick:nth-child(28) .hour {
+  transform: rotate(-14.0deg);
+}
+div.calendar div.clock div.tick:nth-child(29) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(14.5deg);
+}
+div.calendar div.clock div.tick:nth-child(29) .hour {
+  transform: rotate(-14.5deg);
+}
+div.calendar div.clock div.tick:nth-child(30) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(15.0deg);
+}
+div.calendar div.clock div.tick:nth-child(30) .hour {
+  transform: rotate(-15.0deg);
+}
+div.calendar div.clock div.tick:nth-child(31) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(15.5deg);
+}
+div.calendar div.clock div.tick:nth-child(31) .hour {
+  transform: rotate(-15.5deg);
+}
+div.calendar div.clock div.tick:nth-child(32) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(16.0deg);
+}
+div.calendar div.clock div.tick:nth-child(32) .hour {
+  transform: rotate(-16.0deg);
+}
+div.calendar div.clock div.tick:nth-child(33) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(16.5deg);
+}
+div.calendar div.clock div.tick:nth-child(33) .hour {
+  transform: rotate(-16.5deg);
+}
+div.calendar div.clock div.tick:nth-child(34) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(17.0deg);
+}
+div.calendar div.clock div.tick:nth-child(34) .hour {
+  transform: rotate(-17.0deg);
+}
+div.calendar div.clock div.tick:nth-child(35) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(17.5deg);
+}
+div.calendar div.clock div.tick:nth-child(35) .hour {
+  transform: rotate(-17.5deg);
+}
+div.calendar div.clock div.tick:nth-child(36) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(18.0deg);
+}
+div.calendar div.clock div.tick:nth-child(36) .hour {
+  transform: rotate(-18.0deg);
+}
+div.calendar div.clock div.tick:nth-child(37) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(18.5deg);
+}
+div.calendar div.clock div.tick:nth-child(37) .hour {
+  transform: rotate(-18.5deg);
+}
+div.calendar div.clock div.tick:nth-child(38) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(19.0deg);
+}
+div.calendar div.clock div.tick:nth-child(38) .hour {
+  transform: rotate(-19.0deg);
+}
+div.calendar div.clock div.tick:nth-child(39) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(19.5deg);
+}
+div.calendar div.clock div.tick:nth-child(39) .hour {
+  transform: rotate(-19.5deg);
+}
+div.calendar div.clock div.tick:nth-child(40) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(20.0deg);
+}
+div.calendar div.clock div.tick:nth-child(40) .hour {
+  transform: rotate(-20.0deg);
+}
+div.calendar div.clock div.tick:nth-child(41) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(20.5deg);
+}
+div.calendar div.clock div.tick:nth-child(41) .hour {
+  transform: rotate(-20.5deg);
+}
+div.calendar div.clock div.tick:nth-child(42) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(21.0deg);
+}
+div.calendar div.clock div.tick:nth-child(42) .hour {
+  transform: rotate(-21.0deg);
+}
+div.calendar div.clock div.tick:nth-child(43) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(21.5deg);
+}
+div.calendar div.clock div.tick:nth-child(43) .hour {
+  transform: rotate(-21.5deg);
+}
+div.calendar div.clock div.tick:nth-child(44) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(22.0deg);
+}
+div.calendar div.clock div.tick:nth-child(44) .hour {
+  transform: rotate(-22.0deg);
+}
+div.calendar div.clock div.tick:nth-child(45) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(22.5deg);
+}
+div.calendar div.clock div.tick:nth-child(45) .hour {
+  transform: rotate(-22.5deg);
+}
+div.calendar div.clock div.tick:nth-child(46) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(23.0deg);
+}
+div.calendar div.clock div.tick:nth-child(46) .hour {
+  transform: rotate(-23.0deg);
+}
+div.calendar div.clock div.tick:nth-child(47) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(23.5deg);
+}
+div.calendar div.clock div.tick:nth-child(47) .hour {
+  transform: rotate(-23.5deg);
+}
+div.calendar div.clock div.tick:nth-child(48) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(24.0deg);
+}
+div.calendar div.clock div.tick:nth-child(48) .hour {
+  transform: rotate(-24.0deg);
+}
+div.calendar div.clock div.tick:nth-child(49) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(24.5deg);
+}
+div.calendar div.clock div.tick:nth-child(49) .hour {
+  transform: rotate(-24.5deg);
+}
+div.calendar div.clock div.tick:nth-child(50) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(25.0deg);
+}
+div.calendar div.clock div.tick:nth-child(50) .hour {
+  transform: rotate(-25.0deg);
+}
+div.calendar div.clock div.tick:nth-child(51) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(25.5deg);
+}
+div.calendar div.clock div.tick:nth-child(51) .hour {
+  transform: rotate(-25.5deg);
+}
+div.calendar div.clock div.tick:nth-child(52) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(26.0deg);
+}
+div.calendar div.clock div.tick:nth-child(52) .hour {
+  transform: rotate(-26.0deg);
+}
+div.calendar div.clock div.tick:nth-child(53) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(26.5deg);
+}
+div.calendar div.clock div.tick:nth-child(53) .hour {
+  transform: rotate(-26.5deg);
+}
+div.calendar div.clock div.tick:nth-child(54) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(27.0deg);
+}
+div.calendar div.clock div.tick:nth-child(54) .hour {
+  transform: rotate(-27.0deg);
+}
+div.calendar div.clock div.tick:nth-child(55) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(27.5deg);
+}
+div.calendar div.clock div.tick:nth-child(55) .hour {
+  transform: rotate(-27.5deg);
+}
+div.calendar div.clock div.tick:nth-child(56) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(28.0deg);
+}
+div.calendar div.clock div.tick:nth-child(56) .hour {
+  transform: rotate(-28.0deg);
+}
+div.calendar div.clock div.tick:nth-child(57) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(28.5deg);
+}
+div.calendar div.clock div.tick:nth-child(57) .hour {
+  transform: rotate(-28.5deg);
+}
+div.calendar div.clock div.tick:nth-child(58) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(29.0deg);
+}
+div.calendar div.clock div.tick:nth-child(58) .hour {
+  transform: rotate(-29.0deg);
+}
+div.calendar div.clock div.tick:nth-child(59) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(29.5deg);
+}
+div.calendar div.clock div.tick:nth-child(59) .hour {
+  transform: rotate(-29.5deg);
+}
+div.calendar div.clock div.tick:nth-child(60) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(30.0deg);
+}
+div.calendar div.clock div.tick:nth-child(60) .hour {
+  transform: rotate(-30.0deg);
+}
+div.calendar div.clock div.tick:nth-child(61) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(30.5deg);
+}
+div.calendar div.clock div.tick:nth-child(61) .hour {
+  transform: rotate(-30.5deg);
+}
+div.calendar div.clock div.tick:nth-child(62) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(31.0deg);
+}
+div.calendar div.clock div.tick:nth-child(62) .hour {
+  transform: rotate(-31.0deg);
+}
+div.calendar div.clock div.tick:nth-child(63) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(31.5deg);
+}
+div.calendar div.clock div.tick:nth-child(63) .hour {
+  transform: rotate(-31.5deg);
+}
+div.calendar div.clock div.tick:nth-child(64) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(32.0deg);
+}
+div.calendar div.clock div.tick:nth-child(64) .hour {
+  transform: rotate(-32.0deg);
+}
+div.calendar div.clock div.tick:nth-child(65) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(32.5deg);
+}
+div.calendar div.clock div.tick:nth-child(65) .hour {
+  transform: rotate(-32.5deg);
+}
+div.calendar div.clock div.tick:nth-child(66) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(33.0deg);
+}
+div.calendar div.clock div.tick:nth-child(66) .hour {
+  transform: rotate(-33.0deg);
+}
+div.calendar div.clock div.tick:nth-child(67) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(33.5deg);
+}
+div.calendar div.clock div.tick:nth-child(67) .hour {
+  transform: rotate(-33.5deg);
+}
+div.calendar div.clock div.tick:nth-child(68) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(34.0deg);
+}
+div.calendar div.clock div.tick:nth-child(68) .hour {
+  transform: rotate(-34.0deg);
+}
+div.calendar div.clock div.tick:nth-child(69) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(34.5deg);
+}
+div.calendar div.clock div.tick:nth-child(69) .hour {
+  transform: rotate(-34.5deg);
+}
+div.calendar div.clock div.tick:nth-child(70) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(35.0deg);
+}
+div.calendar div.clock div.tick:nth-child(70) .hour {
+  transform: rotate(-35.0deg);
+}
+div.calendar div.clock div.tick:nth-child(71) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(35.5deg);
+}
+div.calendar div.clock div.tick:nth-child(71) .hour {
+  transform: rotate(-35.5deg);
+}
+div.calendar div.clock div.tick:nth-child(72) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(36.0deg);
+}
+div.calendar div.clock div.tick:nth-child(72) .hour {
+  transform: rotate(-36.0deg);
+}
+div.calendar div.clock div.tick:nth-child(73) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(36.5deg);
+}
+div.calendar div.clock div.tick:nth-child(73) .hour {
+  transform: rotate(-36.5deg);
+}
+div.calendar div.clock div.tick:nth-child(74) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(37.0deg);
+}
+div.calendar div.clock div.tick:nth-child(74) .hour {
+  transform: rotate(-37.0deg);
+}
+div.calendar div.clock div.tick:nth-child(75) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(37.5deg);
+}
+div.calendar div.clock div.tick:nth-child(75) .hour {
+  transform: rotate(-37.5deg);
+}
+div.calendar div.clock div.tick:nth-child(76) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(38.0deg);
+}
+div.calendar div.clock div.tick:nth-child(76) .hour {
+  transform: rotate(-38.0deg);
+}
+div.calendar div.clock div.tick:nth-child(77) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(38.5deg);
+}
+div.calendar div.clock div.tick:nth-child(77) .hour {
+  transform: rotate(-38.5deg);
+}
+div.calendar div.clock div.tick:nth-child(78) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(39.0deg);
+}
+div.calendar div.clock div.tick:nth-child(78) .hour {
+  transform: rotate(-39.0deg);
+}
+div.calendar div.clock div.tick:nth-child(79) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(39.5deg);
+}
+div.calendar div.clock div.tick:nth-child(79) .hour {
+  transform: rotate(-39.5deg);
+}
+div.calendar div.clock div.tick:nth-child(80) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(40.0deg);
+}
+div.calendar div.clock div.tick:nth-child(80) .hour {
+  transform: rotate(-40.0deg);
+}
+div.calendar div.clock div.tick:nth-child(81) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(40.5deg);
+}
+div.calendar div.clock div.tick:nth-child(81) .hour {
+  transform: rotate(-40.5deg);
+}
+div.calendar div.clock div.tick:nth-child(82) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(41.0deg);
+}
+div.calendar div.clock div.tick:nth-child(82) .hour {
+  transform: rotate(-41.0deg);
+}
+div.calendar div.clock div.tick:nth-child(83) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(41.5deg);
+}
+div.calendar div.clock div.tick:nth-child(83) .hour {
+  transform: rotate(-41.5deg);
+}
+div.calendar div.clock div.tick:nth-child(84) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(42.0deg);
+}
+div.calendar div.clock div.tick:nth-child(84) .hour {
+  transform: rotate(-42.0deg);
+}
+div.calendar div.clock div.tick:nth-child(85) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(42.5deg);
+}
+div.calendar div.clock div.tick:nth-child(85) .hour {
+  transform: rotate(-42.5deg);
+}
+div.calendar div.clock div.tick:nth-child(86) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(43.0deg);
+}
+div.calendar div.clock div.tick:nth-child(86) .hour {
+  transform: rotate(-43.0deg);
+}
+div.calendar div.clock div.tick:nth-child(87) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(43.5deg);
+}
+div.calendar div.clock div.tick:nth-child(87) .hour {
+  transform: rotate(-43.5deg);
+}
+div.calendar div.clock div.tick:nth-child(88) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(44.0deg);
+}
+div.calendar div.clock div.tick:nth-child(88) .hour {
+  transform: rotate(-44.0deg);
+}
+div.calendar div.clock div.tick:nth-child(89) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(44.5deg);
+}
+div.calendar div.clock div.tick:nth-child(89) .hour {
+  transform: rotate(-44.5deg);
+}
+div.calendar div.clock div.tick:nth-child(90) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(45.0deg);
+}
+div.calendar div.clock div.tick:nth-child(90) .hour {
+  transform: rotate(-45.0deg);
+}
+div.calendar div.clock div.tick:nth-child(91) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(45.5deg);
+}
+div.calendar div.clock div.tick:nth-child(91) .hour {
+  transform: rotate(-45.5deg);
+}
+div.calendar div.clock div.tick:nth-child(92) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(46.0deg);
+}
+div.calendar div.clock div.tick:nth-child(92) .hour {
+  transform: rotate(-46.0deg);
+}
+div.calendar div.clock div.tick:nth-child(93) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(46.5deg);
+}
+div.calendar div.clock div.tick:nth-child(93) .hour {
+  transform: rotate(-46.5deg);
+}
+div.calendar div.clock div.tick:nth-child(94) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(47.0deg);
+}
+div.calendar div.clock div.tick:nth-child(94) .hour {
+  transform: rotate(-47.0deg);
+}
+div.calendar div.clock div.tick:nth-child(95) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(47.5deg);
+}
+div.calendar div.clock div.tick:nth-child(95) .hour {
+  transform: rotate(-47.5deg);
+}
+div.calendar div.clock div.tick:nth-child(96) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(48.0deg);
+}
+div.calendar div.clock div.tick:nth-child(96) .hour {
+  transform: rotate(-48.0deg);
+}
+div.calendar div.clock div.tick:nth-child(97) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(48.5deg);
+}
+div.calendar div.clock div.tick:nth-child(97) .hour {
+  transform: rotate(-48.5deg);
+}
+div.calendar div.clock div.tick:nth-child(98) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(49.0deg);
+}
+div.calendar div.clock div.tick:nth-child(98) .hour {
+  transform: rotate(-49.0deg);
+}
+div.calendar div.clock div.tick:nth-child(99) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(49.5deg);
+}
+div.calendar div.clock div.tick:nth-child(99) .hour {
+  transform: rotate(-49.5deg);
+}
+div.calendar div.clock div.tick:nth-child(100) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(50.0deg);
+}
+div.calendar div.clock div.tick:nth-child(100) .hour {
+  transform: rotate(-50.0deg);
+}
+div.calendar div.clock div.tick:nth-child(101) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(50.5deg);
+}
+div.calendar div.clock div.tick:nth-child(101) .hour {
+  transform: rotate(-50.5deg);
+}
+div.calendar div.clock div.tick:nth-child(102) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(51.0deg);
+}
+div.calendar div.clock div.tick:nth-child(102) .hour {
+  transform: rotate(-51.0deg);
+}
+div.calendar div.clock div.tick:nth-child(103) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(51.5deg);
+}
+div.calendar div.clock div.tick:nth-child(103) .hour {
+  transform: rotate(-51.5deg);
+}
+div.calendar div.clock div.tick:nth-child(104) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(52.0deg);
+}
+div.calendar div.clock div.tick:nth-child(104) .hour {
+  transform: rotate(-52.0deg);
+}
+div.calendar div.clock div.tick:nth-child(105) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(52.5deg);
+}
+div.calendar div.clock div.tick:nth-child(105) .hour {
+  transform: rotate(-52.5deg);
+}
+div.calendar div.clock div.tick:nth-child(106) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(53.0deg);
+}
+div.calendar div.clock div.tick:nth-child(106) .hour {
+  transform: rotate(-53.0deg);
+}
+div.calendar div.clock div.tick:nth-child(107) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(53.5deg);
+}
+div.calendar div.clock div.tick:nth-child(107) .hour {
+  transform: rotate(-53.5deg);
+}
+div.calendar div.clock div.tick:nth-child(108) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(54.0deg);
+}
+div.calendar div.clock div.tick:nth-child(108) .hour {
+  transform: rotate(-54.0deg);
+}
+div.calendar div.clock div.tick:nth-child(109) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(54.5deg);
+}
+div.calendar div.clock div.tick:nth-child(109) .hour {
+  transform: rotate(-54.5deg);
+}
+div.calendar div.clock div.tick:nth-child(110) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(55.0deg);
+}
+div.calendar div.clock div.tick:nth-child(110) .hour {
+  transform: rotate(-55.0deg);
+}
+div.calendar div.clock div.tick:nth-child(111) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(55.5deg);
+}
+div.calendar div.clock div.tick:nth-child(111) .hour {
+  transform: rotate(-55.5deg);
+}
+div.calendar div.clock div.tick:nth-child(112) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(56.0deg);
+}
+div.calendar div.clock div.tick:nth-child(112) .hour {
+  transform: rotate(-56.0deg);
+}
+div.calendar div.clock div.tick:nth-child(113) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(56.5deg);
+}
+div.calendar div.clock div.tick:nth-child(113) .hour {
+  transform: rotate(-56.5deg);
+}
+div.calendar div.clock div.tick:nth-child(114) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(57.0deg);
+}
+div.calendar div.clock div.tick:nth-child(114) .hour {
+  transform: rotate(-57.0deg);
+}
+div.calendar div.clock div.tick:nth-child(115) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(57.5deg);
+}
+div.calendar div.clock div.tick:nth-child(115) .hour {
+  transform: rotate(-57.5deg);
+}
+div.calendar div.clock div.tick:nth-child(116) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(58.0deg);
+}
+div.calendar div.clock div.tick:nth-child(116) .hour {
+  transform: rotate(-58.0deg);
+}
+div.calendar div.clock div.tick:nth-child(117) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(58.5deg);
+}
+div.calendar div.clock div.tick:nth-child(117) .hour {
+  transform: rotate(-58.5deg);
+}
+div.calendar div.clock div.tick:nth-child(118) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(59.0deg);
+}
+div.calendar div.clock div.tick:nth-child(118) .hour {
+  transform: rotate(-59.0deg);
+}
+div.calendar div.clock div.tick:nth-child(119) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(59.5deg);
+}
+div.calendar div.clock div.tick:nth-child(119) .hour {
+  transform: rotate(-59.5deg);
+}
+div.calendar div.clock div.tick:nth-child(120) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(60.0deg);
+}
+div.calendar div.clock div.tick:nth-child(120) .hour {
+  transform: rotate(-60.0deg);
+}
+div.calendar div.clock div.tick:nth-child(121) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(60.5deg);
+}
+div.calendar div.clock div.tick:nth-child(121) .hour {
+  transform: rotate(-60.5deg);
+}
+div.calendar div.clock div.tick:nth-child(122) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(61.0deg);
+}
+div.calendar div.clock div.tick:nth-child(122) .hour {
+  transform: rotate(-61.0deg);
+}
+div.calendar div.clock div.tick:nth-child(123) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(61.5deg);
+}
+div.calendar div.clock div.tick:nth-child(123) .hour {
+  transform: rotate(-61.5deg);
+}
+div.calendar div.clock div.tick:nth-child(124) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(62.0deg);
+}
+div.calendar div.clock div.tick:nth-child(124) .hour {
+  transform: rotate(-62.0deg);
+}
+div.calendar div.clock div.tick:nth-child(125) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(62.5deg);
+}
+div.calendar div.clock div.tick:nth-child(125) .hour {
+  transform: rotate(-62.5deg);
+}
+div.calendar div.clock div.tick:nth-child(126) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(63.0deg);
+}
+div.calendar div.clock div.tick:nth-child(126) .hour {
+  transform: rotate(-63.0deg);
+}
+div.calendar div.clock div.tick:nth-child(127) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(63.5deg);
+}
+div.calendar div.clock div.tick:nth-child(127) .hour {
+  transform: rotate(-63.5deg);
+}
+div.calendar div.clock div.tick:nth-child(128) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(64.0deg);
+}
+div.calendar div.clock div.tick:nth-child(128) .hour {
+  transform: rotate(-64.0deg);
+}
+div.calendar div.clock div.tick:nth-child(129) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(64.5deg);
+}
+div.calendar div.clock div.tick:nth-child(129) .hour {
+  transform: rotate(-64.5deg);
+}
+div.calendar div.clock div.tick:nth-child(130) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(65.0deg);
+}
+div.calendar div.clock div.tick:nth-child(130) .hour {
+  transform: rotate(-65.0deg);
+}
+div.calendar div.clock div.tick:nth-child(131) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(65.5deg);
+}
+div.calendar div.clock div.tick:nth-child(131) .hour {
+  transform: rotate(-65.5deg);
+}
+div.calendar div.clock div.tick:nth-child(132) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(66.0deg);
+}
+div.calendar div.clock div.tick:nth-child(132) .hour {
+  transform: rotate(-66.0deg);
+}
+div.calendar div.clock div.tick:nth-child(133) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(66.5deg);
+}
+div.calendar div.clock div.tick:nth-child(133) .hour {
+  transform: rotate(-66.5deg);
+}
+div.calendar div.clock div.tick:nth-child(134) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(67.0deg);
+}
+div.calendar div.clock div.tick:nth-child(134) .hour {
+  transform: rotate(-67.0deg);
+}
+div.calendar div.clock div.tick:nth-child(135) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(67.5deg);
+}
+div.calendar div.clock div.tick:nth-child(135) .hour {
+  transform: rotate(-67.5deg);
+}
+div.calendar div.clock div.tick:nth-child(136) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(68.0deg);
+}
+div.calendar div.clock div.tick:nth-child(136) .hour {
+  transform: rotate(-68.0deg);
+}
+div.calendar div.clock div.tick:nth-child(137) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(68.5deg);
+}
+div.calendar div.clock div.tick:nth-child(137) .hour {
+  transform: rotate(-68.5deg);
+}
+div.calendar div.clock div.tick:nth-child(138) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(69.0deg);
+}
+div.calendar div.clock div.tick:nth-child(138) .hour {
+  transform: rotate(-69.0deg);
+}
+div.calendar div.clock div.tick:nth-child(139) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(69.5deg);
+}
+div.calendar div.clock div.tick:nth-child(139) .hour {
+  transform: rotate(-69.5deg);
+}
+div.calendar div.clock div.tick:nth-child(140) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(70.0deg);
+}
+div.calendar div.clock div.tick:nth-child(140) .hour {
+  transform: rotate(-70.0deg);
+}
+div.calendar div.clock div.tick:nth-child(141) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(70.5deg);
+}
+div.calendar div.clock div.tick:nth-child(141) .hour {
+  transform: rotate(-70.5deg);
+}
+div.calendar div.clock div.tick:nth-child(142) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(71.0deg);
+}
+div.calendar div.clock div.tick:nth-child(142) .hour {
+  transform: rotate(-71.0deg);
+}
+div.calendar div.clock div.tick:nth-child(143) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(71.5deg);
+}
+div.calendar div.clock div.tick:nth-child(143) .hour {
+  transform: rotate(-71.5deg);
+}
+div.calendar div.clock div.tick:nth-child(144) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(72.0deg);
+}
+div.calendar div.clock div.tick:nth-child(144) .hour {
+  transform: rotate(-72.0deg);
+}
+div.calendar div.clock div.tick:nth-child(145) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(72.5deg);
+}
+div.calendar div.clock div.tick:nth-child(145) .hour {
+  transform: rotate(-72.5deg);
+}
+div.calendar div.clock div.tick:nth-child(146) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(73.0deg);
+}
+div.calendar div.clock div.tick:nth-child(146) .hour {
+  transform: rotate(-73.0deg);
+}
+div.calendar div.clock div.tick:nth-child(147) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(73.5deg);
+}
+div.calendar div.clock div.tick:nth-child(147) .hour {
+  transform: rotate(-73.5deg);
+}
+div.calendar div.clock div.tick:nth-child(148) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(74.0deg);
+}
+div.calendar div.clock div.tick:nth-child(148) .hour {
+  transform: rotate(-74.0deg);
+}
+div.calendar div.clock div.tick:nth-child(149) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(74.5deg);
+}
+div.calendar div.clock div.tick:nth-child(149) .hour {
+  transform: rotate(-74.5deg);
+}
+div.calendar div.clock div.tick:nth-child(150) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(75.0deg);
+}
+div.calendar div.clock div.tick:nth-child(150) .hour {
+  transform: rotate(-75.0deg);
+}
+div.calendar div.clock div.tick:nth-child(151) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(75.5deg);
+}
+div.calendar div.clock div.tick:nth-child(151) .hour {
+  transform: rotate(-75.5deg);
+}
+div.calendar div.clock div.tick:nth-child(152) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(76.0deg);
+}
+div.calendar div.clock div.tick:nth-child(152) .hour {
+  transform: rotate(-76.0deg);
+}
+div.calendar div.clock div.tick:nth-child(153) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(76.5deg);
+}
+div.calendar div.clock div.tick:nth-child(153) .hour {
+  transform: rotate(-76.5deg);
+}
+div.calendar div.clock div.tick:nth-child(154) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(77.0deg);
+}
+div.calendar div.clock div.tick:nth-child(154) .hour {
+  transform: rotate(-77.0deg);
+}
+div.calendar div.clock div.tick:nth-child(155) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(77.5deg);
+}
+div.calendar div.clock div.tick:nth-child(155) .hour {
+  transform: rotate(-77.5deg);
+}
+div.calendar div.clock div.tick:nth-child(156) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(78.0deg);
+}
+div.calendar div.clock div.tick:nth-child(156) .hour {
+  transform: rotate(-78.0deg);
+}
+div.calendar div.clock div.tick:nth-child(157) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(78.5deg);
+}
+div.calendar div.clock div.tick:nth-child(157) .hour {
+  transform: rotate(-78.5deg);
+}
+div.calendar div.clock div.tick:nth-child(158) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(79.0deg);
+}
+div.calendar div.clock div.tick:nth-child(158) .hour {
+  transform: rotate(-79.0deg);
+}
+div.calendar div.clock div.tick:nth-child(159) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(79.5deg);
+}
+div.calendar div.clock div.tick:nth-child(159) .hour {
+  transform: rotate(-79.5deg);
+}
+div.calendar div.clock div.tick:nth-child(160) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(80.0deg);
+}
+div.calendar div.clock div.tick:nth-child(160) .hour {
+  transform: rotate(-80.0deg);
+}
+div.calendar div.clock div.tick:nth-child(161) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(80.5deg);
+}
+div.calendar div.clock div.tick:nth-child(161) .hour {
+  transform: rotate(-80.5deg);
+}
+div.calendar div.clock div.tick:nth-child(162) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(81.0deg);
+}
+div.calendar div.clock div.tick:nth-child(162) .hour {
+  transform: rotate(-81.0deg);
+}
+div.calendar div.clock div.tick:nth-child(163) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(81.5deg);
+}
+div.calendar div.clock div.tick:nth-child(163) .hour {
+  transform: rotate(-81.5deg);
+}
+div.calendar div.clock div.tick:nth-child(164) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(82.0deg);
+}
+div.calendar div.clock div.tick:nth-child(164) .hour {
+  transform: rotate(-82.0deg);
+}
+div.calendar div.clock div.tick:nth-child(165) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(82.5deg);
+}
+div.calendar div.clock div.tick:nth-child(165) .hour {
+  transform: rotate(-82.5deg);
+}
+div.calendar div.clock div.tick:nth-child(166) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(83.0deg);
+}
+div.calendar div.clock div.tick:nth-child(166) .hour {
+  transform: rotate(-83.0deg);
+}
+div.calendar div.clock div.tick:nth-child(167) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(83.5deg);
+}
+div.calendar div.clock div.tick:nth-child(167) .hour {
+  transform: rotate(-83.5deg);
+}
+div.calendar div.clock div.tick:nth-child(168) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(84.0deg);
+}
+div.calendar div.clock div.tick:nth-child(168) .hour {
+  transform: rotate(-84.0deg);
+}
+div.calendar div.clock div.tick:nth-child(169) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(84.5deg);
+}
+div.calendar div.clock div.tick:nth-child(169) .hour {
+  transform: rotate(-84.5deg);
+}
+div.calendar div.clock div.tick:nth-child(170) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(85.0deg);
+}
+div.calendar div.clock div.tick:nth-child(170) .hour {
+  transform: rotate(-85.0deg);
+}
+div.calendar div.clock div.tick:nth-child(171) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(85.5deg);
+}
+div.calendar div.clock div.tick:nth-child(171) .hour {
+  transform: rotate(-85.5deg);
+}
+div.calendar div.clock div.tick:nth-child(172) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(86.0deg);
+}
+div.calendar div.clock div.tick:nth-child(172) .hour {
+  transform: rotate(-86.0deg);
+}
+div.calendar div.clock div.tick:nth-child(173) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(86.5deg);
+}
+div.calendar div.clock div.tick:nth-child(173) .hour {
+  transform: rotate(-86.5deg);
+}
+div.calendar div.clock div.tick:nth-child(174) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(87.0deg);
+}
+div.calendar div.clock div.tick:nth-child(174) .hour {
+  transform: rotate(-87.0deg);
+}
+div.calendar div.clock div.tick:nth-child(175) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(87.5deg);
+}
+div.calendar div.clock div.tick:nth-child(175) .hour {
+  transform: rotate(-87.5deg);
+}
+div.calendar div.clock div.tick:nth-child(176) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(88.0deg);
+}
+div.calendar div.clock div.tick:nth-child(176) .hour {
+  transform: rotate(-88.0deg);
+}
+div.calendar div.clock div.tick:nth-child(177) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(88.5deg);
+}
+div.calendar div.clock div.tick:nth-child(177) .hour {
+  transform: rotate(-88.5deg);
+}
+div.calendar div.clock div.tick:nth-child(178) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(89.0deg);
+}
+div.calendar div.clock div.tick:nth-child(178) .hour {
+  transform: rotate(-89.0deg);
+}
+div.calendar div.clock div.tick:nth-child(179) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(89.5deg);
+}
+div.calendar div.clock div.tick:nth-child(179) .hour {
+  transform: rotate(-89.5deg);
+}
+div.calendar div.clock div.tick:nth-child(180) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(90.0deg);
+}
+div.calendar div.clock div.tick:nth-child(180) .hour {
+  transform: rotate(-90.0deg);
+}
+div.calendar div.clock div.tick:nth-child(181) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(90.5deg);
+}
+div.calendar div.clock div.tick:nth-child(181) .hour {
+  transform: rotate(-90.5deg);
+}
+div.calendar div.clock div.tick:nth-child(182) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(91.0deg);
+}
+div.calendar div.clock div.tick:nth-child(182) .hour {
+  transform: rotate(-91.0deg);
+}
+div.calendar div.clock div.tick:nth-child(183) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(91.5deg);
+}
+div.calendar div.clock div.tick:nth-child(183) .hour {
+  transform: rotate(-91.5deg);
+}
+div.calendar div.clock div.tick:nth-child(184) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(92.0deg);
+}
+div.calendar div.clock div.tick:nth-child(184) .hour {
+  transform: rotate(-92.0deg);
+}
+div.calendar div.clock div.tick:nth-child(185) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(92.5deg);
+}
+div.calendar div.clock div.tick:nth-child(185) .hour {
+  transform: rotate(-92.5deg);
+}
+div.calendar div.clock div.tick:nth-child(186) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(93.0deg);
+}
+div.calendar div.clock div.tick:nth-child(186) .hour {
+  transform: rotate(-93.0deg);
+}
+div.calendar div.clock div.tick:nth-child(187) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(93.5deg);
+}
+div.calendar div.clock div.tick:nth-child(187) .hour {
+  transform: rotate(-93.5deg);
+}
+div.calendar div.clock div.tick:nth-child(188) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(94.0deg);
+}
+div.calendar div.clock div.tick:nth-child(188) .hour {
+  transform: rotate(-94.0deg);
+}
+div.calendar div.clock div.tick:nth-child(189) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(94.5deg);
+}
+div.calendar div.clock div.tick:nth-child(189) .hour {
+  transform: rotate(-94.5deg);
+}
+div.calendar div.clock div.tick:nth-child(190) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(95.0deg);
+}
+div.calendar div.clock div.tick:nth-child(190) .hour {
+  transform: rotate(-95.0deg);
+}
+div.calendar div.clock div.tick:nth-child(191) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(95.5deg);
+}
+div.calendar div.clock div.tick:nth-child(191) .hour {
+  transform: rotate(-95.5deg);
+}
+div.calendar div.clock div.tick:nth-child(192) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(96.0deg);
+}
+div.calendar div.clock div.tick:nth-child(192) .hour {
+  transform: rotate(-96.0deg);
+}
+div.calendar div.clock div.tick:nth-child(193) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(96.5deg);
+}
+div.calendar div.clock div.tick:nth-child(193) .hour {
+  transform: rotate(-96.5deg);
+}
+div.calendar div.clock div.tick:nth-child(194) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(97.0deg);
+}
+div.calendar div.clock div.tick:nth-child(194) .hour {
+  transform: rotate(-97.0deg);
+}
+div.calendar div.clock div.tick:nth-child(195) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(97.5deg);
+}
+div.calendar div.clock div.tick:nth-child(195) .hour {
+  transform: rotate(-97.5deg);
+}
+div.calendar div.clock div.tick:nth-child(196) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(98.0deg);
+}
+div.calendar div.clock div.tick:nth-child(196) .hour {
+  transform: rotate(-98.0deg);
+}
+div.calendar div.clock div.tick:nth-child(197) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(98.5deg);
+}
+div.calendar div.clock div.tick:nth-child(197) .hour {
+  transform: rotate(-98.5deg);
+}
+div.calendar div.clock div.tick:nth-child(198) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(99.0deg);
+}
+div.calendar div.clock div.tick:nth-child(198) .hour {
+  transform: rotate(-99.0deg);
+}
+div.calendar div.clock div.tick:nth-child(199) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(99.5deg);
+}
+div.calendar div.clock div.tick:nth-child(199) .hour {
+  transform: rotate(-99.5deg);
+}
+div.calendar div.clock div.tick:nth-child(200) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(100.0deg);
+}
+div.calendar div.clock div.tick:nth-child(200) .hour {
+  transform: rotate(-100.0deg);
+}
+div.calendar div.clock div.tick:nth-child(201) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(100.5deg);
+}
+div.calendar div.clock div.tick:nth-child(201) .hour {
+  transform: rotate(-100.5deg);
+}
+div.calendar div.clock div.tick:nth-child(202) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(101.0deg);
+}
+div.calendar div.clock div.tick:nth-child(202) .hour {
+  transform: rotate(-101.0deg);
+}
+div.calendar div.clock div.tick:nth-child(203) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(101.5deg);
+}
+div.calendar div.clock div.tick:nth-child(203) .hour {
+  transform: rotate(-101.5deg);
+}
+div.calendar div.clock div.tick:nth-child(204) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(102.0deg);
+}
+div.calendar div.clock div.tick:nth-child(204) .hour {
+  transform: rotate(-102.0deg);
+}
+div.calendar div.clock div.tick:nth-child(205) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(102.5deg);
+}
+div.calendar div.clock div.tick:nth-child(205) .hour {
+  transform: rotate(-102.5deg);
+}
+div.calendar div.clock div.tick:nth-child(206) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(103.0deg);
+}
+div.calendar div.clock div.tick:nth-child(206) .hour {
+  transform: rotate(-103.0deg);
+}
+div.calendar div.clock div.tick:nth-child(207) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(103.5deg);
+}
+div.calendar div.clock div.tick:nth-child(207) .hour {
+  transform: rotate(-103.5deg);
+}
+div.calendar div.clock div.tick:nth-child(208) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(104.0deg);
+}
+div.calendar div.clock div.tick:nth-child(208) .hour {
+  transform: rotate(-104.0deg);
+}
+div.calendar div.clock div.tick:nth-child(209) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(104.5deg);
+}
+div.calendar div.clock div.tick:nth-child(209) .hour {
+  transform: rotate(-104.5deg);
+}
+div.calendar div.clock div.tick:nth-child(210) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(105.0deg);
+}
+div.calendar div.clock div.tick:nth-child(210) .hour {
+  transform: rotate(-105.0deg);
+}
+div.calendar div.clock div.tick:nth-child(211) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(105.5deg);
+}
+div.calendar div.clock div.tick:nth-child(211) .hour {
+  transform: rotate(-105.5deg);
+}
+div.calendar div.clock div.tick:nth-child(212) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(106.0deg);
+}
+div.calendar div.clock div.tick:nth-child(212) .hour {
+  transform: rotate(-106.0deg);
+}
+div.calendar div.clock div.tick:nth-child(213) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(106.5deg);
+}
+div.calendar div.clock div.tick:nth-child(213) .hour {
+  transform: rotate(-106.5deg);
+}
+div.calendar div.clock div.tick:nth-child(214) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(107.0deg);
+}
+div.calendar div.clock div.tick:nth-child(214) .hour {
+  transform: rotate(-107.0deg);
+}
+div.calendar div.clock div.tick:nth-child(215) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(107.5deg);
+}
+div.calendar div.clock div.tick:nth-child(215) .hour {
+  transform: rotate(-107.5deg);
+}
+div.calendar div.clock div.tick:nth-child(216) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(108.0deg);
+}
+div.calendar div.clock div.tick:nth-child(216) .hour {
+  transform: rotate(-108.0deg);
+}
+div.calendar div.clock div.tick:nth-child(217) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(108.5deg);
+}
+div.calendar div.clock div.tick:nth-child(217) .hour {
+  transform: rotate(-108.5deg);
+}
+div.calendar div.clock div.tick:nth-child(218) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(109.0deg);
+}
+div.calendar div.clock div.tick:nth-child(218) .hour {
+  transform: rotate(-109.0deg);
+}
+div.calendar div.clock div.tick:nth-child(219) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(109.5deg);
+}
+div.calendar div.clock div.tick:nth-child(219) .hour {
+  transform: rotate(-109.5deg);
+}
+div.calendar div.clock div.tick:nth-child(220) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(110.0deg);
+}
+div.calendar div.clock div.tick:nth-child(220) .hour {
+  transform: rotate(-110.0deg);
+}
+div.calendar div.clock div.tick:nth-child(221) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(110.5deg);
+}
+div.calendar div.clock div.tick:nth-child(221) .hour {
+  transform: rotate(-110.5deg);
+}
+div.calendar div.clock div.tick:nth-child(222) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(111.0deg);
+}
+div.calendar div.clock div.tick:nth-child(222) .hour {
+  transform: rotate(-111.0deg);
+}
+div.calendar div.clock div.tick:nth-child(223) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(111.5deg);
+}
+div.calendar div.clock div.tick:nth-child(223) .hour {
+  transform: rotate(-111.5deg);
+}
+div.calendar div.clock div.tick:nth-child(224) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(112.0deg);
+}
+div.calendar div.clock div.tick:nth-child(224) .hour {
+  transform: rotate(-112.0deg);
+}
+div.calendar div.clock div.tick:nth-child(225) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(112.5deg);
+}
+div.calendar div.clock div.tick:nth-child(225) .hour {
+  transform: rotate(-112.5deg);
+}
+div.calendar div.clock div.tick:nth-child(226) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(113.0deg);
+}
+div.calendar div.clock div.tick:nth-child(226) .hour {
+  transform: rotate(-113.0deg);
+}
+div.calendar div.clock div.tick:nth-child(227) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(113.5deg);
+}
+div.calendar div.clock div.tick:nth-child(227) .hour {
+  transform: rotate(-113.5deg);
+}
+div.calendar div.clock div.tick:nth-child(228) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(114.0deg);
+}
+div.calendar div.clock div.tick:nth-child(228) .hour {
+  transform: rotate(-114.0deg);
+}
+div.calendar div.clock div.tick:nth-child(229) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(114.5deg);
+}
+div.calendar div.clock div.tick:nth-child(229) .hour {
+  transform: rotate(-114.5deg);
+}
+div.calendar div.clock div.tick:nth-child(230) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(115.0deg);
+}
+div.calendar div.clock div.tick:nth-child(230) .hour {
+  transform: rotate(-115.0deg);
+}
+div.calendar div.clock div.tick:nth-child(231) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(115.5deg);
+}
+div.calendar div.clock div.tick:nth-child(231) .hour {
+  transform: rotate(-115.5deg);
+}
+div.calendar div.clock div.tick:nth-child(232) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(116.0deg);
+}
+div.calendar div.clock div.tick:nth-child(232) .hour {
+  transform: rotate(-116.0deg);
+}
+div.calendar div.clock div.tick:nth-child(233) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(116.5deg);
+}
+div.calendar div.clock div.tick:nth-child(233) .hour {
+  transform: rotate(-116.5deg);
+}
+div.calendar div.clock div.tick:nth-child(234) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(117.0deg);
+}
+div.calendar div.clock div.tick:nth-child(234) .hour {
+  transform: rotate(-117.0deg);
+}
+div.calendar div.clock div.tick:nth-child(235) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(117.5deg);
+}
+div.calendar div.clock div.tick:nth-child(235) .hour {
+  transform: rotate(-117.5deg);
+}
+div.calendar div.clock div.tick:nth-child(236) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(118.0deg);
+}
+div.calendar div.clock div.tick:nth-child(236) .hour {
+  transform: rotate(-118.0deg);
+}
+div.calendar div.clock div.tick:nth-child(237) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(118.5deg);
+}
+div.calendar div.clock div.tick:nth-child(237) .hour {
+  transform: rotate(-118.5deg);
+}
+div.calendar div.clock div.tick:nth-child(238) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(119.0deg);
+}
+div.calendar div.clock div.tick:nth-child(238) .hour {
+  transform: rotate(-119.0deg);
+}
+div.calendar div.clock div.tick:nth-child(239) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(119.5deg);
+}
+div.calendar div.clock div.tick:nth-child(239) .hour {
+  transform: rotate(-119.5deg);
+}
+div.calendar div.clock div.tick:nth-child(240) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(120.0deg);
+}
+div.calendar div.clock div.tick:nth-child(240) .hour {
+  transform: rotate(-120.0deg);
+}
+div.calendar div.clock div.tick:nth-child(241) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(120.5deg);
+}
+div.calendar div.clock div.tick:nth-child(241) .hour {
+  transform: rotate(-120.5deg);
+}
+div.calendar div.clock div.tick:nth-child(242) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(121.0deg);
+}
+div.calendar div.clock div.tick:nth-child(242) .hour {
+  transform: rotate(-121.0deg);
+}
+div.calendar div.clock div.tick:nth-child(243) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(121.5deg);
+}
+div.calendar div.clock div.tick:nth-child(243) .hour {
+  transform: rotate(-121.5deg);
+}
+div.calendar div.clock div.tick:nth-child(244) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(122.0deg);
+}
+div.calendar div.clock div.tick:nth-child(244) .hour {
+  transform: rotate(-122.0deg);
+}
+div.calendar div.clock div.tick:nth-child(245) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(122.5deg);
+}
+div.calendar div.clock div.tick:nth-child(245) .hour {
+  transform: rotate(-122.5deg);
+}
+div.calendar div.clock div.tick:nth-child(246) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(123.0deg);
+}
+div.calendar div.clock div.tick:nth-child(246) .hour {
+  transform: rotate(-123.0deg);
+}
+div.calendar div.clock div.tick:nth-child(247) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(123.5deg);
+}
+div.calendar div.clock div.tick:nth-child(247) .hour {
+  transform: rotate(-123.5deg);
+}
+div.calendar div.clock div.tick:nth-child(248) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(124.0deg);
+}
+div.calendar div.clock div.tick:nth-child(248) .hour {
+  transform: rotate(-124.0deg);
+}
+div.calendar div.clock div.tick:nth-child(249) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(124.5deg);
+}
+div.calendar div.clock div.tick:nth-child(249) .hour {
+  transform: rotate(-124.5deg);
+}
+div.calendar div.clock div.tick:nth-child(250) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(125.0deg);
+}
+div.calendar div.clock div.tick:nth-child(250) .hour {
+  transform: rotate(-125.0deg);
+}
+div.calendar div.clock div.tick:nth-child(251) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(125.5deg);
+}
+div.calendar div.clock div.tick:nth-child(251) .hour {
+  transform: rotate(-125.5deg);
+}
+div.calendar div.clock div.tick:nth-child(252) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(126.0deg);
+}
+div.calendar div.clock div.tick:nth-child(252) .hour {
+  transform: rotate(-126.0deg);
+}
+div.calendar div.clock div.tick:nth-child(253) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(126.5deg);
+}
+div.calendar div.clock div.tick:nth-child(253) .hour {
+  transform: rotate(-126.5deg);
+}
+div.calendar div.clock div.tick:nth-child(254) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(127.0deg);
+}
+div.calendar div.clock div.tick:nth-child(254) .hour {
+  transform: rotate(-127.0deg);
+}
+div.calendar div.clock div.tick:nth-child(255) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(127.5deg);
+}
+div.calendar div.clock div.tick:nth-child(255) .hour {
+  transform: rotate(-127.5deg);
+}
+div.calendar div.clock div.tick:nth-child(256) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(128.0deg);
+}
+div.calendar div.clock div.tick:nth-child(256) .hour {
+  transform: rotate(-128.0deg);
+}
+div.calendar div.clock div.tick:nth-child(257) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(128.5deg);
+}
+div.calendar div.clock div.tick:nth-child(257) .hour {
+  transform: rotate(-128.5deg);
+}
+div.calendar div.clock div.tick:nth-child(258) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(129.0deg);
+}
+div.calendar div.clock div.tick:nth-child(258) .hour {
+  transform: rotate(-129.0deg);
+}
+div.calendar div.clock div.tick:nth-child(259) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(129.5deg);
+}
+div.calendar div.clock div.tick:nth-child(259) .hour {
+  transform: rotate(-129.5deg);
+}
+div.calendar div.clock div.tick:nth-child(260) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(130.0deg);
+}
+div.calendar div.clock div.tick:nth-child(260) .hour {
+  transform: rotate(-130.0deg);
+}
+div.calendar div.clock div.tick:nth-child(261) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(130.5deg);
+}
+div.calendar div.clock div.tick:nth-child(261) .hour {
+  transform: rotate(-130.5deg);
+}
+div.calendar div.clock div.tick:nth-child(262) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(131.0deg);
+}
+div.calendar div.clock div.tick:nth-child(262) .hour {
+  transform: rotate(-131.0deg);
+}
+div.calendar div.clock div.tick:nth-child(263) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(131.5deg);
+}
+div.calendar div.clock div.tick:nth-child(263) .hour {
+  transform: rotate(-131.5deg);
+}
+div.calendar div.clock div.tick:nth-child(264) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(132.0deg);
+}
+div.calendar div.clock div.tick:nth-child(264) .hour {
+  transform: rotate(-132.0deg);
+}
+div.calendar div.clock div.tick:nth-child(265) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(132.5deg);
+}
+div.calendar div.clock div.tick:nth-child(265) .hour {
+  transform: rotate(-132.5deg);
+}
+div.calendar div.clock div.tick:nth-child(266) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(133.0deg);
+}
+div.calendar div.clock div.tick:nth-child(266) .hour {
+  transform: rotate(-133.0deg);
+}
+div.calendar div.clock div.tick:nth-child(267) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(133.5deg);
+}
+div.calendar div.clock div.tick:nth-child(267) .hour {
+  transform: rotate(-133.5deg);
+}
+div.calendar div.clock div.tick:nth-child(268) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(134.0deg);
+}
+div.calendar div.clock div.tick:nth-child(268) .hour {
+  transform: rotate(-134.0deg);
+}
+div.calendar div.clock div.tick:nth-child(269) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(134.5deg);
+}
+div.calendar div.clock div.tick:nth-child(269) .hour {
+  transform: rotate(-134.5deg);
+}
+div.calendar div.clock div.tick:nth-child(270) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(135.0deg);
+}
+div.calendar div.clock div.tick:nth-child(270) .hour {
+  transform: rotate(-135.0deg);
+}
+div.calendar div.clock div.tick:nth-child(271) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(135.5deg);
+}
+div.calendar div.clock div.tick:nth-child(271) .hour {
+  transform: rotate(-135.5deg);
+}
+div.calendar div.clock div.tick:nth-child(272) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(136.0deg);
+}
+div.calendar div.clock div.tick:nth-child(272) .hour {
+  transform: rotate(-136.0deg);
+}
+div.calendar div.clock div.tick:nth-child(273) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(136.5deg);
+}
+div.calendar div.clock div.tick:nth-child(273) .hour {
+  transform: rotate(-136.5deg);
+}
+div.calendar div.clock div.tick:nth-child(274) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(137.0deg);
+}
+div.calendar div.clock div.tick:nth-child(274) .hour {
+  transform: rotate(-137.0deg);
+}
+div.calendar div.clock div.tick:nth-child(275) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(137.5deg);
+}
+div.calendar div.clock div.tick:nth-child(275) .hour {
+  transform: rotate(-137.5deg);
+}
+div.calendar div.clock div.tick:nth-child(276) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(138.0deg);
+}
+div.calendar div.clock div.tick:nth-child(276) .hour {
+  transform: rotate(-138.0deg);
+}
+div.calendar div.clock div.tick:nth-child(277) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(138.5deg);
+}
+div.calendar div.clock div.tick:nth-child(277) .hour {
+  transform: rotate(-138.5deg);
+}
+div.calendar div.clock div.tick:nth-child(278) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(139.0deg);
+}
+div.calendar div.clock div.tick:nth-child(278) .hour {
+  transform: rotate(-139.0deg);
+}
+div.calendar div.clock div.tick:nth-child(279) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(139.5deg);
+}
+div.calendar div.clock div.tick:nth-child(279) .hour {
+  transform: rotate(-139.5deg);
+}
+div.calendar div.clock div.tick:nth-child(280) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(140.0deg);
+}
+div.calendar div.clock div.tick:nth-child(280) .hour {
+  transform: rotate(-140.0deg);
+}
+div.calendar div.clock div.tick:nth-child(281) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(140.5deg);
+}
+div.calendar div.clock div.tick:nth-child(281) .hour {
+  transform: rotate(-140.5deg);
+}
+div.calendar div.clock div.tick:nth-child(282) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(141.0deg);
+}
+div.calendar div.clock div.tick:nth-child(282) .hour {
+  transform: rotate(-141.0deg);
+}
+div.calendar div.clock div.tick:nth-child(283) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(141.5deg);
+}
+div.calendar div.clock div.tick:nth-child(283) .hour {
+  transform: rotate(-141.5deg);
+}
+div.calendar div.clock div.tick:nth-child(284) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(142.0deg);
+}
+div.calendar div.clock div.tick:nth-child(284) .hour {
+  transform: rotate(-142.0deg);
+}
+div.calendar div.clock div.tick:nth-child(285) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(142.5deg);
+}
+div.calendar div.clock div.tick:nth-child(285) .hour {
+  transform: rotate(-142.5deg);
+}
+div.calendar div.clock div.tick:nth-child(286) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(143.0deg);
+}
+div.calendar div.clock div.tick:nth-child(286) .hour {
+  transform: rotate(-143.0deg);
+}
+div.calendar div.clock div.tick:nth-child(287) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(143.5deg);
+}
+div.calendar div.clock div.tick:nth-child(287) .hour {
+  transform: rotate(-143.5deg);
+}
+div.calendar div.clock div.tick:nth-child(288) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(144.0deg);
+}
+div.calendar div.clock div.tick:nth-child(288) .hour {
+  transform: rotate(-144.0deg);
+}
+div.calendar div.clock div.tick:nth-child(289) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(144.5deg);
+}
+div.calendar div.clock div.tick:nth-child(289) .hour {
+  transform: rotate(-144.5deg);
+}
+div.calendar div.clock div.tick:nth-child(290) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(145.0deg);
+}
+div.calendar div.clock div.tick:nth-child(290) .hour {
+  transform: rotate(-145.0deg);
+}
+div.calendar div.clock div.tick:nth-child(291) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(145.5deg);
+}
+div.calendar div.clock div.tick:nth-child(291) .hour {
+  transform: rotate(-145.5deg);
+}
+div.calendar div.clock div.tick:nth-child(292) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(146.0deg);
+}
+div.calendar div.clock div.tick:nth-child(292) .hour {
+  transform: rotate(-146.0deg);
+}
+div.calendar div.clock div.tick:nth-child(293) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(146.5deg);
+}
+div.calendar div.clock div.tick:nth-child(293) .hour {
+  transform: rotate(-146.5deg);
+}
+div.calendar div.clock div.tick:nth-child(294) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(147.0deg);
+}
+div.calendar div.clock div.tick:nth-child(294) .hour {
+  transform: rotate(-147.0deg);
+}
+div.calendar div.clock div.tick:nth-child(295) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(147.5deg);
+}
+div.calendar div.clock div.tick:nth-child(295) .hour {
+  transform: rotate(-147.5deg);
+}
+div.calendar div.clock div.tick:nth-child(296) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(148.0deg);
+}
+div.calendar div.clock div.tick:nth-child(296) .hour {
+  transform: rotate(-148.0deg);
+}
+div.calendar div.clock div.tick:nth-child(297) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(148.5deg);
+}
+div.calendar div.clock div.tick:nth-child(297) .hour {
+  transform: rotate(-148.5deg);
+}
+div.calendar div.clock div.tick:nth-child(298) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(149.0deg);
+}
+div.calendar div.clock div.tick:nth-child(298) .hour {
+  transform: rotate(-149.0deg);
+}
+div.calendar div.clock div.tick:nth-child(299) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(149.5deg);
+}
+div.calendar div.clock div.tick:nth-child(299) .hour {
+  transform: rotate(-149.5deg);
+}
+div.calendar div.clock div.tick:nth-child(300) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(150.0deg);
+}
+div.calendar div.clock div.tick:nth-child(300) .hour {
+  transform: rotate(-150.0deg);
+}
+div.calendar div.clock div.tick:nth-child(301) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(150.5deg);
+}
+div.calendar div.clock div.tick:nth-child(301) .hour {
+  transform: rotate(-150.5deg);
+}
+div.calendar div.clock div.tick:nth-child(302) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(151.0deg);
+}
+div.calendar div.clock div.tick:nth-child(302) .hour {
+  transform: rotate(-151.0deg);
+}
+div.calendar div.clock div.tick:nth-child(303) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(151.5deg);
+}
+div.calendar div.clock div.tick:nth-child(303) .hour {
+  transform: rotate(-151.5deg);
+}
+div.calendar div.clock div.tick:nth-child(304) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(152.0deg);
+}
+div.calendar div.clock div.tick:nth-child(304) .hour {
+  transform: rotate(-152.0deg);
+}
+div.calendar div.clock div.tick:nth-child(305) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(152.5deg);
+}
+div.calendar div.clock div.tick:nth-child(305) .hour {
+  transform: rotate(-152.5deg);
+}
+div.calendar div.clock div.tick:nth-child(306) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(153.0deg);
+}
+div.calendar div.clock div.tick:nth-child(306) .hour {
+  transform: rotate(-153.0deg);
+}
+div.calendar div.clock div.tick:nth-child(307) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(153.5deg);
+}
+div.calendar div.clock div.tick:nth-child(307) .hour {
+  transform: rotate(-153.5deg);
+}
+div.calendar div.clock div.tick:nth-child(308) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(154.0deg);
+}
+div.calendar div.clock div.tick:nth-child(308) .hour {
+  transform: rotate(-154.0deg);
+}
+div.calendar div.clock div.tick:nth-child(309) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(154.5deg);
+}
+div.calendar div.clock div.tick:nth-child(309) .hour {
+  transform: rotate(-154.5deg);
+}
+div.calendar div.clock div.tick:nth-child(310) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(155.0deg);
+}
+div.calendar div.clock div.tick:nth-child(310) .hour {
+  transform: rotate(-155.0deg);
+}
+div.calendar div.clock div.tick:nth-child(311) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(155.5deg);
+}
+div.calendar div.clock div.tick:nth-child(311) .hour {
+  transform: rotate(-155.5deg);
+}
+div.calendar div.clock div.tick:nth-child(312) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(156.0deg);
+}
+div.calendar div.clock div.tick:nth-child(312) .hour {
+  transform: rotate(-156.0deg);
+}
+div.calendar div.clock div.tick:nth-child(313) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(156.5deg);
+}
+div.calendar div.clock div.tick:nth-child(313) .hour {
+  transform: rotate(-156.5deg);
+}
+div.calendar div.clock div.tick:nth-child(314) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(157.0deg);
+}
+div.calendar div.clock div.tick:nth-child(314) .hour {
+  transform: rotate(-157.0deg);
+}
+div.calendar div.clock div.tick:nth-child(315) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(157.5deg);
+}
+div.calendar div.clock div.tick:nth-child(315) .hour {
+  transform: rotate(-157.5deg);
+}
+div.calendar div.clock div.tick:nth-child(316) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(158.0deg);
+}
+div.calendar div.clock div.tick:nth-child(316) .hour {
+  transform: rotate(-158.0deg);
+}
+div.calendar div.clock div.tick:nth-child(317) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(158.5deg);
+}
+div.calendar div.clock div.tick:nth-child(317) .hour {
+  transform: rotate(-158.5deg);
+}
+div.calendar div.clock div.tick:nth-child(318) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(159.0deg);
+}
+div.calendar div.clock div.tick:nth-child(318) .hour {
+  transform: rotate(-159.0deg);
+}
+div.calendar div.clock div.tick:nth-child(319) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(159.5deg);
+}
+div.calendar div.clock div.tick:nth-child(319) .hour {
+  transform: rotate(-159.5deg);
+}
+div.calendar div.clock div.tick:nth-child(320) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(160.0deg);
+}
+div.calendar div.clock div.tick:nth-child(320) .hour {
+  transform: rotate(-160.0deg);
+}
+div.calendar div.clock div.tick:nth-child(321) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(160.5deg);
+}
+div.calendar div.clock div.tick:nth-child(321) .hour {
+  transform: rotate(-160.5deg);
+}
+div.calendar div.clock div.tick:nth-child(322) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(161.0deg);
+}
+div.calendar div.clock div.tick:nth-child(322) .hour {
+  transform: rotate(-161.0deg);
+}
+div.calendar div.clock div.tick:nth-child(323) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(161.5deg);
+}
+div.calendar div.clock div.tick:nth-child(323) .hour {
+  transform: rotate(-161.5deg);
+}
+div.calendar div.clock div.tick:nth-child(324) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(162.0deg);
+}
+div.calendar div.clock div.tick:nth-child(324) .hour {
+  transform: rotate(-162.0deg);
+}
+div.calendar div.clock div.tick:nth-child(325) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(162.5deg);
+}
+div.calendar div.clock div.tick:nth-child(325) .hour {
+  transform: rotate(-162.5deg);
+}
+div.calendar div.clock div.tick:nth-child(326) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(163.0deg);
+}
+div.calendar div.clock div.tick:nth-child(326) .hour {
+  transform: rotate(-163.0deg);
+}
+div.calendar div.clock div.tick:nth-child(327) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(163.5deg);
+}
+div.calendar div.clock div.tick:nth-child(327) .hour {
+  transform: rotate(-163.5deg);
+}
+div.calendar div.clock div.tick:nth-child(328) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(164.0deg);
+}
+div.calendar div.clock div.tick:nth-child(328) .hour {
+  transform: rotate(-164.0deg);
+}
+div.calendar div.clock div.tick:nth-child(329) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(164.5deg);
+}
+div.calendar div.clock div.tick:nth-child(329) .hour {
+  transform: rotate(-164.5deg);
+}
+div.calendar div.clock div.tick:nth-child(330) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(165.0deg);
+}
+div.calendar div.clock div.tick:nth-child(330) .hour {
+  transform: rotate(-165.0deg);
+}
+div.calendar div.clock div.tick:nth-child(331) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(165.5deg);
+}
+div.calendar div.clock div.tick:nth-child(331) .hour {
+  transform: rotate(-165.5deg);
+}
+div.calendar div.clock div.tick:nth-child(332) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(166.0deg);
+}
+div.calendar div.clock div.tick:nth-child(332) .hour {
+  transform: rotate(-166.0deg);
+}
+div.calendar div.clock div.tick:nth-child(333) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(166.5deg);
+}
+div.calendar div.clock div.tick:nth-child(333) .hour {
+  transform: rotate(-166.5deg);
+}
+div.calendar div.clock div.tick:nth-child(334) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(167.0deg);
+}
+div.calendar div.clock div.tick:nth-child(334) .hour {
+  transform: rotate(-167.0deg);
+}
+div.calendar div.clock div.tick:nth-child(335) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(167.5deg);
+}
+div.calendar div.clock div.tick:nth-child(335) .hour {
+  transform: rotate(-167.5deg);
+}
+div.calendar div.clock div.tick:nth-child(336) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(168.0deg);
+}
+div.calendar div.clock div.tick:nth-child(336) .hour {
+  transform: rotate(-168.0deg);
+}
+div.calendar div.clock div.tick:nth-child(337) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(168.5deg);
+}
+div.calendar div.clock div.tick:nth-child(337) .hour {
+  transform: rotate(-168.5deg);
+}
+div.calendar div.clock div.tick:nth-child(338) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(169.0deg);
+}
+div.calendar div.clock div.tick:nth-child(338) .hour {
+  transform: rotate(-169.0deg);
+}
+div.calendar div.clock div.tick:nth-child(339) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(169.5deg);
+}
+div.calendar div.clock div.tick:nth-child(339) .hour {
+  transform: rotate(-169.5deg);
+}
+div.calendar div.clock div.tick:nth-child(340) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(170.0deg);
+}
+div.calendar div.clock div.tick:nth-child(340) .hour {
+  transform: rotate(-170.0deg);
+}
+div.calendar div.clock div.tick:nth-child(341) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(170.5deg);
+}
+div.calendar div.clock div.tick:nth-child(341) .hour {
+  transform: rotate(-170.5deg);
+}
+div.calendar div.clock div.tick:nth-child(342) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(171.0deg);
+}
+div.calendar div.clock div.tick:nth-child(342) .hour {
+  transform: rotate(-171.0deg);
+}
+div.calendar div.clock div.tick:nth-child(343) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(171.5deg);
+}
+div.calendar div.clock div.tick:nth-child(343) .hour {
+  transform: rotate(-171.5deg);
+}
+div.calendar div.clock div.tick:nth-child(344) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(172.0deg);
+}
+div.calendar div.clock div.tick:nth-child(344) .hour {
+  transform: rotate(-172.0deg);
+}
+div.calendar div.clock div.tick:nth-child(345) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(172.5deg);
+}
+div.calendar div.clock div.tick:nth-child(345) .hour {
+  transform: rotate(-172.5deg);
+}
+div.calendar div.clock div.tick:nth-child(346) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(173.0deg);
+}
+div.calendar div.clock div.tick:nth-child(346) .hour {
+  transform: rotate(-173.0deg);
+}
+div.calendar div.clock div.tick:nth-child(347) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(173.5deg);
+}
+div.calendar div.clock div.tick:nth-child(347) .hour {
+  transform: rotate(-173.5deg);
+}
+div.calendar div.clock div.tick:nth-child(348) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(174.0deg);
+}
+div.calendar div.clock div.tick:nth-child(348) .hour {
+  transform: rotate(-174.0deg);
+}
+div.calendar div.clock div.tick:nth-child(349) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(174.5deg);
+}
+div.calendar div.clock div.tick:nth-child(349) .hour {
+  transform: rotate(-174.5deg);
+}
+div.calendar div.clock div.tick:nth-child(350) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(175.0deg);
+}
+div.calendar div.clock div.tick:nth-child(350) .hour {
+  transform: rotate(-175.0deg);
+}
+div.calendar div.clock div.tick:nth-child(351) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(175.5deg);
+}
+div.calendar div.clock div.tick:nth-child(351) .hour {
+  transform: rotate(-175.5deg);
+}
+div.calendar div.clock div.tick:nth-child(352) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(176.0deg);
+}
+div.calendar div.clock div.tick:nth-child(352) .hour {
+  transform: rotate(-176.0deg);
+}
+div.calendar div.clock div.tick:nth-child(353) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(176.5deg);
+}
+div.calendar div.clock div.tick:nth-child(353) .hour {
+  transform: rotate(-176.5deg);
+}
+div.calendar div.clock div.tick:nth-child(354) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(177.0deg);
+}
+div.calendar div.clock div.tick:nth-child(354) .hour {
+  transform: rotate(-177.0deg);
+}
+div.calendar div.clock div.tick:nth-child(355) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(177.5deg);
+}
+div.calendar div.clock div.tick:nth-child(355) .hour {
+  transform: rotate(-177.5deg);
+}
+div.calendar div.clock div.tick:nth-child(356) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(178.0deg);
+}
+div.calendar div.clock div.tick:nth-child(356) .hour {
+  transform: rotate(-178.0deg);
+}
+div.calendar div.clock div.tick:nth-child(357) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(178.5deg);
+}
+div.calendar div.clock div.tick:nth-child(357) .hour {
+  transform: rotate(-178.5deg);
+}
+div.calendar div.clock div.tick:nth-child(358) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(179.0deg);
+}
+div.calendar div.clock div.tick:nth-child(358) .hour {
+  transform: rotate(-179.0deg);
+}
+div.calendar div.clock div.tick:nth-child(359) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(179.5deg);
+}
+div.calendar div.clock div.tick:nth-child(359) .hour {
+  transform: rotate(-179.5deg);
+}
+div.calendar div.clock div.tick:nth-child(360) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(180.0deg);
+}
+div.calendar div.clock div.tick:nth-child(360) .hour {
+  transform: rotate(-180.0deg);
+}
+div.calendar div.clock div.tick:nth-child(361) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(180.5deg);
+}
+div.calendar div.clock div.tick:nth-child(361) .hour {
+  transform: rotate(-180.5deg);
+}
+div.calendar div.clock div.tick:nth-child(362) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(181.0deg);
+}
+div.calendar div.clock div.tick:nth-child(362) .hour {
+  transform: rotate(-181.0deg);
+}
+div.calendar div.clock div.tick:nth-child(363) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(181.5deg);
+}
+div.calendar div.clock div.tick:nth-child(363) .hour {
+  transform: rotate(-181.5deg);
+}
+div.calendar div.clock div.tick:nth-child(364) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(182.0deg);
+}
+div.calendar div.clock div.tick:nth-child(364) .hour {
+  transform: rotate(-182.0deg);
+}
+div.calendar div.clock div.tick:nth-child(365) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(182.5deg);
+}
+div.calendar div.clock div.tick:nth-child(365) .hour {
+  transform: rotate(-182.5deg);
+}
+div.calendar div.clock div.tick:nth-child(366) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(183.0deg);
+}
+div.calendar div.clock div.tick:nth-child(366) .hour {
+  transform: rotate(-183.0deg);
+}
+div.calendar div.clock div.tick:nth-child(367) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(183.5deg);
+}
+div.calendar div.clock div.tick:nth-child(367) .hour {
+  transform: rotate(-183.5deg);
+}
+div.calendar div.clock div.tick:nth-child(368) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(184.0deg);
+}
+div.calendar div.clock div.tick:nth-child(368) .hour {
+  transform: rotate(-184.0deg);
+}
+div.calendar div.clock div.tick:nth-child(369) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(184.5deg);
+}
+div.calendar div.clock div.tick:nth-child(369) .hour {
+  transform: rotate(-184.5deg);
+}
+div.calendar div.clock div.tick:nth-child(370) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(185.0deg);
+}
+div.calendar div.clock div.tick:nth-child(370) .hour {
+  transform: rotate(-185.0deg);
+}
+div.calendar div.clock div.tick:nth-child(371) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(185.5deg);
+}
+div.calendar div.clock div.tick:nth-child(371) .hour {
+  transform: rotate(-185.5deg);
+}
+div.calendar div.clock div.tick:nth-child(372) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(186.0deg);
+}
+div.calendar div.clock div.tick:nth-child(372) .hour {
+  transform: rotate(-186.0deg);
+}
+div.calendar div.clock div.tick:nth-child(373) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(186.5deg);
+}
+div.calendar div.clock div.tick:nth-child(373) .hour {
+  transform: rotate(-186.5deg);
+}
+div.calendar div.clock div.tick:nth-child(374) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(187.0deg);
+}
+div.calendar div.clock div.tick:nth-child(374) .hour {
+  transform: rotate(-187.0deg);
+}
+div.calendar div.clock div.tick:nth-child(375) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(187.5deg);
+}
+div.calendar div.clock div.tick:nth-child(375) .hour {
+  transform: rotate(-187.5deg);
+}
+div.calendar div.clock div.tick:nth-child(376) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(188.0deg);
+}
+div.calendar div.clock div.tick:nth-child(376) .hour {
+  transform: rotate(-188.0deg);
+}
+div.calendar div.clock div.tick:nth-child(377) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(188.5deg);
+}
+div.calendar div.clock div.tick:nth-child(377) .hour {
+  transform: rotate(-188.5deg);
+}
+div.calendar div.clock div.tick:nth-child(378) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(189.0deg);
+}
+div.calendar div.clock div.tick:nth-child(378) .hour {
+  transform: rotate(-189.0deg);
+}
+div.calendar div.clock div.tick:nth-child(379) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(189.5deg);
+}
+div.calendar div.clock div.tick:nth-child(379) .hour {
+  transform: rotate(-189.5deg);
+}
+div.calendar div.clock div.tick:nth-child(380) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(190.0deg);
+}
+div.calendar div.clock div.tick:nth-child(380) .hour {
+  transform: rotate(-190.0deg);
+}
+div.calendar div.clock div.tick:nth-child(381) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(190.5deg);
+}
+div.calendar div.clock div.tick:nth-child(381) .hour {
+  transform: rotate(-190.5deg);
+}
+div.calendar div.clock div.tick:nth-child(382) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(191.0deg);
+}
+div.calendar div.clock div.tick:nth-child(382) .hour {
+  transform: rotate(-191.0deg);
+}
+div.calendar div.clock div.tick:nth-child(383) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(191.5deg);
+}
+div.calendar div.clock div.tick:nth-child(383) .hour {
+  transform: rotate(-191.5deg);
+}
+div.calendar div.clock div.tick:nth-child(384) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(192.0deg);
+}
+div.calendar div.clock div.tick:nth-child(384) .hour {
+  transform: rotate(-192.0deg);
+}
+div.calendar div.clock div.tick:nth-child(385) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(192.5deg);
+}
+div.calendar div.clock div.tick:nth-child(385) .hour {
+  transform: rotate(-192.5deg);
+}
+div.calendar div.clock div.tick:nth-child(386) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(193.0deg);
+}
+div.calendar div.clock div.tick:nth-child(386) .hour {
+  transform: rotate(-193.0deg);
+}
+div.calendar div.clock div.tick:nth-child(387) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(193.5deg);
+}
+div.calendar div.clock div.tick:nth-child(387) .hour {
+  transform: rotate(-193.5deg);
+}
+div.calendar div.clock div.tick:nth-child(388) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(194.0deg);
+}
+div.calendar div.clock div.tick:nth-child(388) .hour {
+  transform: rotate(-194.0deg);
+}
+div.calendar div.clock div.tick:nth-child(389) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(194.5deg);
+}
+div.calendar div.clock div.tick:nth-child(389) .hour {
+  transform: rotate(-194.5deg);
+}
+div.calendar div.clock div.tick:nth-child(390) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(195.0deg);
+}
+div.calendar div.clock div.tick:nth-child(390) .hour {
+  transform: rotate(-195.0deg);
+}
+div.calendar div.clock div.tick:nth-child(391) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(195.5deg);
+}
+div.calendar div.clock div.tick:nth-child(391) .hour {
+  transform: rotate(-195.5deg);
+}
+div.calendar div.clock div.tick:nth-child(392) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(196.0deg);
+}
+div.calendar div.clock div.tick:nth-child(392) .hour {
+  transform: rotate(-196.0deg);
+}
+div.calendar div.clock div.tick:nth-child(393) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(196.5deg);
+}
+div.calendar div.clock div.tick:nth-child(393) .hour {
+  transform: rotate(-196.5deg);
+}
+div.calendar div.clock div.tick:nth-child(394) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(197.0deg);
+}
+div.calendar div.clock div.tick:nth-child(394) .hour {
+  transform: rotate(-197.0deg);
+}
+div.calendar div.clock div.tick:nth-child(395) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(197.5deg);
+}
+div.calendar div.clock div.tick:nth-child(395) .hour {
+  transform: rotate(-197.5deg);
+}
+div.calendar div.clock div.tick:nth-child(396) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(198.0deg);
+}
+div.calendar div.clock div.tick:nth-child(396) .hour {
+  transform: rotate(-198.0deg);
+}
+div.calendar div.clock div.tick:nth-child(397) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(198.5deg);
+}
+div.calendar div.clock div.tick:nth-child(397) .hour {
+  transform: rotate(-198.5deg);
+}
+div.calendar div.clock div.tick:nth-child(398) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(199.0deg);
+}
+div.calendar div.clock div.tick:nth-child(398) .hour {
+  transform: rotate(-199.0deg);
+}
+div.calendar div.clock div.tick:nth-child(399) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(199.5deg);
+}
+div.calendar div.clock div.tick:nth-child(399) .hour {
+  transform: rotate(-199.5deg);
+}
+div.calendar div.clock div.tick:nth-child(400) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(200.0deg);
+}
+div.calendar div.clock div.tick:nth-child(400) .hour {
+  transform: rotate(-200.0deg);
+}
+div.calendar div.clock div.tick:nth-child(401) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(200.5deg);
+}
+div.calendar div.clock div.tick:nth-child(401) .hour {
+  transform: rotate(-200.5deg);
+}
+div.calendar div.clock div.tick:nth-child(402) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(201.0deg);
+}
+div.calendar div.clock div.tick:nth-child(402) .hour {
+  transform: rotate(-201.0deg);
+}
+div.calendar div.clock div.tick:nth-child(403) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(201.5deg);
+}
+div.calendar div.clock div.tick:nth-child(403) .hour {
+  transform: rotate(-201.5deg);
+}
+div.calendar div.clock div.tick:nth-child(404) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(202.0deg);
+}
+div.calendar div.clock div.tick:nth-child(404) .hour {
+  transform: rotate(-202.0deg);
+}
+div.calendar div.clock div.tick:nth-child(405) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(202.5deg);
+}
+div.calendar div.clock div.tick:nth-child(405) .hour {
+  transform: rotate(-202.5deg);
+}
+div.calendar div.clock div.tick:nth-child(406) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(203.0deg);
+}
+div.calendar div.clock div.tick:nth-child(406) .hour {
+  transform: rotate(-203.0deg);
+}
+div.calendar div.clock div.tick:nth-child(407) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(203.5deg);
+}
+div.calendar div.clock div.tick:nth-child(407) .hour {
+  transform: rotate(-203.5deg);
+}
+div.calendar div.clock div.tick:nth-child(408) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(204.0deg);
+}
+div.calendar div.clock div.tick:nth-child(408) .hour {
+  transform: rotate(-204.0deg);
+}
+div.calendar div.clock div.tick:nth-child(409) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(204.5deg);
+}
+div.calendar div.clock div.tick:nth-child(409) .hour {
+  transform: rotate(-204.5deg);
+}
+div.calendar div.clock div.tick:nth-child(410) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(205.0deg);
+}
+div.calendar div.clock div.tick:nth-child(410) .hour {
+  transform: rotate(-205.0deg);
+}
+div.calendar div.clock div.tick:nth-child(411) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(205.5deg);
+}
+div.calendar div.clock div.tick:nth-child(411) .hour {
+  transform: rotate(-205.5deg);
+}
+div.calendar div.clock div.tick:nth-child(412) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(206.0deg);
+}
+div.calendar div.clock div.tick:nth-child(412) .hour {
+  transform: rotate(-206.0deg);
+}
+div.calendar div.clock div.tick:nth-child(413) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(206.5deg);
+}
+div.calendar div.clock div.tick:nth-child(413) .hour {
+  transform: rotate(-206.5deg);
+}
+div.calendar div.clock div.tick:nth-child(414) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(207.0deg);
+}
+div.calendar div.clock div.tick:nth-child(414) .hour {
+  transform: rotate(-207.0deg);
+}
+div.calendar div.clock div.tick:nth-child(415) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(207.5deg);
+}
+div.calendar div.clock div.tick:nth-child(415) .hour {
+  transform: rotate(-207.5deg);
+}
+div.calendar div.clock div.tick:nth-child(416) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(208.0deg);
+}
+div.calendar div.clock div.tick:nth-child(416) .hour {
+  transform: rotate(-208.0deg);
+}
+div.calendar div.clock div.tick:nth-child(417) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(208.5deg);
+}
+div.calendar div.clock div.tick:nth-child(417) .hour {
+  transform: rotate(-208.5deg);
+}
+div.calendar div.clock div.tick:nth-child(418) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(209.0deg);
+}
+div.calendar div.clock div.tick:nth-child(418) .hour {
+  transform: rotate(-209.0deg);
+}
+div.calendar div.clock div.tick:nth-child(419) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(209.5deg);
+}
+div.calendar div.clock div.tick:nth-child(419) .hour {
+  transform: rotate(-209.5deg);
+}
+div.calendar div.clock div.tick:nth-child(420) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(210.0deg);
+}
+div.calendar div.clock div.tick:nth-child(420) .hour {
+  transform: rotate(-210.0deg);
+}
+div.calendar div.clock div.tick:nth-child(421) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(210.5deg);
+}
+div.calendar div.clock div.tick:nth-child(421) .hour {
+  transform: rotate(-210.5deg);
+}
+div.calendar div.clock div.tick:nth-child(422) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(211.0deg);
+}
+div.calendar div.clock div.tick:nth-child(422) .hour {
+  transform: rotate(-211.0deg);
+}
+div.calendar div.clock div.tick:nth-child(423) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(211.5deg);
+}
+div.calendar div.clock div.tick:nth-child(423) .hour {
+  transform: rotate(-211.5deg);
+}
+div.calendar div.clock div.tick:nth-child(424) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(212.0deg);
+}
+div.calendar div.clock div.tick:nth-child(424) .hour {
+  transform: rotate(-212.0deg);
+}
+div.calendar div.clock div.tick:nth-child(425) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(212.5deg);
+}
+div.calendar div.clock div.tick:nth-child(425) .hour {
+  transform: rotate(-212.5deg);
+}
+div.calendar div.clock div.tick:nth-child(426) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(213.0deg);
+}
+div.calendar div.clock div.tick:nth-child(426) .hour {
+  transform: rotate(-213.0deg);
+}
+div.calendar div.clock div.tick:nth-child(427) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(213.5deg);
+}
+div.calendar div.clock div.tick:nth-child(427) .hour {
+  transform: rotate(-213.5deg);
+}
+div.calendar div.clock div.tick:nth-child(428) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(214.0deg);
+}
+div.calendar div.clock div.tick:nth-child(428) .hour {
+  transform: rotate(-214.0deg);
+}
+div.calendar div.clock div.tick:nth-child(429) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(214.5deg);
+}
+div.calendar div.clock div.tick:nth-child(429) .hour {
+  transform: rotate(-214.5deg);
+}
+div.calendar div.clock div.tick:nth-child(430) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(215.0deg);
+}
+div.calendar div.clock div.tick:nth-child(430) .hour {
+  transform: rotate(-215.0deg);
+}
+div.calendar div.clock div.tick:nth-child(431) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(215.5deg);
+}
+div.calendar div.clock div.tick:nth-child(431) .hour {
+  transform: rotate(-215.5deg);
+}
+div.calendar div.clock div.tick:nth-child(432) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(216.0deg);
+}
+div.calendar div.clock div.tick:nth-child(432) .hour {
+  transform: rotate(-216.0deg);
+}
+div.calendar div.clock div.tick:nth-child(433) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(216.5deg);
+}
+div.calendar div.clock div.tick:nth-child(433) .hour {
+  transform: rotate(-216.5deg);
+}
+div.calendar div.clock div.tick:nth-child(434) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(217.0deg);
+}
+div.calendar div.clock div.tick:nth-child(434) .hour {
+  transform: rotate(-217.0deg);
+}
+div.calendar div.clock div.tick:nth-child(435) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(217.5deg);
+}
+div.calendar div.clock div.tick:nth-child(435) .hour {
+  transform: rotate(-217.5deg);
+}
+div.calendar div.clock div.tick:nth-child(436) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(218.0deg);
+}
+div.calendar div.clock div.tick:nth-child(436) .hour {
+  transform: rotate(-218.0deg);
+}
+div.calendar div.clock div.tick:nth-child(437) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(218.5deg);
+}
+div.calendar div.clock div.tick:nth-child(437) .hour {
+  transform: rotate(-218.5deg);
+}
+div.calendar div.clock div.tick:nth-child(438) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(219.0deg);
+}
+div.calendar div.clock div.tick:nth-child(438) .hour {
+  transform: rotate(-219.0deg);
+}
+div.calendar div.clock div.tick:nth-child(439) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(219.5deg);
+}
+div.calendar div.clock div.tick:nth-child(439) .hour {
+  transform: rotate(-219.5deg);
+}
+div.calendar div.clock div.tick:nth-child(440) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(220.0deg);
+}
+div.calendar div.clock div.tick:nth-child(440) .hour {
+  transform: rotate(-220.0deg);
+}
+div.calendar div.clock div.tick:nth-child(441) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(220.5deg);
+}
+div.calendar div.clock div.tick:nth-child(441) .hour {
+  transform: rotate(-220.5deg);
+}
+div.calendar div.clock div.tick:nth-child(442) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(221.0deg);
+}
+div.calendar div.clock div.tick:nth-child(442) .hour {
+  transform: rotate(-221.0deg);
+}
+div.calendar div.clock div.tick:nth-child(443) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(221.5deg);
+}
+div.calendar div.clock div.tick:nth-child(443) .hour {
+  transform: rotate(-221.5deg);
+}
+div.calendar div.clock div.tick:nth-child(444) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(222.0deg);
+}
+div.calendar div.clock div.tick:nth-child(444) .hour {
+  transform: rotate(-222.0deg);
+}
+div.calendar div.clock div.tick:nth-child(445) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(222.5deg);
+}
+div.calendar div.clock div.tick:nth-child(445) .hour {
+  transform: rotate(-222.5deg);
+}
+div.calendar div.clock div.tick:nth-child(446) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(223.0deg);
+}
+div.calendar div.clock div.tick:nth-child(446) .hour {
+  transform: rotate(-223.0deg);
+}
+div.calendar div.clock div.tick:nth-child(447) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(223.5deg);
+}
+div.calendar div.clock div.tick:nth-child(447) .hour {
+  transform: rotate(-223.5deg);
+}
+div.calendar div.clock div.tick:nth-child(448) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(224.0deg);
+}
+div.calendar div.clock div.tick:nth-child(448) .hour {
+  transform: rotate(-224.0deg);
+}
+div.calendar div.clock div.tick:nth-child(449) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(224.5deg);
+}
+div.calendar div.clock div.tick:nth-child(449) .hour {
+  transform: rotate(-224.5deg);
+}
+div.calendar div.clock div.tick:nth-child(450) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(225.0deg);
+}
+div.calendar div.clock div.tick:nth-child(450) .hour {
+  transform: rotate(-225.0deg);
+}
+div.calendar div.clock div.tick:nth-child(451) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(225.5deg);
+}
+div.calendar div.clock div.tick:nth-child(451) .hour {
+  transform: rotate(-225.5deg);
+}
+div.calendar div.clock div.tick:nth-child(452) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(226.0deg);
+}
+div.calendar div.clock div.tick:nth-child(452) .hour {
+  transform: rotate(-226.0deg);
+}
+div.calendar div.clock div.tick:nth-child(453) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(226.5deg);
+}
+div.calendar div.clock div.tick:nth-child(453) .hour {
+  transform: rotate(-226.5deg);
+}
+div.calendar div.clock div.tick:nth-child(454) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(227.0deg);
+}
+div.calendar div.clock div.tick:nth-child(454) .hour {
+  transform: rotate(-227.0deg);
+}
+div.calendar div.clock div.tick:nth-child(455) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(227.5deg);
+}
+div.calendar div.clock div.tick:nth-child(455) .hour {
+  transform: rotate(-227.5deg);
+}
+div.calendar div.clock div.tick:nth-child(456) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(228.0deg);
+}
+div.calendar div.clock div.tick:nth-child(456) .hour {
+  transform: rotate(-228.0deg);
+}
+div.calendar div.clock div.tick:nth-child(457) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(228.5deg);
+}
+div.calendar div.clock div.tick:nth-child(457) .hour {
+  transform: rotate(-228.5deg);
+}
+div.calendar div.clock div.tick:nth-child(458) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(229.0deg);
+}
+div.calendar div.clock div.tick:nth-child(458) .hour {
+  transform: rotate(-229.0deg);
+}
+div.calendar div.clock div.tick:nth-child(459) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(229.5deg);
+}
+div.calendar div.clock div.tick:nth-child(459) .hour {
+  transform: rotate(-229.5deg);
+}
+div.calendar div.clock div.tick:nth-child(460) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(230.0deg);
+}
+div.calendar div.clock div.tick:nth-child(460) .hour {
+  transform: rotate(-230.0deg);
+}
+div.calendar div.clock div.tick:nth-child(461) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(230.5deg);
+}
+div.calendar div.clock div.tick:nth-child(461) .hour {
+  transform: rotate(-230.5deg);
+}
+div.calendar div.clock div.tick:nth-child(462) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(231.0deg);
+}
+div.calendar div.clock div.tick:nth-child(462) .hour {
+  transform: rotate(-231.0deg);
+}
+div.calendar div.clock div.tick:nth-child(463) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(231.5deg);
+}
+div.calendar div.clock div.tick:nth-child(463) .hour {
+  transform: rotate(-231.5deg);
+}
+div.calendar div.clock div.tick:nth-child(464) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(232.0deg);
+}
+div.calendar div.clock div.tick:nth-child(464) .hour {
+  transform: rotate(-232.0deg);
+}
+div.calendar div.clock div.tick:nth-child(465) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(232.5deg);
+}
+div.calendar div.clock div.tick:nth-child(465) .hour {
+  transform: rotate(-232.5deg);
+}
+div.calendar div.clock div.tick:nth-child(466) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(233.0deg);
+}
+div.calendar div.clock div.tick:nth-child(466) .hour {
+  transform: rotate(-233.0deg);
+}
+div.calendar div.clock div.tick:nth-child(467) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(233.5deg);
+}
+div.calendar div.clock div.tick:nth-child(467) .hour {
+  transform: rotate(-233.5deg);
+}
+div.calendar div.clock div.tick:nth-child(468) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(234.0deg);
+}
+div.calendar div.clock div.tick:nth-child(468) .hour {
+  transform: rotate(-234.0deg);
+}
+div.calendar div.clock div.tick:nth-child(469) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(234.5deg);
+}
+div.calendar div.clock div.tick:nth-child(469) .hour {
+  transform: rotate(-234.5deg);
+}
+div.calendar div.clock div.tick:nth-child(470) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(235.0deg);
+}
+div.calendar div.clock div.tick:nth-child(470) .hour {
+  transform: rotate(-235.0deg);
+}
+div.calendar div.clock div.tick:nth-child(471) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(235.5deg);
+}
+div.calendar div.clock div.tick:nth-child(471) .hour {
+  transform: rotate(-235.5deg);
+}
+div.calendar div.clock div.tick:nth-child(472) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(236.0deg);
+}
+div.calendar div.clock div.tick:nth-child(472) .hour {
+  transform: rotate(-236.0deg);
+}
+div.calendar div.clock div.tick:nth-child(473) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(236.5deg);
+}
+div.calendar div.clock div.tick:nth-child(473) .hour {
+  transform: rotate(-236.5deg);
+}
+div.calendar div.clock div.tick:nth-child(474) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(237.0deg);
+}
+div.calendar div.clock div.tick:nth-child(474) .hour {
+  transform: rotate(-237.0deg);
+}
+div.calendar div.clock div.tick:nth-child(475) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(237.5deg);
+}
+div.calendar div.clock div.tick:nth-child(475) .hour {
+  transform: rotate(-237.5deg);
+}
+div.calendar div.clock div.tick:nth-child(476) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(238.0deg);
+}
+div.calendar div.clock div.tick:nth-child(476) .hour {
+  transform: rotate(-238.0deg);
+}
+div.calendar div.clock div.tick:nth-child(477) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(238.5deg);
+}
+div.calendar div.clock div.tick:nth-child(477) .hour {
+  transform: rotate(-238.5deg);
+}
+div.calendar div.clock div.tick:nth-child(478) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(239.0deg);
+}
+div.calendar div.clock div.tick:nth-child(478) .hour {
+  transform: rotate(-239.0deg);
+}
+div.calendar div.clock div.tick:nth-child(479) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(239.5deg);
+}
+div.calendar div.clock div.tick:nth-child(479) .hour {
+  transform: rotate(-239.5deg);
+}
+div.calendar div.clock div.tick:nth-child(480) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(240.0deg);
+}
+div.calendar div.clock div.tick:nth-child(480) .hour {
+  transform: rotate(-240.0deg);
+}
+div.calendar div.clock div.tick:nth-child(481) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(240.5deg);
+}
+div.calendar div.clock div.tick:nth-child(481) .hour {
+  transform: rotate(-240.5deg);
+}
+div.calendar div.clock div.tick:nth-child(482) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(241.0deg);
+}
+div.calendar div.clock div.tick:nth-child(482) .hour {
+  transform: rotate(-241.0deg);
+}
+div.calendar div.clock div.tick:nth-child(483) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(241.5deg);
+}
+div.calendar div.clock div.tick:nth-child(483) .hour {
+  transform: rotate(-241.5deg);
+}
+div.calendar div.clock div.tick:nth-child(484) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(242.0deg);
+}
+div.calendar div.clock div.tick:nth-child(484) .hour {
+  transform: rotate(-242.0deg);
+}
+div.calendar div.clock div.tick:nth-child(485) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(242.5deg);
+}
+div.calendar div.clock div.tick:nth-child(485) .hour {
+  transform: rotate(-242.5deg);
+}
+div.calendar div.clock div.tick:nth-child(486) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(243.0deg);
+}
+div.calendar div.clock div.tick:nth-child(486) .hour {
+  transform: rotate(-243.0deg);
+}
+div.calendar div.clock div.tick:nth-child(487) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(243.5deg);
+}
+div.calendar div.clock div.tick:nth-child(487) .hour {
+  transform: rotate(-243.5deg);
+}
+div.calendar div.clock div.tick:nth-child(488) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(244.0deg);
+}
+div.calendar div.clock div.tick:nth-child(488) .hour {
+  transform: rotate(-244.0deg);
+}
+div.calendar div.clock div.tick:nth-child(489) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(244.5deg);
+}
+div.calendar div.clock div.tick:nth-child(489) .hour {
+  transform: rotate(-244.5deg);
+}
+div.calendar div.clock div.tick:nth-child(490) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(245.0deg);
+}
+div.calendar div.clock div.tick:nth-child(490) .hour {
+  transform: rotate(-245.0deg);
+}
+div.calendar div.clock div.tick:nth-child(491) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(245.5deg);
+}
+div.calendar div.clock div.tick:nth-child(491) .hour {
+  transform: rotate(-245.5deg);
+}
+div.calendar div.clock div.tick:nth-child(492) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(246.0deg);
+}
+div.calendar div.clock div.tick:nth-child(492) .hour {
+  transform: rotate(-246.0deg);
+}
+div.calendar div.clock div.tick:nth-child(493) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(246.5deg);
+}
+div.calendar div.clock div.tick:nth-child(493) .hour {
+  transform: rotate(-246.5deg);
+}
+div.calendar div.clock div.tick:nth-child(494) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(247.0deg);
+}
+div.calendar div.clock div.tick:nth-child(494) .hour {
+  transform: rotate(-247.0deg);
+}
+div.calendar div.clock div.tick:nth-child(495) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(247.5deg);
+}
+div.calendar div.clock div.tick:nth-child(495) .hour {
+  transform: rotate(-247.5deg);
+}
+div.calendar div.clock div.tick:nth-child(496) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(248.0deg);
+}
+div.calendar div.clock div.tick:nth-child(496) .hour {
+  transform: rotate(-248.0deg);
+}
+div.calendar div.clock div.tick:nth-child(497) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(248.5deg);
+}
+div.calendar div.clock div.tick:nth-child(497) .hour {
+  transform: rotate(-248.5deg);
+}
+div.calendar div.clock div.tick:nth-child(498) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(249.0deg);
+}
+div.calendar div.clock div.tick:nth-child(498) .hour {
+  transform: rotate(-249.0deg);
+}
+div.calendar div.clock div.tick:nth-child(499) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(249.5deg);
+}
+div.calendar div.clock div.tick:nth-child(499) .hour {
+  transform: rotate(-249.5deg);
+}
+div.calendar div.clock div.tick:nth-child(500) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(250.0deg);
+}
+div.calendar div.clock div.tick:nth-child(500) .hour {
+  transform: rotate(-250.0deg);
+}
+div.calendar div.clock div.tick:nth-child(501) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(250.5deg);
+}
+div.calendar div.clock div.tick:nth-child(501) .hour {
+  transform: rotate(-250.5deg);
+}
+div.calendar div.clock div.tick:nth-child(502) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(251.0deg);
+}
+div.calendar div.clock div.tick:nth-child(502) .hour {
+  transform: rotate(-251.0deg);
+}
+div.calendar div.clock div.tick:nth-child(503) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(251.5deg);
+}
+div.calendar div.clock div.tick:nth-child(503) .hour {
+  transform: rotate(-251.5deg);
+}
+div.calendar div.clock div.tick:nth-child(504) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(252.0deg);
+}
+div.calendar div.clock div.tick:nth-child(504) .hour {
+  transform: rotate(-252.0deg);
+}
+div.calendar div.clock div.tick:nth-child(505) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(252.5deg);
+}
+div.calendar div.clock div.tick:nth-child(505) .hour {
+  transform: rotate(-252.5deg);
+}
+div.calendar div.clock div.tick:nth-child(506) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(253.0deg);
+}
+div.calendar div.clock div.tick:nth-child(506) .hour {
+  transform: rotate(-253.0deg);
+}
+div.calendar div.clock div.tick:nth-child(507) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(253.5deg);
+}
+div.calendar div.clock div.tick:nth-child(507) .hour {
+  transform: rotate(-253.5deg);
+}
+div.calendar div.clock div.tick:nth-child(508) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(254.0deg);
+}
+div.calendar div.clock div.tick:nth-child(508) .hour {
+  transform: rotate(-254.0deg);
+}
+div.calendar div.clock div.tick:nth-child(509) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(254.5deg);
+}
+div.calendar div.clock div.tick:nth-child(509) .hour {
+  transform: rotate(-254.5deg);
+}
+div.calendar div.clock div.tick:nth-child(510) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(255.0deg);
+}
+div.calendar div.clock div.tick:nth-child(510) .hour {
+  transform: rotate(-255.0deg);
+}
+div.calendar div.clock div.tick:nth-child(511) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(255.5deg);
+}
+div.calendar div.clock div.tick:nth-child(511) .hour {
+  transform: rotate(-255.5deg);
+}
+div.calendar div.clock div.tick:nth-child(512) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(256.0deg);
+}
+div.calendar div.clock div.tick:nth-child(512) .hour {
+  transform: rotate(-256.0deg);
+}
+div.calendar div.clock div.tick:nth-child(513) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(256.5deg);
+}
+div.calendar div.clock div.tick:nth-child(513) .hour {
+  transform: rotate(-256.5deg);
+}
+div.calendar div.clock div.tick:nth-child(514) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(257.0deg);
+}
+div.calendar div.clock div.tick:nth-child(514) .hour {
+  transform: rotate(-257.0deg);
+}
+div.calendar div.clock div.tick:nth-child(515) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(257.5deg);
+}
+div.calendar div.clock div.tick:nth-child(515) .hour {
+  transform: rotate(-257.5deg);
+}
+div.calendar div.clock div.tick:nth-child(516) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(258.0deg);
+}
+div.calendar div.clock div.tick:nth-child(516) .hour {
+  transform: rotate(-258.0deg);
+}
+div.calendar div.clock div.tick:nth-child(517) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(258.5deg);
+}
+div.calendar div.clock div.tick:nth-child(517) .hour {
+  transform: rotate(-258.5deg);
+}
+div.calendar div.clock div.tick:nth-child(518) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(259.0deg);
+}
+div.calendar div.clock div.tick:nth-child(518) .hour {
+  transform: rotate(-259.0deg);
+}
+div.calendar div.clock div.tick:nth-child(519) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(259.5deg);
+}
+div.calendar div.clock div.tick:nth-child(519) .hour {
+  transform: rotate(-259.5deg);
+}
+div.calendar div.clock div.tick:nth-child(520) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(260.0deg);
+}
+div.calendar div.clock div.tick:nth-child(520) .hour {
+  transform: rotate(-260.0deg);
+}
+div.calendar div.clock div.tick:nth-child(521) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(260.5deg);
+}
+div.calendar div.clock div.tick:nth-child(521) .hour {
+  transform: rotate(-260.5deg);
+}
+div.calendar div.clock div.tick:nth-child(522) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(261.0deg);
+}
+div.calendar div.clock div.tick:nth-child(522) .hour {
+  transform: rotate(-261.0deg);
+}
+div.calendar div.clock div.tick:nth-child(523) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(261.5deg);
+}
+div.calendar div.clock div.tick:nth-child(523) .hour {
+  transform: rotate(-261.5deg);
+}
+div.calendar div.clock div.tick:nth-child(524) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(262.0deg);
+}
+div.calendar div.clock div.tick:nth-child(524) .hour {
+  transform: rotate(-262.0deg);
+}
+div.calendar div.clock div.tick:nth-child(525) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(262.5deg);
+}
+div.calendar div.clock div.tick:nth-child(525) .hour {
+  transform: rotate(-262.5deg);
+}
+div.calendar div.clock div.tick:nth-child(526) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(263.0deg);
+}
+div.calendar div.clock div.tick:nth-child(526) .hour {
+  transform: rotate(-263.0deg);
+}
+div.calendar div.clock div.tick:nth-child(527) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(263.5deg);
+}
+div.calendar div.clock div.tick:nth-child(527) .hour {
+  transform: rotate(-263.5deg);
+}
+div.calendar div.clock div.tick:nth-child(528) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(264.0deg);
+}
+div.calendar div.clock div.tick:nth-child(528) .hour {
+  transform: rotate(-264.0deg);
+}
+div.calendar div.clock div.tick:nth-child(529) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(264.5deg);
+}
+div.calendar div.clock div.tick:nth-child(529) .hour {
+  transform: rotate(-264.5deg);
+}
+div.calendar div.clock div.tick:nth-child(530) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(265.0deg);
+}
+div.calendar div.clock div.tick:nth-child(530) .hour {
+  transform: rotate(-265.0deg);
+}
+div.calendar div.clock div.tick:nth-child(531) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(265.5deg);
+}
+div.calendar div.clock div.tick:nth-child(531) .hour {
+  transform: rotate(-265.5deg);
+}
+div.calendar div.clock div.tick:nth-child(532) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(266.0deg);
+}
+div.calendar div.clock div.tick:nth-child(532) .hour {
+  transform: rotate(-266.0deg);
+}
+div.calendar div.clock div.tick:nth-child(533) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(266.5deg);
+}
+div.calendar div.clock div.tick:nth-child(533) .hour {
+  transform: rotate(-266.5deg);
+}
+div.calendar div.clock div.tick:nth-child(534) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(267.0deg);
+}
+div.calendar div.clock div.tick:nth-child(534) .hour {
+  transform: rotate(-267.0deg);
+}
+div.calendar div.clock div.tick:nth-child(535) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(267.5deg);
+}
+div.calendar div.clock div.tick:nth-child(535) .hour {
+  transform: rotate(-267.5deg);
+}
+div.calendar div.clock div.tick:nth-child(536) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(268.0deg);
+}
+div.calendar div.clock div.tick:nth-child(536) .hour {
+  transform: rotate(-268.0deg);
+}
+div.calendar div.clock div.tick:nth-child(537) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(268.5deg);
+}
+div.calendar div.clock div.tick:nth-child(537) .hour {
+  transform: rotate(-268.5deg);
+}
+div.calendar div.clock div.tick:nth-child(538) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(269.0deg);
+}
+div.calendar div.clock div.tick:nth-child(538) .hour {
+  transform: rotate(-269.0deg);
+}
+div.calendar div.clock div.tick:nth-child(539) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(269.5deg);
+}
+div.calendar div.clock div.tick:nth-child(539) .hour {
+  transform: rotate(-269.5deg);
+}
+div.calendar div.clock div.tick:nth-child(540) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(270.0deg);
+}
+div.calendar div.clock div.tick:nth-child(540) .hour {
+  transform: rotate(-270.0deg);
+}
+div.calendar div.clock div.tick:nth-child(541) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(270.5deg);
+}
+div.calendar div.clock div.tick:nth-child(541) .hour {
+  transform: rotate(-270.5deg);
+}
+div.calendar div.clock div.tick:nth-child(542) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(271.0deg);
+}
+div.calendar div.clock div.tick:nth-child(542) .hour {
+  transform: rotate(-271.0deg);
+}
+div.calendar div.clock div.tick:nth-child(543) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(271.5deg);
+}
+div.calendar div.clock div.tick:nth-child(543) .hour {
+  transform: rotate(-271.5deg);
+}
+div.calendar div.clock div.tick:nth-child(544) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(272.0deg);
+}
+div.calendar div.clock div.tick:nth-child(544) .hour {
+  transform: rotate(-272.0deg);
+}
+div.calendar div.clock div.tick:nth-child(545) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(272.5deg);
+}
+div.calendar div.clock div.tick:nth-child(545) .hour {
+  transform: rotate(-272.5deg);
+}
+div.calendar div.clock div.tick:nth-child(546) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(273.0deg);
+}
+div.calendar div.clock div.tick:nth-child(546) .hour {
+  transform: rotate(-273.0deg);
+}
+div.calendar div.clock div.tick:nth-child(547) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(273.5deg);
+}
+div.calendar div.clock div.tick:nth-child(547) .hour {
+  transform: rotate(-273.5deg);
+}
+div.calendar div.clock div.tick:nth-child(548) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(274.0deg);
+}
+div.calendar div.clock div.tick:nth-child(548) .hour {
+  transform: rotate(-274.0deg);
+}
+div.calendar div.clock div.tick:nth-child(549) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(274.5deg);
+}
+div.calendar div.clock div.tick:nth-child(549) .hour {
+  transform: rotate(-274.5deg);
+}
+div.calendar div.clock div.tick:nth-child(550) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(275.0deg);
+}
+div.calendar div.clock div.tick:nth-child(550) .hour {
+  transform: rotate(-275.0deg);
+}
+div.calendar div.clock div.tick:nth-child(551) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(275.5deg);
+}
+div.calendar div.clock div.tick:nth-child(551) .hour {
+  transform: rotate(-275.5deg);
+}
+div.calendar div.clock div.tick:nth-child(552) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(276.0deg);
+}
+div.calendar div.clock div.tick:nth-child(552) .hour {
+  transform: rotate(-276.0deg);
+}
+div.calendar div.clock div.tick:nth-child(553) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(276.5deg);
+}
+div.calendar div.clock div.tick:nth-child(553) .hour {
+  transform: rotate(-276.5deg);
+}
+div.calendar div.clock div.tick:nth-child(554) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(277.0deg);
+}
+div.calendar div.clock div.tick:nth-child(554) .hour {
+  transform: rotate(-277.0deg);
+}
+div.calendar div.clock div.tick:nth-child(555) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(277.5deg);
+}
+div.calendar div.clock div.tick:nth-child(555) .hour {
+  transform: rotate(-277.5deg);
+}
+div.calendar div.clock div.tick:nth-child(556) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(278.0deg);
+}
+div.calendar div.clock div.tick:nth-child(556) .hour {
+  transform: rotate(-278.0deg);
+}
+div.calendar div.clock div.tick:nth-child(557) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(278.5deg);
+}
+div.calendar div.clock div.tick:nth-child(557) .hour {
+  transform: rotate(-278.5deg);
+}
+div.calendar div.clock div.tick:nth-child(558) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(279.0deg);
+}
+div.calendar div.clock div.tick:nth-child(558) .hour {
+  transform: rotate(-279.0deg);
+}
+div.calendar div.clock div.tick:nth-child(559) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(279.5deg);
+}
+div.calendar div.clock div.tick:nth-child(559) .hour {
+  transform: rotate(-279.5deg);
+}
+div.calendar div.clock div.tick:nth-child(560) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(280.0deg);
+}
+div.calendar div.clock div.tick:nth-child(560) .hour {
+  transform: rotate(-280.0deg);
+}
+div.calendar div.clock div.tick:nth-child(561) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(280.5deg);
+}
+div.calendar div.clock div.tick:nth-child(561) .hour {
+  transform: rotate(-280.5deg);
+}
+div.calendar div.clock div.tick:nth-child(562) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(281.0deg);
+}
+div.calendar div.clock div.tick:nth-child(562) .hour {
+  transform: rotate(-281.0deg);
+}
+div.calendar div.clock div.tick:nth-child(563) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(281.5deg);
+}
+div.calendar div.clock div.tick:nth-child(563) .hour {
+  transform: rotate(-281.5deg);
+}
+div.calendar div.clock div.tick:nth-child(564) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(282.0deg);
+}
+div.calendar div.clock div.tick:nth-child(564) .hour {
+  transform: rotate(-282.0deg);
+}
+div.calendar div.clock div.tick:nth-child(565) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(282.5deg);
+}
+div.calendar div.clock div.tick:nth-child(565) .hour {
+  transform: rotate(-282.5deg);
+}
+div.calendar div.clock div.tick:nth-child(566) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(283.0deg);
+}
+div.calendar div.clock div.tick:nth-child(566) .hour {
+  transform: rotate(-283.0deg);
+}
+div.calendar div.clock div.tick:nth-child(567) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(283.5deg);
+}
+div.calendar div.clock div.tick:nth-child(567) .hour {
+  transform: rotate(-283.5deg);
+}
+div.calendar div.clock div.tick:nth-child(568) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(284.0deg);
+}
+div.calendar div.clock div.tick:nth-child(568) .hour {
+  transform: rotate(-284.0deg);
+}
+div.calendar div.clock div.tick:nth-child(569) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(284.5deg);
+}
+div.calendar div.clock div.tick:nth-child(569) .hour {
+  transform: rotate(-284.5deg);
+}
+div.calendar div.clock div.tick:nth-child(570) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(285.0deg);
+}
+div.calendar div.clock div.tick:nth-child(570) .hour {
+  transform: rotate(-285.0deg);
+}
+div.calendar div.clock div.tick:nth-child(571) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(285.5deg);
+}
+div.calendar div.clock div.tick:nth-child(571) .hour {
+  transform: rotate(-285.5deg);
+}
+div.calendar div.clock div.tick:nth-child(572) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(286.0deg);
+}
+div.calendar div.clock div.tick:nth-child(572) .hour {
+  transform: rotate(-286.0deg);
+}
+div.calendar div.clock div.tick:nth-child(573) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(286.5deg);
+}
+div.calendar div.clock div.tick:nth-child(573) .hour {
+  transform: rotate(-286.5deg);
+}
+div.calendar div.clock div.tick:nth-child(574) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(287.0deg);
+}
+div.calendar div.clock div.tick:nth-child(574) .hour {
+  transform: rotate(-287.0deg);
+}
+div.calendar div.clock div.tick:nth-child(575) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(287.5deg);
+}
+div.calendar div.clock div.tick:nth-child(575) .hour {
+  transform: rotate(-287.5deg);
+}
+div.calendar div.clock div.tick:nth-child(576) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(288.0deg);
+}
+div.calendar div.clock div.tick:nth-child(576) .hour {
+  transform: rotate(-288.0deg);
+}
+div.calendar div.clock div.tick:nth-child(577) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(288.5deg);
+}
+div.calendar div.clock div.tick:nth-child(577) .hour {
+  transform: rotate(-288.5deg);
+}
+div.calendar div.clock div.tick:nth-child(578) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(289.0deg);
+}
+div.calendar div.clock div.tick:nth-child(578) .hour {
+  transform: rotate(-289.0deg);
+}
+div.calendar div.clock div.tick:nth-child(579) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(289.5deg);
+}
+div.calendar div.clock div.tick:nth-child(579) .hour {
+  transform: rotate(-289.5deg);
+}
+div.calendar div.clock div.tick:nth-child(580) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(290.0deg);
+}
+div.calendar div.clock div.tick:nth-child(580) .hour {
+  transform: rotate(-290.0deg);
+}
+div.calendar div.clock div.tick:nth-child(581) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(290.5deg);
+}
+div.calendar div.clock div.tick:nth-child(581) .hour {
+  transform: rotate(-290.5deg);
+}
+div.calendar div.clock div.tick:nth-child(582) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(291.0deg);
+}
+div.calendar div.clock div.tick:nth-child(582) .hour {
+  transform: rotate(-291.0deg);
+}
+div.calendar div.clock div.tick:nth-child(583) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(291.5deg);
+}
+div.calendar div.clock div.tick:nth-child(583) .hour {
+  transform: rotate(-291.5deg);
+}
+div.calendar div.clock div.tick:nth-child(584) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(292.0deg);
+}
+div.calendar div.clock div.tick:nth-child(584) .hour {
+  transform: rotate(-292.0deg);
+}
+div.calendar div.clock div.tick:nth-child(585) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(292.5deg);
+}
+div.calendar div.clock div.tick:nth-child(585) .hour {
+  transform: rotate(-292.5deg);
+}
+div.calendar div.clock div.tick:nth-child(586) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(293.0deg);
+}
+div.calendar div.clock div.tick:nth-child(586) .hour {
+  transform: rotate(-293.0deg);
+}
+div.calendar div.clock div.tick:nth-child(587) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(293.5deg);
+}
+div.calendar div.clock div.tick:nth-child(587) .hour {
+  transform: rotate(-293.5deg);
+}
+div.calendar div.clock div.tick:nth-child(588) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(294.0deg);
+}
+div.calendar div.clock div.tick:nth-child(588) .hour {
+  transform: rotate(-294.0deg);
+}
+div.calendar div.clock div.tick:nth-child(589) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(294.5deg);
+}
+div.calendar div.clock div.tick:nth-child(589) .hour {
+  transform: rotate(-294.5deg);
+}
+div.calendar div.clock div.tick:nth-child(590) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(295.0deg);
+}
+div.calendar div.clock div.tick:nth-child(590) .hour {
+  transform: rotate(-295.0deg);
+}
+div.calendar div.clock div.tick:nth-child(591) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(295.5deg);
+}
+div.calendar div.clock div.tick:nth-child(591) .hour {
+  transform: rotate(-295.5deg);
+}
+div.calendar div.clock div.tick:nth-child(592) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(296.0deg);
+}
+div.calendar div.clock div.tick:nth-child(592) .hour {
+  transform: rotate(-296.0deg);
+}
+div.calendar div.clock div.tick:nth-child(593) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(296.5deg);
+}
+div.calendar div.clock div.tick:nth-child(593) .hour {
+  transform: rotate(-296.5deg);
+}
+div.calendar div.clock div.tick:nth-child(594) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(297.0deg);
+}
+div.calendar div.clock div.tick:nth-child(594) .hour {
+  transform: rotate(-297.0deg);
+}
+div.calendar div.clock div.tick:nth-child(595) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(297.5deg);
+}
+div.calendar div.clock div.tick:nth-child(595) .hour {
+  transform: rotate(-297.5deg);
+}
+div.calendar div.clock div.tick:nth-child(596) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(298.0deg);
+}
+div.calendar div.clock div.tick:nth-child(596) .hour {
+  transform: rotate(-298.0deg);
+}
+div.calendar div.clock div.tick:nth-child(597) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(298.5deg);
+}
+div.calendar div.clock div.tick:nth-child(597) .hour {
+  transform: rotate(-298.5deg);
+}
+div.calendar div.clock div.tick:nth-child(598) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(299.0deg);
+}
+div.calendar div.clock div.tick:nth-child(598) .hour {
+  transform: rotate(-299.0deg);
+}
+div.calendar div.clock div.tick:nth-child(599) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(299.5deg);
+}
+div.calendar div.clock div.tick:nth-child(599) .hour {
+  transform: rotate(-299.5deg);
+}
+div.calendar div.clock div.tick:nth-child(600) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(300.0deg);
+}
+div.calendar div.clock div.tick:nth-child(600) .hour {
+  transform: rotate(-300.0deg);
+}
+div.calendar div.clock div.tick:nth-child(601) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(300.5deg);
+}
+div.calendar div.clock div.tick:nth-child(601) .hour {
+  transform: rotate(-300.5deg);
+}
+div.calendar div.clock div.tick:nth-child(602) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(301.0deg);
+}
+div.calendar div.clock div.tick:nth-child(602) .hour {
+  transform: rotate(-301.0deg);
+}
+div.calendar div.clock div.tick:nth-child(603) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(301.5deg);
+}
+div.calendar div.clock div.tick:nth-child(603) .hour {
+  transform: rotate(-301.5deg);
+}
+div.calendar div.clock div.tick:nth-child(604) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(302.0deg);
+}
+div.calendar div.clock div.tick:nth-child(604) .hour {
+  transform: rotate(-302.0deg);
+}
+div.calendar div.clock div.tick:nth-child(605) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(302.5deg);
+}
+div.calendar div.clock div.tick:nth-child(605) .hour {
+  transform: rotate(-302.5deg);
+}
+div.calendar div.clock div.tick:nth-child(606) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(303.0deg);
+}
+div.calendar div.clock div.tick:nth-child(606) .hour {
+  transform: rotate(-303.0deg);
+}
+div.calendar div.clock div.tick:nth-child(607) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(303.5deg);
+}
+div.calendar div.clock div.tick:nth-child(607) .hour {
+  transform: rotate(-303.5deg);
+}
+div.calendar div.clock div.tick:nth-child(608) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(304.0deg);
+}
+div.calendar div.clock div.tick:nth-child(608) .hour {
+  transform: rotate(-304.0deg);
+}
+div.calendar div.clock div.tick:nth-child(609) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(304.5deg);
+}
+div.calendar div.clock div.tick:nth-child(609) .hour {
+  transform: rotate(-304.5deg);
+}
+div.calendar div.clock div.tick:nth-child(610) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(305.0deg);
+}
+div.calendar div.clock div.tick:nth-child(610) .hour {
+  transform: rotate(-305.0deg);
+}
+div.calendar div.clock div.tick:nth-child(611) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(305.5deg);
+}
+div.calendar div.clock div.tick:nth-child(611) .hour {
+  transform: rotate(-305.5deg);
+}
+div.calendar div.clock div.tick:nth-child(612) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(306.0deg);
+}
+div.calendar div.clock div.tick:nth-child(612) .hour {
+  transform: rotate(-306.0deg);
+}
+div.calendar div.clock div.tick:nth-child(613) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(306.5deg);
+}
+div.calendar div.clock div.tick:nth-child(613) .hour {
+  transform: rotate(-306.5deg);
+}
+div.calendar div.clock div.tick:nth-child(614) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(307.0deg);
+}
+div.calendar div.clock div.tick:nth-child(614) .hour {
+  transform: rotate(-307.0deg);
+}
+div.calendar div.clock div.tick:nth-child(615) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(307.5deg);
+}
+div.calendar div.clock div.tick:nth-child(615) .hour {
+  transform: rotate(-307.5deg);
+}
+div.calendar div.clock div.tick:nth-child(616) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(308.0deg);
+}
+div.calendar div.clock div.tick:nth-child(616) .hour {
+  transform: rotate(-308.0deg);
+}
+div.calendar div.clock div.tick:nth-child(617) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(308.5deg);
+}
+div.calendar div.clock div.tick:nth-child(617) .hour {
+  transform: rotate(-308.5deg);
+}
+div.calendar div.clock div.tick:nth-child(618) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(309.0deg);
+}
+div.calendar div.clock div.tick:nth-child(618) .hour {
+  transform: rotate(-309.0deg);
+}
+div.calendar div.clock div.tick:nth-child(619) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(309.5deg);
+}
+div.calendar div.clock div.tick:nth-child(619) .hour {
+  transform: rotate(-309.5deg);
+}
+div.calendar div.clock div.tick:nth-child(620) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(310.0deg);
+}
+div.calendar div.clock div.tick:nth-child(620) .hour {
+  transform: rotate(-310.0deg);
+}
+div.calendar div.clock div.tick:nth-child(621) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(310.5deg);
+}
+div.calendar div.clock div.tick:nth-child(621) .hour {
+  transform: rotate(-310.5deg);
+}
+div.calendar div.clock div.tick:nth-child(622) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(311.0deg);
+}
+div.calendar div.clock div.tick:nth-child(622) .hour {
+  transform: rotate(-311.0deg);
+}
+div.calendar div.clock div.tick:nth-child(623) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(311.5deg);
+}
+div.calendar div.clock div.tick:nth-child(623) .hour {
+  transform: rotate(-311.5deg);
+}
+div.calendar div.clock div.tick:nth-child(624) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(312.0deg);
+}
+div.calendar div.clock div.tick:nth-child(624) .hour {
+  transform: rotate(-312.0deg);
+}
+div.calendar div.clock div.tick:nth-child(625) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(312.5deg);
+}
+div.calendar div.clock div.tick:nth-child(625) .hour {
+  transform: rotate(-312.5deg);
+}
+div.calendar div.clock div.tick:nth-child(626) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(313.0deg);
+}
+div.calendar div.clock div.tick:nth-child(626) .hour {
+  transform: rotate(-313.0deg);
+}
+div.calendar div.clock div.tick:nth-child(627) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(313.5deg);
+}
+div.calendar div.clock div.tick:nth-child(627) .hour {
+  transform: rotate(-313.5deg);
+}
+div.calendar div.clock div.tick:nth-child(628) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(314.0deg);
+}
+div.calendar div.clock div.tick:nth-child(628) .hour {
+  transform: rotate(-314.0deg);
+}
+div.calendar div.clock div.tick:nth-child(629) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(314.5deg);
+}
+div.calendar div.clock div.tick:nth-child(629) .hour {
+  transform: rotate(-314.5deg);
+}
+div.calendar div.clock div.tick:nth-child(630) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(315.0deg);
+}
+div.calendar div.clock div.tick:nth-child(630) .hour {
+  transform: rotate(-315.0deg);
+}
+div.calendar div.clock div.tick:nth-child(631) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(315.5deg);
+}
+div.calendar div.clock div.tick:nth-child(631) .hour {
+  transform: rotate(-315.5deg);
+}
+div.calendar div.clock div.tick:nth-child(632) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(316.0deg);
+}
+div.calendar div.clock div.tick:nth-child(632) .hour {
+  transform: rotate(-316.0deg);
+}
+div.calendar div.clock div.tick:nth-child(633) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(316.5deg);
+}
+div.calendar div.clock div.tick:nth-child(633) .hour {
+  transform: rotate(-316.5deg);
+}
+div.calendar div.clock div.tick:nth-child(634) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(317.0deg);
+}
+div.calendar div.clock div.tick:nth-child(634) .hour {
+  transform: rotate(-317.0deg);
+}
+div.calendar div.clock div.tick:nth-child(635) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(317.5deg);
+}
+div.calendar div.clock div.tick:nth-child(635) .hour {
+  transform: rotate(-317.5deg);
+}
+div.calendar div.clock div.tick:nth-child(636) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(318.0deg);
+}
+div.calendar div.clock div.tick:nth-child(636) .hour {
+  transform: rotate(-318.0deg);
+}
+div.calendar div.clock div.tick:nth-child(637) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(318.5deg);
+}
+div.calendar div.clock div.tick:nth-child(637) .hour {
+  transform: rotate(-318.5deg);
+}
+div.calendar div.clock div.tick:nth-child(638) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(319.0deg);
+}
+div.calendar div.clock div.tick:nth-child(638) .hour {
+  transform: rotate(-319.0deg);
+}
+div.calendar div.clock div.tick:nth-child(639) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(319.5deg);
+}
+div.calendar div.clock div.tick:nth-child(639) .hour {
+  transform: rotate(-319.5deg);
+}
+div.calendar div.clock div.tick:nth-child(640) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(320.0deg);
+}
+div.calendar div.clock div.tick:nth-child(640) .hour {
+  transform: rotate(-320.0deg);
+}
+div.calendar div.clock div.tick:nth-child(641) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(320.5deg);
+}
+div.calendar div.clock div.tick:nth-child(641) .hour {
+  transform: rotate(-320.5deg);
+}
+div.calendar div.clock div.tick:nth-child(642) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(321.0deg);
+}
+div.calendar div.clock div.tick:nth-child(642) .hour {
+  transform: rotate(-321.0deg);
+}
+div.calendar div.clock div.tick:nth-child(643) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(321.5deg);
+}
+div.calendar div.clock div.tick:nth-child(643) .hour {
+  transform: rotate(-321.5deg);
+}
+div.calendar div.clock div.tick:nth-child(644) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(322.0deg);
+}
+div.calendar div.clock div.tick:nth-child(644) .hour {
+  transform: rotate(-322.0deg);
+}
+div.calendar div.clock div.tick:nth-child(645) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(322.5deg);
+}
+div.calendar div.clock div.tick:nth-child(645) .hour {
+  transform: rotate(-322.5deg);
+}
+div.calendar div.clock div.tick:nth-child(646) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(323.0deg);
+}
+div.calendar div.clock div.tick:nth-child(646) .hour {
+  transform: rotate(-323.0deg);
+}
+div.calendar div.clock div.tick:nth-child(647) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(323.5deg);
+}
+div.calendar div.clock div.tick:nth-child(647) .hour {
+  transform: rotate(-323.5deg);
+}
+div.calendar div.clock div.tick:nth-child(648) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(324.0deg);
+}
+div.calendar div.clock div.tick:nth-child(648) .hour {
+  transform: rotate(-324.0deg);
+}
+div.calendar div.clock div.tick:nth-child(649) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(324.5deg);
+}
+div.calendar div.clock div.tick:nth-child(649) .hour {
+  transform: rotate(-324.5deg);
+}
+div.calendar div.clock div.tick:nth-child(650) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(325.0deg);
+}
+div.calendar div.clock div.tick:nth-child(650) .hour {
+  transform: rotate(-325.0deg);
+}
+div.calendar div.clock div.tick:nth-child(651) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(325.5deg);
+}
+div.calendar div.clock div.tick:nth-child(651) .hour {
+  transform: rotate(-325.5deg);
+}
+div.calendar div.clock div.tick:nth-child(652) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(326.0deg);
+}
+div.calendar div.clock div.tick:nth-child(652) .hour {
+  transform: rotate(-326.0deg);
+}
+div.calendar div.clock div.tick:nth-child(653) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(326.5deg);
+}
+div.calendar div.clock div.tick:nth-child(653) .hour {
+  transform: rotate(-326.5deg);
+}
+div.calendar div.clock div.tick:nth-child(654) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(327.0deg);
+}
+div.calendar div.clock div.tick:nth-child(654) .hour {
+  transform: rotate(-327.0deg);
+}
+div.calendar div.clock div.tick:nth-child(655) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(327.5deg);
+}
+div.calendar div.clock div.tick:nth-child(655) .hour {
+  transform: rotate(-327.5deg);
+}
+div.calendar div.clock div.tick:nth-child(656) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(328.0deg);
+}
+div.calendar div.clock div.tick:nth-child(656) .hour {
+  transform: rotate(-328.0deg);
+}
+div.calendar div.clock div.tick:nth-child(657) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(328.5deg);
+}
+div.calendar div.clock div.tick:nth-child(657) .hour {
+  transform: rotate(-328.5deg);
+}
+div.calendar div.clock div.tick:nth-child(658) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(329.0deg);
+}
+div.calendar div.clock div.tick:nth-child(658) .hour {
+  transform: rotate(-329.0deg);
+}
+div.calendar div.clock div.tick:nth-child(659) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(329.5deg);
+}
+div.calendar div.clock div.tick:nth-child(659) .hour {
+  transform: rotate(-329.5deg);
+}
+div.calendar div.clock div.tick:nth-child(660) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(330.0deg);
+}
+div.calendar div.clock div.tick:nth-child(660) .hour {
+  transform: rotate(-330.0deg);
+}
+div.calendar div.clock div.tick:nth-child(661) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(330.5deg);
+}
+div.calendar div.clock div.tick:nth-child(661) .hour {
+  transform: rotate(-330.5deg);
+}
+div.calendar div.clock div.tick:nth-child(662) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(331.0deg);
+}
+div.calendar div.clock div.tick:nth-child(662) .hour {
+  transform: rotate(-331.0deg);
+}
+div.calendar div.clock div.tick:nth-child(663) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(331.5deg);
+}
+div.calendar div.clock div.tick:nth-child(663) .hour {
+  transform: rotate(-331.5deg);
+}
+div.calendar div.clock div.tick:nth-child(664) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(332.0deg);
+}
+div.calendar div.clock div.tick:nth-child(664) .hour {
+  transform: rotate(-332.0deg);
+}
+div.calendar div.clock div.tick:nth-child(665) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(332.5deg);
+}
+div.calendar div.clock div.tick:nth-child(665) .hour {
+  transform: rotate(-332.5deg);
+}
+div.calendar div.clock div.tick:nth-child(666) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(333.0deg);
+}
+div.calendar div.clock div.tick:nth-child(666) .hour {
+  transform: rotate(-333.0deg);
+}
+div.calendar div.clock div.tick:nth-child(667) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(333.5deg);
+}
+div.calendar div.clock div.tick:nth-child(667) .hour {
+  transform: rotate(-333.5deg);
+}
+div.calendar div.clock div.tick:nth-child(668) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(334.0deg);
+}
+div.calendar div.clock div.tick:nth-child(668) .hour {
+  transform: rotate(-334.0deg);
+}
+div.calendar div.clock div.tick:nth-child(669) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(334.5deg);
+}
+div.calendar div.clock div.tick:nth-child(669) .hour {
+  transform: rotate(-334.5deg);
+}
+div.calendar div.clock div.tick:nth-child(670) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(335.0deg);
+}
+div.calendar div.clock div.tick:nth-child(670) .hour {
+  transform: rotate(-335.0deg);
+}
+div.calendar div.clock div.tick:nth-child(671) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(335.5deg);
+}
+div.calendar div.clock div.tick:nth-child(671) .hour {
+  transform: rotate(-335.5deg);
+}
+div.calendar div.clock div.tick:nth-child(672) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(336.0deg);
+}
+div.calendar div.clock div.tick:nth-child(672) .hour {
+  transform: rotate(-336.0deg);
+}
+div.calendar div.clock div.tick:nth-child(673) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(336.5deg);
+}
+div.calendar div.clock div.tick:nth-child(673) .hour {
+  transform: rotate(-336.5deg);
+}
+div.calendar div.clock div.tick:nth-child(674) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(337.0deg);
+}
+div.calendar div.clock div.tick:nth-child(674) .hour {
+  transform: rotate(-337.0deg);
+}
+div.calendar div.clock div.tick:nth-child(675) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(337.5deg);
+}
+div.calendar div.clock div.tick:nth-child(675) .hour {
+  transform: rotate(-337.5deg);
+}
+div.calendar div.clock div.tick:nth-child(676) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(338.0deg);
+}
+div.calendar div.clock div.tick:nth-child(676) .hour {
+  transform: rotate(-338.0deg);
+}
+div.calendar div.clock div.tick:nth-child(677) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(338.5deg);
+}
+div.calendar div.clock div.tick:nth-child(677) .hour {
+  transform: rotate(-338.5deg);
+}
+div.calendar div.clock div.tick:nth-child(678) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(339.0deg);
+}
+div.calendar div.clock div.tick:nth-child(678) .hour {
+  transform: rotate(-339.0deg);
+}
+div.calendar div.clock div.tick:nth-child(679) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(339.5deg);
+}
+div.calendar div.clock div.tick:nth-child(679) .hour {
+  transform: rotate(-339.5deg);
+}
+div.calendar div.clock div.tick:nth-child(680) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(340.0deg);
+}
+div.calendar div.clock div.tick:nth-child(680) .hour {
+  transform: rotate(-340.0deg);
+}
+div.calendar div.clock div.tick:nth-child(681) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(340.5deg);
+}
+div.calendar div.clock div.tick:nth-child(681) .hour {
+  transform: rotate(-340.5deg);
+}
+div.calendar div.clock div.tick:nth-child(682) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(341.0deg);
+}
+div.calendar div.clock div.tick:nth-child(682) .hour {
+  transform: rotate(-341.0deg);
+}
+div.calendar div.clock div.tick:nth-child(683) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(341.5deg);
+}
+div.calendar div.clock div.tick:nth-child(683) .hour {
+  transform: rotate(-341.5deg);
+}
+div.calendar div.clock div.tick:nth-child(684) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(342.0deg);
+}
+div.calendar div.clock div.tick:nth-child(684) .hour {
+  transform: rotate(-342.0deg);
+}
+div.calendar div.clock div.tick:nth-child(685) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(342.5deg);
+}
+div.calendar div.clock div.tick:nth-child(685) .hour {
+  transform: rotate(-342.5deg);
+}
+div.calendar div.clock div.tick:nth-child(686) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(343.0deg);
+}
+div.calendar div.clock div.tick:nth-child(686) .hour {
+  transform: rotate(-343.0deg);
+}
+div.calendar div.clock div.tick:nth-child(687) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(343.5deg);
+}
+div.calendar div.clock div.tick:nth-child(687) .hour {
+  transform: rotate(-343.5deg);
+}
+div.calendar div.clock div.tick:nth-child(688) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(344.0deg);
+}
+div.calendar div.clock div.tick:nth-child(688) .hour {
+  transform: rotate(-344.0deg);
+}
+div.calendar div.clock div.tick:nth-child(689) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(344.5deg);
+}
+div.calendar div.clock div.tick:nth-child(689) .hour {
+  transform: rotate(-344.5deg);
+}
+div.calendar div.clock div.tick:nth-child(690) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(345.0deg);
+}
+div.calendar div.clock div.tick:nth-child(690) .hour {
+  transform: rotate(-345.0deg);
+}
+div.calendar div.clock div.tick:nth-child(691) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(345.5deg);
+}
+div.calendar div.clock div.tick:nth-child(691) .hour {
+  transform: rotate(-345.5deg);
+}
+div.calendar div.clock div.tick:nth-child(692) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(346.0deg);
+}
+div.calendar div.clock div.tick:nth-child(692) .hour {
+  transform: rotate(-346.0deg);
+}
+div.calendar div.clock div.tick:nth-child(693) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(346.5deg);
+}
+div.calendar div.clock div.tick:nth-child(693) .hour {
+  transform: rotate(-346.5deg);
+}
+div.calendar div.clock div.tick:nth-child(694) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(347.0deg);
+}
+div.calendar div.clock div.tick:nth-child(694) .hour {
+  transform: rotate(-347.0deg);
+}
+div.calendar div.clock div.tick:nth-child(695) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(347.5deg);
+}
+div.calendar div.clock div.tick:nth-child(695) .hour {
+  transform: rotate(-347.5deg);
+}
+div.calendar div.clock div.tick:nth-child(696) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(348.0deg);
+}
+div.calendar div.clock div.tick:nth-child(696) .hour {
+  transform: rotate(-348.0deg);
+}
+div.calendar div.clock div.tick:nth-child(697) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(348.5deg);
+}
+div.calendar div.clock div.tick:nth-child(697) .hour {
+  transform: rotate(-348.5deg);
+}
+div.calendar div.clock div.tick:nth-child(698) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(349.0deg);
+}
+div.calendar div.clock div.tick:nth-child(698) .hour {
+  transform: rotate(-349.0deg);
+}
+div.calendar div.clock div.tick:nth-child(699) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(349.5deg);
+}
+div.calendar div.clock div.tick:nth-child(699) .hour {
+  transform: rotate(-349.5deg);
+}
+div.calendar div.clock div.tick:nth-child(700) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(350.0deg);
+}
+div.calendar div.clock div.tick:nth-child(700) .hour {
+  transform: rotate(-350.0deg);
+}
+div.calendar div.clock div.tick:nth-child(701) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(350.5deg);
+}
+div.calendar div.clock div.tick:nth-child(701) .hour {
+  transform: rotate(-350.5deg);
+}
+div.calendar div.clock div.tick:nth-child(702) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(351.0deg);
+}
+div.calendar div.clock div.tick:nth-child(702) .hour {
+  transform: rotate(-351.0deg);
+}
+div.calendar div.clock div.tick:nth-child(703) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(351.5deg);
+}
+div.calendar div.clock div.tick:nth-child(703) .hour {
+  transform: rotate(-351.5deg);
+}
+div.calendar div.clock div.tick:nth-child(704) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(352.0deg);
+}
+div.calendar div.clock div.tick:nth-child(704) .hour {
+  transform: rotate(-352.0deg);
+}
+div.calendar div.clock div.tick:nth-child(705) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(352.5deg);
+}
+div.calendar div.clock div.tick:nth-child(705) .hour {
+  transform: rotate(-352.5deg);
+}
+div.calendar div.clock div.tick:nth-child(706) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(353.0deg);
+}
+div.calendar div.clock div.tick:nth-child(706) .hour {
+  transform: rotate(-353.0deg);
+}
+div.calendar div.clock div.tick:nth-child(707) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(353.5deg);
+}
+div.calendar div.clock div.tick:nth-child(707) .hour {
+  transform: rotate(-353.5deg);
+}
+div.calendar div.clock div.tick:nth-child(708) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(354.0deg);
+}
+div.calendar div.clock div.tick:nth-child(708) .hour {
+  transform: rotate(-354.0deg);
+}
+div.calendar div.clock div.tick:nth-child(709) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(354.5deg);
+}
+div.calendar div.clock div.tick:nth-child(709) .hour {
+  transform: rotate(-354.5deg);
+}
+div.calendar div.clock div.tick:nth-child(710) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(355.0deg);
+}
+div.calendar div.clock div.tick:nth-child(710) .hour {
+  transform: rotate(-355.0deg);
+}
+div.calendar div.clock div.tick:nth-child(711) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(355.5deg);
+}
+div.calendar div.clock div.tick:nth-child(711) .hour {
+  transform: rotate(-355.5deg);
+}
+div.calendar div.clock div.tick:nth-child(712) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(356.0deg);
+}
+div.calendar div.clock div.tick:nth-child(712) .hour {
+  transform: rotate(-356.0deg);
+}
+div.calendar div.clock div.tick:nth-child(713) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(356.5deg);
+}
+div.calendar div.clock div.tick:nth-child(713) .hour {
+  transform: rotate(-356.5deg);
+}
+div.calendar div.clock div.tick:nth-child(714) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(357.0deg);
+}
+div.calendar div.clock div.tick:nth-child(714) .hour {
+  transform: rotate(-357.0deg);
+}
+div.calendar div.clock div.tick:nth-child(715) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(357.5deg);
+}
+div.calendar div.clock div.tick:nth-child(715) .hour {
+  transform: rotate(-357.5deg);
+}
+div.calendar div.clock div.tick:nth-child(716) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(358.0deg);
+}
+div.calendar div.clock div.tick:nth-child(716) .hour {
+  transform: rotate(-358.0deg);
+}
+div.calendar div.clock div.tick:nth-child(717) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(358.5deg);
+}
+div.calendar div.clock div.tick:nth-child(717) .hour {
+  transform: rotate(-358.5deg);
+}
+div.calendar div.clock div.tick:nth-child(718) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(359.0deg);
+}
+div.calendar div.clock div.tick:nth-child(718) .hour {
+  transform: rotate(-359.0deg);
+}
+div.calendar div.clock div.tick:nth-child(719) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(359.5deg);
+}
+div.calendar div.clock div.tick:nth-child(719) .hour {
+  transform: rotate(-359.5deg);
+}
+div.calendar div.clock div.tick:nth-child(720) {
+  transform-origin: 0% 110px;
+  transform: translateY(120px) rotate(360.0deg);
+}
+div.calendar div.clock div.tick:nth-child(720) .hour {
+  transform: rotate(-360.0deg);
+}
+
+div.calendar div.clock div.tick:nth-child(30n+0) {
+  background-color: #040103;
+  height: 30px;
+  transform-origin: 0% 120px;
+  margin-top: -210px;
+}
+
+div.calendar div.clock div.tick:nth-child(30n+7)::after, div.calendar div.clock div.tick:nth-child(30n+15)::after, div.calendar div.clock div.tick:nth-child(30n+23)::after {
+  content: "";
+  background: #bcbdb4;
+  display: block;
+  width: 1px;
+  height: 5px;
+  position: relative;
+  margin-top: -9px;
+}
+
+div.calendar div.center {
+  position: absolute;
+  top: 145px;
+  left: 116px;
+  width: 0px;
+  height: 0px;
+  background: red;
+}
+
+.midnight{
+	background-image: url(../index_pic/moon.png);
+	background-size: 100%;
+	height: 20px;
+	width: 20px;
+	top: -5px;
+}
+
+.noon{
+	background-image: url(../index_pic/sun.png);
+	background-size: 160%;
+	background-position: center;
+	height: 30px;
+	width: 60x;
+	top: -13px;
+}
+
+.hour{
+	font-size: 25px;
+	width:2.5vw;
+	text-align: center;
+	border: none;
+	outline: none;
+	background-color: transparent;
+	color: #304f8d;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.date_select {
+  border: none;
+  outline: none;
+  font: 600 18px Roboto, Arial, sans-serif;
+  color: #304f8d;
+  background-color: transparent;
+  text-align: center;
+  width: 13vw;
+  margin-left: 1vw;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+	margin-left: -20px;
+	padding-left: 5px;
+	width: 20px;
+	height: 20px;
+	display: hidden;
+	opacity: 0%;
+	transition: .4s ease;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+	margin-left: -20px;
+	padding-left: 5px;
+	display: hidden;
+	opacity: 50%;
+}
+
+
+.hour_start_m{
+	margin-right: 3vw;
+}
+
+.hour_end_h{
+	margin-left: 3vw;
+}

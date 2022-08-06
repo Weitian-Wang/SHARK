@@ -1,3 +1,0 @@
-jquery.js
-vue.js
-js-md5

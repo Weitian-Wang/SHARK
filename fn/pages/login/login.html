@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>SHARK - 登录</title>
+		<link rel="stylesheet" type="text/css" href="login.css"/>
+		
+		<script src="../url_config.js"></script>
+		<script src="../vue.js"></script>
+		<script src="../jquery.js"></script>
+		<script src="../axios.js"></script>
+		<script src="../md5.js"></script>
+	</head>
+	<body class="bg-gradient">
+		<div id="banner">
+			<div id="logo" onclick="location.href='../index/index.html'"></div>
+		</div>
+		
+		<div class="notification-container"></div>
+		
+		<div class="wrapper">
+			<div class="container">
+				<form class="form" id="login_form">
+					<input type="text" placeholder="手机号" v-model="tel" id="t" required oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="11" @focusout="tel_check">
+					<input type="password" placeholder="密码" v-model="password" required>
+					<button type="button" id="login-button" @click="login">登录</button>
+					<br>
+					<br>
+					<h5>还没账号？<a href="../register/register.html" style="color: #53e3a6;">现在注册</h5>
+				</form>
+			</div>
+		</div>
+	</body>
+
+<!-- script section -->
+<script type="text/javascript">
+// configure Vue
+Vue.config.productionTip = false;
+// configure baseURL
+axios.defaults.baseURL = BaseURL;
+
+// get notification element
+notification = document.getElementsByClassName("notification-container")[0];
+
+// create a Vue instance
+new Vue({
+	// assign Vue instance to specific container
+    el: '#login_form',
+	// data for element
+	data:{
+		tel: sessionStorage.getItem('tel'),
+		password: ""
+	},
+	methods:{
+		tel_check(){
+			if(this.tel.length != 11){
+				document.getElementById("t").setCustomValidity("输入11位手机号");
+				return;
+			}
+			document.getElementById("t").setCustomValidity("");
+		},
+		login(){
+			document.getElementById("login_form").reportValidity();
+			if(this.tel == '' || this.password == ''){
+				return;
+			}
+			if(document.getElementById("t").validity.customError == true){
+				return;
+			}
+			if(this.tel!=null){
+				sessionStorage.setItem('tel', this.tel);
+			}
+			axios.post('/user/login',
+						{
+							'tel': this.tel,
+							'password_hash': md5(this.password)
+						},
+						{
+							headers:{
+							'Content-Type': 'application/json;charset=UTF-8',
+							'Accept': 'application/json, text/plain, */*',
+							'Auth': 'TO BE GENERATED AFTER LOGIN'
+							}
+						}
+				)
+			.then(function (response) {
+				if(response.data.success == 0){
+					notification.innerHTML = '<div class="rectangle" id="success" style="display: flex;">'
+												+'<div class="notification-text">'
+													+'<span>&nbsp;&nbsp;'+response.data.message+'</span>'
+												+'</div>'
+											+'</div>';
+					// store token in cookie
+					sessionStorage.setItem('name', response.data.data.name);
+					sessionStorage.setItem('token', response.data.data.token);
+					if(response.data.data.user_type == 1) setTimeout(function(){window.location.href = '../user_main/user_main.html'}, 1500);
+					if(response.data.data.user_type == 2) setTimeout(function(){window.location.href = '../user_main/property_main.html'}, 1500);
+					// if(response.data.data.user_type == 3) setTimeout(function(){window.location.href = '../admin_main/admin_main.html'}, 1500);
+				}
+				else{
+					notification.innerHTML = '<div class="rectangle" id="error" style="display: flex;">'
+												+'<div class="notification-text">'
+													+'<span>&nbsp;&nbsp;'+response.data.message+'</span>'
+												+'</div>'
+											+'</div>';
+				}
+			})
+			.catch(function (error) {
+				notification.innerHTML = '<div class="rectangle" id="error" style="display: flex;">'
+											+'<div class="notification-text">'
+												+'<span>&nbsp;&nbsp;'+error.message+'</span>'
+											+'</div>'
+										+'</div>';
+			});
+		}
+	}
+});
+
+</script>
+	
+</html>
